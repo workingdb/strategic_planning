@@ -1,0 +1,1 @@
+"C:\Program Files\Microsoft Office\root\Office16\MSACCESS.EXE" /decompile  "%~dp0Strategic_Planning_Tracker.accdb"
