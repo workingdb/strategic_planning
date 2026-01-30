@@ -14,6 +14,10 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
 End Sub
 
+Private Sub btnOpenReportLauncher_Click()
+    DoCmd.OpenForm "frmReportLauncher", acNormal
+End Sub
+
 Private Sub btnSettings_Click()
 On Error GoTo Err_Handler
 
@@ -22,6 +26,12 @@ DoCmd.OpenForm "frmUserView"
 Exit Sub
 Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+End Sub
+
+Private Sub cmdOpenSalesManagerReport_Click()
+
+    DoCmd.OpenReport "rpt_SalesManager", acViewReport
+
 End Sub
 
 Private Sub Form_Load()
