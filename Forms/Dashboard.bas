@@ -44,7 +44,7 @@ Dim rsUserSettings As Recordset
 Dim rsTheme As Recordset
 
 Set rsUserSettings = db.OpenRecordset("tblUserSettings")
-rsUserSettings.Filter = "[User] = '" & Environ("username") & "'"
+rsUserSettings.Filter = "[Username] = '" & Environ("username") & "'"
 Set rsUserSettings = rsUserSettings.OpenRecordset
 
 If Nz(rsUserSettings!themeId, 0) <> 0 Then
