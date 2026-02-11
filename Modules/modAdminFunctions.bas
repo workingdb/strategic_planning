@@ -3,6 +3,10 @@ Option Explicit
 
 Public Sub handleError(modName As String, activeCon As String, errDesc As String, errNum As Long, Optional dataTag As String = "")
 On Error Resume Next
+If (CurrentProject.Path <> "C:\workingdb") Then
+    MsgBox errDesc, vbInformation, "Error Code: " & errNum
+    Exit Sub
+End If
 
 Select Case errNum
     Case 70
@@ -38,4 +42,15 @@ Select Case errNum
         MsgBox errDesc, vbInformation, "Error Code: " & errNum
 End Select
 
+Dim strSQL As String
+
+modName = StrQuoteReplace(modName)
+errDesc = StrQuoteReplace(errDesc)
+errNum = StrQuoteReplace(errNum)
+dataTag = StrQuoteReplace(dataTag)
+
+strSQL = "INSERT INTO tblErrorLog(User,Form,Active_Control,Error_Date,Error_Description,Error_Number,databaseVersion,dataTag0) VALUES ('" & _
+ Environ("username") & "','" & modName & "','" & activeCon & "',#" & Now & "#,'" & errDesc & "'," & errNum & ",'" & TempVars!wdbVersion & "','" & dataTag & "')"
+
+dbExecute strSQL
 End Sub

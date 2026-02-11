@@ -3,6 +3,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
+Option Explicit
 
 Private Sub Capacity_Results_Label_Click()
 On Error GoTo Err_Handler
@@ -12,7 +13,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Customer_Label_Click()
@@ -23,7 +24,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub EOP_Label_Click()
@@ -34,7 +35,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Form_Load()
@@ -44,7 +45,7 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
 End Sub
 
 Private Sub NAM_Label_Click()
@@ -55,7 +56,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub newRequest_Click()
@@ -65,7 +66,7 @@ DoCmd.OpenForm "frmCapacityRequestDetails", , , , acFormAdd
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub openDetails_Click()
@@ -75,7 +76,7 @@ DoCmd.OpenForm "frmCapacityRequestDetails", , , "RecordID = " & Me.RecordID
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Planner_Label_Click()
@@ -86,7 +87,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub PPV_Label_Click()
@@ -97,7 +98,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Production_Type_Label_Click()
@@ -108,7 +109,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Program_Label_Click()
@@ -119,7 +120,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Quote_Label_Click()
@@ -130,7 +131,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Request_Date_Label_Click()
@@ -141,7 +142,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Request_Type_Label_Click()
@@ -152,7 +153,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Requestor_Label_Click()
@@ -163,7 +164,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Response_Date_Label_Click()
@@ -174,7 +175,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub SOP_Label_Click()
@@ -185,7 +186,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Unit_Label_Click()
@@ -196,7 +197,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Vehicle_Model_Label_Click()
@@ -207,7 +208,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Volume_Label_Click()
@@ -218,7 +219,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Volume_Timing_Label_Click()
@@ -229,7 +230,7 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Volume_Type_Label_Click()
@@ -240,5 +241,5 @@ DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
