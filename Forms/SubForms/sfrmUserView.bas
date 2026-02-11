@@ -38,7 +38,7 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
 End Sub
 
 Private Sub themeName_Click()
@@ -81,5 +81,5 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub

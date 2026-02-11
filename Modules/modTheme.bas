@@ -223,7 +223,7 @@ Next
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "setTheme", Err.DESCRIPTION, Err.number)
+    Call handleError("modTheme", "setTheme", Err.Description, Err.Number)
 End Function
 
 Function themeCommandButton()
@@ -233,7 +233,7 @@ On Error GoTo Err_Handler
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "themeCommandButton", Err.DESCRIPTION, Err.number)
+    Call handleError("modTheme", "themeCommandButton", Err.Description, Err.Number)
 End Function
 
 Function findColorLevel(tagText As String) As Long
@@ -246,7 +246,7 @@ findColorLevel = Mid(tagText, InStr(tagText, ".L") + 2, 1)
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "findColorLevel", Err.DESCRIPTION, Err.number)
+    Call handleError("modTheme", "findColorLevel", Err.Description, Err.Number)
 End Function
 
 Function shadeColor(inputColor As Long, scalar As Double) As Long
@@ -282,7 +282,7 @@ shadeColor = rgb(ioR, ioG, ioB)
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "shadeColor", Err.DESCRIPTION, Err.number)
+    Call handleError("modTheme", "shadeColor", Err.Description, Err.Number)
 End Function
 
 Public Function colorPicker(Optional lngColor As Long) As Long
@@ -292,5 +292,5 @@ On Error GoTo Err_Handler
     colorPicker = lngColor
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "colorPicker", Err.DESCRIPTION, Err.number)
+    Call handleError("modTheme", "colorPicker", Err.Description, Err.Number)
 End Function

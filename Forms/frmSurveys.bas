@@ -72,7 +72,7 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
-Private Sub copy_Click()
+Private Sub copyRecord_Click()
 On Error GoTo Err_Handler
 
     On Error Resume Next
@@ -93,17 +93,6 @@ On Error GoTo Err_Handler
         Beep
         MsgBox MacroError.Description, vbOKOnly, ""
     End If
-
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
-
-
-Private Sub mailReport_Click()
-On Error GoTo Err_Handler
-
-    DoCmd.SendObject acReport, "Capacity Confirmation", "", "", "", "", "", "", True, ""
 
 Exit Sub
 Err_Handler:
