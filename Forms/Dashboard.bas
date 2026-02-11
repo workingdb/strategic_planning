@@ -3,6 +3,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
+Option Explicit
 
 Private Sub allRequests_Click()
 On Error GoTo Err_Handler
@@ -11,11 +12,27 @@ DoCmd.OpenForm "frmCapacityRequestTracker"
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+End Sub
+
+Private Sub btnMaintenance_Click()
+On Error GoTo Err_Handler
+
+DoCmd.OpenForm "frmMaintanence", acNormal, "", "", , acNormal
+
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub btnOpenReportLauncher_Click()
-    DoCmd.OpenForm "frmReportLauncher", acNormal
+On Error GoTo Err_Handler
+
+DoCmd.OpenForm "frmReportLauncher", acNormal
+
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub btnSettings_Click()
@@ -25,17 +42,31 @@ DoCmd.OpenForm "frmUserView"
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub cmdOpenSalesManagerReport_Click()
+On Error GoTo Err_Handler
 
-    DoCmd.OpenReport "rpt_SalesManager", acViewReport
+DoCmd.OpenReport "rpt_SalesManager", acViewReport
 
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+End Sub
+
+Private Sub btnSurvery_Click()
+On Error GoTo Err_Handler
+
+DoCmd.OpenForm "frmSurveys", acNormal, "", "", , acNormal
+    
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
 Private Sub Form_Load()
-'On Error GoTo Err_Handler
+On Error GoTo Err_Handler
 
 'THEME
 Dim db As Database
@@ -77,7 +108,7 @@ Set db = Nothing
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.DESCRIPTION, Err.Numbe)
+    Call handleError(Me.name, "Form_Load", Err.Description, Err.Numbe)
 End Sub
 
 Private Sub newRequest_Click()
@@ -87,5 +118,5 @@ DoCmd.OpenForm "frmCapacityRequestDetails", , , , acFormAdd
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.DESCRIPTION, Err.number)
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub

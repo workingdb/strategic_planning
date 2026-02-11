@@ -3,8 +3,10 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
+Option Explicit
 
 Private Sub btnGenerate_Click()
+On Error GoTo Err_Handler
  
     Dim rt As String
     Dim rptName As String
@@ -41,7 +43,7 @@ Private Sub btnGenerate_Click()
                 Exit Sub
             End If
  
-            whereClause = "[Request Date] Between #" & Format(d1, "yyyy-mm-dd") & _
+            whereClause = "[RequestDate] Between #" & Format(d1, "yyyy-mm-dd") & _
                           "# And #" & Format(d2, "yyyy-mm-dd") & "#"
  
         Case "KPI Report"
@@ -86,7 +88,7 @@ Private Sub btnGenerate_Click()
                 Exit Sub
             End If
  
-            whereClause = "[NAM] = """ & Replace(Trim(Me.txtNAM), """", """""") & """"
+            whereClause = "[partNumber] = """ & Replace(Trim(Me.txtNAM), """", """""") & """"
  
         Case "Requests by Sales Manager"
             rptName = "rpt_SalesManager"
@@ -129,10 +131,14 @@ Private Sub btnGenerate_Click()
         DoCmd.OpenReport rptName, acViewPreview
     End If
  
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
  
 
 Private Sub cboReportType_AfterUpdate()
+On Error GoTo Err_Handler
  
     '--- Hide everything first ---
     Me.txtStartDate.Visible = False
@@ -177,10 +183,16 @@ Private Sub cboReportType_AfterUpdate()
  
     End Select
  
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
  
 Private Sub Form_Load()
+On Error GoTo Err_Handler
     'Clear all user selections/inputs when the launcher opens
+ 
+ Call setTheme(Me)
  
     On Error Resume Next
  
@@ -205,5 +217,7 @@ Private Sub Form_Load()
     
     Me.cboReportType.SetFocus
     
-    On Error GoTo 0
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
 End Sub
