@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="MSysIMEXColumns_def.xml" generated="2026-02-12T14:49:55">
+<MSysIMEXColumns>
+<Attributes>0</Attributes>
+<DataType>10</DataType>
+<FieldName>Account</FieldName>
+<IndexType>1</IndexType>
+<SkipColumn>0</SkipColumn>
+<SpecID>1</SpecID>
+<Start>17</Start>
+<Width>35</Width>
+</MSysIMEXColumns>
+<MSysIMEXColumns>
+<Attributes>0</Attributes>
+<DataType>10</DataType>
+<FieldName>Account Manager</FieldName>
+<IndexType>1</IndexType>
+<SkipColumn>0</SkipColumn>
+<SpecID>1</SpecID>
+<Start>1</Start>
+<Width>16</Width>
+</MSysIMEXColumns>
+<MSysIMEXColumns>
+<Attributes>0</Attributes>
+<DataType>10</DataType>
+<FieldName>Field3</FieldName>
+<IndexType>0</IndexType>
+<SkipColumn>1</SkipColumn>
+<SpecID>1</SpecID>
+<Start>52</Start>
+<Width>16</Width>
+</MSysIMEXColumns>
+<MSysIMEXColumns>
+<Attributes>0</Attributes>
+<DataType>10</DataType>
+<FieldName>Account Manager</FieldName>
+<IndexType>0</IndexType>
+<SkipColumn>0</SkipColumn>
+<SpecID>3</SpecID>
+<Start>1</Start>
+<Width>23</Width>
+</MSysIMEXColumns>
+<MSysIMEXColumns>
+<Attributes>0</Attributes>
+<DataType>10</DataType>
+<FieldName>Month</FieldName>
+<IndexType>0</IndexType>
+<SkipColumn>0</SkipColumn>
+<SpecID>5</SpecID>
+<Start>1</Start>
+<Width>10</Width>
+</MSysIMEXColumns>
+</dataroot>
