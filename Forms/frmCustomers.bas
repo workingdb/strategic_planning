@@ -5,31 +5,6 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
-Private Sub deleteRecord_Click()
-On Error GoTo Err_Handler
-
-    On Error Resume Next
-    DoCmd.GoToControl Screen.PreviousControl.name
-    Err.Clear
-    If (Not Form.newRecord) Then
-        DoCmd.RunCommand acCmdDeleteRecord
-    End If
-    If (Form.newRecord And Not Form.Dirty) Then
-        Beep
-    End If
-    If (Form.newRecord And Form.Dirty) Then
-        DoCmd.RunCommand acCmdUndo
-    End If
-    If (MacroError <> 0) Then
-        Beep
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
-
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
-
 Private Sub Form_Load()
 On Error GoTo Err_Handler
 
