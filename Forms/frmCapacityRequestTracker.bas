@@ -16,6 +16,13 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
+Private Sub cmdOpenAttachments_Click()
+ 
+    DoCmd.OpenForm "fsubStratPlanAttachments", _
+        , , "referenceTable='tblCapacityRequests' AND referenceId=" & Me.RecordID
+ 
+End Sub
+
 Private Sub Customer_Label_Click()
 On Error GoTo Err_Handler
 
@@ -38,15 +45,8 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
 End Sub
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
 
-Call setTheme(Me)
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
-End Sub
 
 Private Sub NAM_Label_Click()
 On Error GoTo Err_Handler
