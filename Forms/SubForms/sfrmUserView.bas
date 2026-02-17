@@ -64,7 +64,7 @@ Dim obj
 
 For Each obj In Application.CurrentProject.AllForms
     If obj.IsLoaded = False Then GoTo nextOne
-    Set f = forms(obj.name)
+    Set f = Forms(obj.name)
     Call setTheme(f)
     For Each sForm In f.Controls
         If sForm.ControlType = acSubform Then

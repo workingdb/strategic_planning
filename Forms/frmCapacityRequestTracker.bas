@@ -118,13 +118,45 @@ Err_Handler:
 End Sub
 
 Private Sub openDetails_Click()
-On Error GoTo Err_Handler
-
-DoCmd.OpenForm "frmCapacityRequestDetails", , , "RecordID = " & Me.RecordID
-
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    On Error GoTo ErrHandler
+ 
+    Dim rid As Long
+    rid = CLng(Nz(Me.RecordID, 0))
+ 
+    If rid = 0 Then
+        MsgBox "No RecordID selected.", vbExclamation
+        Exit Sub
+    End If
+ 
+    ' Open the details form (no filter)
+    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal
+ 
+    ' Make sure it is not stuck in DataEntry or Filter mode
+    With Forms!frmCapacityRequestDetails
+        .DataEntry = False
+        .FilterOn = False
+        .Filter = ""
+        .Requery
+ 
+        ' Jump to the selected record
+        Dim rs As DAO.Recordset
+        Set rs = .RecordsetClone
+        rs.FindFirst "[RecordID]=" & rid
+ 
+        If rs.NoMatch Then
+            MsgBox "RecordID " & rid & " not found in details form's recordsource.", vbExclamation
+        Else
+            .Bookmark = rs.Bookmark
+        End If
+ 
+        rs.Close
+        Set rs = Nothing
+    End With
+ 
+    Exit Sub
+ 
+ErrHandler:
+    MsgBox "Open Details error " & Err.Number & ":" & vbCrLf & Err.Description, vbExclamation
 End Sub
 
 Private Sub Planner_Label_Click()
