@@ -5,6 +5,11 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+Private Sub Capacity_Results_AfterUpdate()
+    If Me.Dirty Then Me.Dirty = False   ' forces save
+    Call NotifyCapacityResultIfNeeded(CLng(Me.RecordID))
+End Sub
+
 Private Sub Form_Load()
 On Error GoTo Err_Handler
 
