@@ -5,6 +5,54 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+
+Private Function GetRequestorEmail_(ByVal requestorId As Long) As String
+    On Error GoTo ErrHandler
+ 
+    Dim db As DAO.Database
+    Dim rs As DAO.Recordset
+    Dim sql As String
+ 
+    sql = "SELECT Email FROM tblPermissions WHERE ID=" & requestorId & ";"
+ 
+    Set db = CurrentDb
+    Set rs = db.OpenRecordset(sql, dbOpenSnapshot)
+ 
+    If Not (rs.EOF And rs.BOF) Then
+        GetRequestorEmail_ = Nz(rs!Email, "")
+    Else
+        GetRequestorEmail_ = ""
+    End If
+ 
+Cleanup:
+    On Error Resume Next
+    If Not rs Is Nothing Then rs.Close
+    Set rs = Nothing
+    Set db = Nothing
+    Exit Function
+ 
+ErrHandler:
+    GetRequestorEmail_ = ""
+    Resume Cleanup
+End Function
+
+Private Sub Capacity_Results_AfterUpdate()
+    On Error GoTo ErrHandler
+ 
+    ' Force save so table has the new value
+    If Me.Dirty Then Me.Dirty = False
+ 
+    ' Call the shared notifier
+    Call NotifyCapacityResultIfNeeded(CLng(Me.RecordID))
+ 
+    Exit Sub
+ 
+ErrHandler:
+    MsgBox "Capacity_Results_AfterUpdate error: " & Err.Number & " - " & Err.Description, vbExclamation
+End Sub
+
+
+
 Private Sub Capacity_Results_Label_Click()
 On Error GoTo Err_Handler
 
@@ -127,6 +175,17 @@ Private Sub Quote_Label_Click()
 On Error GoTo Err_Handler
 
 Me.Quote.SetFocus
+DoCmd.RunCommand acCmdFilterMenu
+
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+End Sub
+
+Private Sub RecordID_Label_Click()
+On Error GoTo Err_Handler
+
+Me.RecordID.SetFocus
 DoCmd.RunCommand acCmdFilterMenu
 
 Exit Sub
