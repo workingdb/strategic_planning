@@ -1,0 +1,3 @@
+SELECT tblCapacityRequests.*
+FROM tblCapacityRequests;
+
