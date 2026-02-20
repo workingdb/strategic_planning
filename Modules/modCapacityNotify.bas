@@ -284,8 +284,8 @@ Private Sub SendOutlookHtmlMail_(ByVal toAddr As String, ByVal ccAddr As String,
     With mail
         .To = toAddr
         If Len(Trim(ccAddr)) > 0 Then .CC = ccAddr
-        .Subject = subj
-        .HTMLBody = html
+        .subject = subj
+        .htmlBody = html
         '.Send   ' change to .Display for testing
         .Display 'change to .Send for live
     End With
