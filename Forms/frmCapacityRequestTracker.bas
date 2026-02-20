@@ -71,24 +71,7 @@ Private Sub cmdOpenAttachments_Click()
         "referenceTable='tblCapacityRequests' AND referenceId=" & Me.RecordID
 End Sub
  
-'========================
-' NEW: Defer sourcing routing safely
-'========================
-Private Sub Form_AfterUpdate()
-    On Error GoTo ErrHandler
- 
-    'Defer routing until after Access finishes the save cycle
-    mPendingSourcingRouting = True
-    Me.TimerInterval = 50
- 
-ExitHere:
-    Exit Sub
- 
-ErrHandler:
-    MsgBox "frmCapacityRequestTracker AfterUpdate error: " & Err.Number & vbCrLf & Err.Description, vbExclamation
-    Resume ExitHere
-End Sub
- 
+
 Private Sub Form_Timer()
     On Error GoTo ErrHandler
  
