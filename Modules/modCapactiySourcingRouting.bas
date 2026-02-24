@@ -6,7 +6,7 @@ Option Explicit
 '========================
 Private Const PERMISSIONS_ID_EVELYN As Long = 304
 Private Const OUTSOURCE_TEAM_TO As String = "BeardE@us.nifco.com"
-Private Const OUTSOURCE_TEAM_CC As String = "HornT@us.nifco.com; capacityrequests@us.nifco.com"
+Private Const OUTSOURCE_TEAM_CC As String = "HornT@us.nifco.com; capacityrequest@us.nifco.com"
 Private Const CUTOFF_DATE As Date = #2/18/2026#
 
 '--- tblCapacityRequests fields
