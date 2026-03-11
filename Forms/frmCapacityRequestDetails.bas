@@ -5,6 +5,44 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
 
+Private mPendingSourcingRouting As Boolean
+
+Private Sub Form_AfterInsert()
+    On Error GoTo ErrHandler
+ 
+    'New request created: queue routing once
+    mPendingSourcingRouting = True
+    Me.TimerInterval = 50
+ 
+ExitHere:
+    Exit Sub
+ErrHandler:
+    MsgBox "frmCapacityRequestDetails AfterInsert error: " & Err.Number & vbCrLf & Err.Description, vbExclamation
+    Resume ExitHere
+End Sub
+ 
+Private Sub Form_Timer()
+    On Error GoTo ErrHandler
+ 
+    'Stop timer immediately
+    Me.TimerInterval = 0
+ 
+    If mPendingSourcingRouting Then
+        mPendingSourcingRouting = False
+ 
+        'Run module gates + actions (U6 + Purchased etc.)
+        HandleSourcingRouting Me
+    End If
+ 
+ExitHere:
+    Exit Sub
+ErrHandler:
+    Me.TimerInterval = 0
+    mPendingSourcingRouting = False
+    MsgBox "frmCapacityRequestDetails Timer error: " & Err.Number & vbCrLf & Err.Description, vbExclamation
+    Resume ExitHere
+End Sub
+
 Private Sub Capacity_Results_AfterUpdate()
     If Me.Dirty Then Me.Dirty = False   ' forces save
     Call NotifyCapacityResultIfNeeded(CLng(Me.RecordID))

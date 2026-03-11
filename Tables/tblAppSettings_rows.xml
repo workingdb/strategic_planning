@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="tblAppSettings_def.xml" generated="2026-02-24T08:58:27">
+<tblAppSettings>
+<ID>1</ID>
+<SettingName>Enable_BuildOut</SettingName>
+<Notes>Turn off Build Out button</Notes>
+<UpdatedAt>2/23/2026</UpdatedAt>
+<UpdatedBy>Jaurand</UpdatedBy>
+<Enable_BO>False</Enable_BO>
+</tblAppSettings>
+</dataroot>

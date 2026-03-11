@@ -264,9 +264,9 @@ If Len(tempHex) = 3 Then tempHex = "0" & tempHex
 If Len(tempHex) = 4 Then tempHex = "0" & tempHex
 If Len(tempHex) = 5 Then tempHex = "0" & tempHex
 
-ioR = Val("&H" & Mid(tempHex, 5, 2)) * scalar
-ioG = Val("&H" & Mid(tempHex, 3, 2)) * scalar
-ioB = Val("&H" & Mid(tempHex, 1, 2)) * scalar
+ioR = val("&H" & Mid(tempHex, 5, 2)) * scalar
+ioG = val("&H" & Mid(tempHex, 3, 2)) * scalar
+ioB = val("&H" & Mid(tempHex, 1, 2)) * scalar
 
 'Debug.Print ioR & " "; ioG & " " & ioB
 
