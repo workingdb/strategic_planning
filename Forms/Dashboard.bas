@@ -101,6 +101,9 @@ Call setTheme(Me)
 'Call DoCmd.NavigateTo("acNavigationCategoryObjectType")
 'Call DoCmd.RunCommand(acCmdWindowHide)
 
+'Feature flag: Build Out button visibility
+Me.btnBuildOut.Visible = GetSettingBool("Enable_BuildOut", False)
+
 On Error Resume Next
 rsUserSettings.Close: Set rsUserSettings = Nothing
 rsTheme.Close: Set rsTheme = Nothing

@@ -49,8 +49,8 @@ Form_frmUserView.userTheme = Me.RecordID
 Dim f As Form, sForm As Control
 Dim i As Integer
 
-TempVars.Add "themePrimary", Me.primaryColor.Value
-TempVars.Add "themeSecondary", Me.secondaryColor.Value
+TempVars.Add "themePrimary", Me.primaryColor.value
+TempVars.Add "themeSecondary", Me.secondaryColor.value
 
 If Me.darkMode Then
     TempVars.Add "themeMode", "Dark"
@@ -58,13 +58,13 @@ Else
     TempVars.Add "themeMode", "Light"
 End If
 
-TempVars.Add "themeColorLevels", Me.colorLevels.Value
+TempVars.Add "themeColorLevels", Me.colorLevels.value
 
 Dim obj
 
 For Each obj In Application.CurrentProject.AllForms
     If obj.IsLoaded = False Then GoTo nextOne
-    Set f = forms(obj.name)
+    Set f = Forms(obj.name)
     Call setTheme(f)
     For Each sForm In f.Controls
         If sForm.ControlType = acSubform Then
