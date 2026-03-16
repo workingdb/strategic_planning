@@ -43,6 +43,11 @@ End Function
 Private Sub Capacity_Results_AfterUpdate()
     On Error GoTo ErrHandler
  
+    'Stamp response date when Cpactiy Results has value
+    If Nz(Me.capacityResults, "") <> "" And IsNull(Me.responseDate) Then
+        Me.responseDate = Date
+    End If
+    
     'Force save so table has the new value
     If Me.Dirty Then Me.Dirty = False
  

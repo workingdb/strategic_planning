@@ -1,0 +1,3 @@
+SELECT DISTINCT qryBOM_Exploded_OnHand.ParentNAM, qryBOM_Exploded_OnHand.ComponentItem
+FROM qryBOM_Exploded_OnHand;
+
