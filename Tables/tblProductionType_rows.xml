@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="tblProductionType_def.xml" generated="2026-03-16T15:38:55">
+<tblProductionType>
+<referenceID>1</referenceID>
+<assyItemType>FGM</assyItemType>
+<assyProductiontype>FG MAKE</assyProductiontype>
+<compItemType>COMPTM</compItemType>
+<compProductiontype>COMPONENT MAKE</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>2</referenceID>
+<assyItemType>OS FG</assyItemType>
+<assyProductiontype>OUTSOURCE</assyProductiontype>
+<compItemType>FGM</compItemType>
+<compProductiontype>FG MAKE</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>3</referenceID>
+<assyItemType>PF</assyItemType>
+<assyProductiontype>Unsure?</assyProductiontype>
+<compItemType>PC</compItemType>
+<compProductiontype>PURCHASED</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>4</referenceID>
+<assyItemType>SA</assyItemType>
+<assyProductiontype>SUBASSEMBLY</assyProductiontype>
+<compItemType>OSC</compItemType>
+<compProductiontype>OUTSOURCE COMPONENT</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>5</referenceID>
+<assyItemType>FG</assyItemType>
+<assyProductiontype>FINISHED GOOD</assyProductiontype>
+<compItemType>PS</compItemType>
+<compProductiontype>PASSTHROUGH FINISHED GOOD</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>6</referenceID>
+<assyItemType>OSC</assyItemType>
+<assyProductiontype>OUTSOURCE COMPONENT</assyProductiontype>
+<compItemType>OS FG</compItemType>
+<compProductiontype>OUTSOURCE</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>7</referenceID>
+<assyItemType>P</assyItemType>
+<assyProductiontype>PURCHASED ITEM</assyProductiontype>
+<compItemType>P</compItemType>
+<compProductiontype>PURCHASED ITEM</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>8</referenceID>
+<assyItemType>COMPTM</assyItemType>
+<assyProductiontype>COMPONENT MAKE</assyProductiontype>
+<compItemType>SA</compItemType>
+<compProductiontype>SUBASSEMBLY</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>9</referenceID>
+<assyItemType>PC</assyItemType>
+<assyProductiontype>PURCHASED</assyProductiontype>
+<compItemType>FG</compItemType>
+<compProductiontype>FINISHED GOOD</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>10</referenceID>
+<assyItemType>PH</assyItemType>
+<assyProductiontype>PHANTOM ITEM</assyProductiontype>
+<compItemType>PSCOMP</compItemType>
+<compProductiontype>PASSTHROUGH COMPONENT</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>11</referenceID>
+<assyItemType>RM</assyItemType>
+<assyProductiontype>RAW MATERIAL</assyProductiontype>
+<compItemType>PFG</compItemType>
+<compProductiontype>PURCHASED FINISHED GOOD</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>12</referenceID>
+<assyItemType>PS</assyItemType>
+<assyProductiontype>PASSTHROUGH FINISHED GOOD</assyProductiontype>
+<compItemType>PH</compItemType>
+<compProductiontype>PHANTOM ITEM</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>13</referenceID>
+<assyItemType>PFG</assyItemType>
+<assyProductiontype>PURCHASED FINISHED GOOD</assyProductiontype>
+<compItemType>RM</compItemType>
+<compProductiontype>RAW MATERIAL</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>14</referenceID>
+<assyItemType>DISCOUNT</assyItemType>
+<assyProductiontype>Unsure?</assyProductiontype>
+<compItemType>PA</compItemType>
+<compProductiontype>PACKAGING</compProductiontype>
+</tblProductionType>
+<tblProductionType>
+<referenceID>15</referenceID>
+<compItemType>DISCOUNT</compItemType>
+</tblProductionType>
+</dataroot>
