@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="tblBuildoutTasks_def.xml" generated="2026-03-16T15:38:54">
+<tblBuildoutTasks>
+<ID>1</ID>
+<Gate>N-6M</Gate>
+<Activity>Identify EOP planned for current Model year &amp;create model buildout list</Activity>
+<Process_x0020_Description>1) Review of OEM calendar &amp; determine model list based on IHS data - set review schedule</Process_x0020_Description>
+<Frequency>Monthly</Frequency>
+<Tool>IHS Data</Tool>
+<Responsible>Strategic Planning</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>2</ID>
+<Gate>N-3M</Gate>
+<Activity>Creation of part list from OEM database</Activity>
+<Process_x0020_Description>2) Potential buildout part list is created for target vehicle buildout.  This includes all finished goods and components for the purpose of tracking exposure at EOP and progress towards zero.</Process_x0020_Description>
+<Frequency>Per OEM Calendar</Frequency>
+<Tool>IHS/Oracle/OEM Calendar/SIF/BO Template</Tool>
+<Responsible>Sales</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>3</ID>
+<Gate>N-0M</Gate>
+<Activity>Categorize part list into Common/Unique</Activity>
+<Process_x0020_Description>3) Categorize list into Common/Unique parts.  Common parts do not require inventory tracking.  Unique parts require finished good, raw material, purchased component, DSPS, and packaging due to the high risk of obsolescence</Process_x0020_Description>
+<Frequency>Per Model Buildout Project Timing</Frequency>
+<Tool>Buildout Workbook/Oracle</Tool>
+<Responsible>Production Planning</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>4</ID>
+<Activity>Create initial buildout workbook &amp; distribute to Team</Activity>
+<Process_x0020_Description>4) Initial Buildout workbook created &amp; obsolete inventory exposure identified</Process_x0020_Description>
+<Frequency>Conclusion of Buildout</Frequency>
+<Tool>Sales Gentani/Cust BOM Sheets/Oracle</Tool>
+<Responsible>Corporate Purchasing</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>5</ID>
+<Activity>Review of items for carryover</Activity>
+<Process_x0020_Description>5) Review of items identified as potential for buildout are confirmed with customer for carryover to new vehicle models</Process_x0020_Description>
+<Tool>Oracle</Tool>
+<Responsible>Packaging Team</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>6</ID>
+<Activity>Review lead times of raw materials, identify risks, and reduce orders as necessary</Activity>
+<Process_x0020_Description>6) Review lead times for raw materials/components/packaging/DSPS &amp; identify long lead time items.  Risks of current open orders identified and actions to reduce orders taken.</Process_x0020_Description>
+<Tool>Oracle/Acctg Asset Tracker</Tool>
+<Responsible>Manufacturing Engineering</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>7</ID>
+<Activity>Review Supplier MOQ &amp; negotiate reduction as necessary</Activity>
+<Process_x0020_Description>7) Review Supplier MOQ for raw material, purchased components, packaging, and DSPS to identify risks for obsolete inventory at conclusion of buildout activity.  Communicate change points to team.</Process_x0020_Description>
+<Tool>NPIF/Customer Requirements</Tool>
+<Responsible>Service/Production Planning</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>8</ID>
+<Activity>Analyze investment perofrmance for capitalized equipment</Activity>
+<Process_x0020_Description>8) Analyze payback of any invested capital equipment to insure zero book value at conclusion of buildout.  Communicate risks to buildout team &amp; Accounting.</Process_x0020_Description>
+<Tool>Production line layout</Tool>
+<Responsible>Tooling/Manufacturing Engineering/Quality Engineering</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>9</ID>
+<Activity>Revise pricing of purchased parts if applicable</Activity>
+<Process_x0020_Description>9) Revise pricing of raw material, purchased components, packaging, and DSPS based on new MOQ negotiated in step (5)</Process_x0020_Description>
+<Tool>IHS/Oracle/OEM Calendar/SIF</Tool>
+<Responsible>Strategic Planning/Production Planning/Customer Service/Sales</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>10</ID>
+<Activity>Review Packaging and storage needs</Activity>
+<Process_x0020_Description>10) Review packaging needed to support transition from MP to Service.  Determine storage needs based on service inventory target levels.</Process_x0020_Description>
+<Tool>Unit Monthly Capacity Tracker</Tool>
+<Responsible>Strategic Planning/Sales</Responsible>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>11</ID>
+<Activity>Equipment footprint review if required</Activity>
+<Process_x0020_Description>11) Review of assembly equipment footprint and determine floor space reduction if available.  Determine service production method (current line, reduced line, or by hand)</Process_x0020_Description>
+<Tool>Forecast Reports/Shipment Reports/Oracle</Tool>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>12</ID>
+<Activity>Setting of service inventory levels</Activity>
+<Process_x0020_Description>12) Inventory levels for service part finished goods/raw materials/purchased components/packaging/DSPS are set.</Process_x0020_Description>
+<Tool>NPIF/Oracle</Tool>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>13</ID>
+<Activity>Setting of service part production run targets</Activity>
+<Process_x0020_Description>13) Determine cost effective production frequency to maintain proper service part inventory levels as set in step (10).</Process_x0020_Description>
+<Tool>Cost Breakdown sheet/Oracle</Tool>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>14</ID>
+<Activity>Determine equipment storage plan</Activity>
+<Process_x0020_Description>14) Assembly equipment/tooling/verification equipment/check fixture storage plans are established.</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>15</ID>
+<Activity>Notification to supply base</Activity>
+<Process_x0020_Description>15) Buildout notifications sent to purchased component/packaging/DSPS/outsource suppliers</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>16</ID>
+<Activity>Capacity tracker updated for volume reduction</Activity>
+<Process_x0020_Description>16) Update capacity files to identify and track volume reduction.</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>17</ID>
+<Activity>Remove item from buildout section of capacity report</Activity>
+<Process_x0020_Description>17) Remove item from buildout section of capacity report</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>18</ID>
+<Activity>Complete final comp request &amp; submit to customer</Activity>
+<Process_x0020_Description>18) Identify and compile compensation requests to submit to customers that cause obsolescence.</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>19</ID>
+<Activity>Update item status in oracle to service</Activity>
+<Process_x0020_Description>19) Item Status updated in Oracle to Service</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>20</ID>
+<Activity>new NPIF is implemented</Activity>
+<Process_x0020_Description>20) New NPIF is implemented to reflect Service level packaging.  Oracle packaging updated &amp; cost re-rolled.</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>21</ID>
+<Activity>Implement equpment reduction</Activity>
+<Process_x0020_Description>21) Mfg. Equipment layout is reduced (if applicable) and unused components stored</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>22</ID>
+<Activity>Storage plans implemented</Activity>
+<Process_x0020_Description>22) Tools, Fixtures, &amp; Equipment identified for storage are prepared and shipped per plan.</Process_x0020_Description>
+</tblBuildoutTasks>
+<tblBuildoutTasks>
+<ID>23</ID>
+<Activity>implement sales price changes as necessary</Activity>
+<Process_x0020_Description>23) Selling Prices updated based on cost to produce &amp; target profit</Process_x0020_Description>
+</tblBuildoutTasks>
+</dataroot>
