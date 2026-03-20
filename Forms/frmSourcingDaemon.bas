@@ -30,7 +30,7 @@ Private Sub Form_Timer()
     'Stop after 2 hours per user session
     If DateDiff("n", mStartTime, Now()) >= 120 Then
         Me.TimerInterval = 0
-        DoCmd.Close acForm, Me.name, acSaveNo
+        DoCmd.CLOSE acForm, Me.name, acSaveNo
         Exit Sub
     End If
  

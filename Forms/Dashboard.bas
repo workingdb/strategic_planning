@@ -91,7 +91,7 @@ If Nz(rsUserSettings!themeId, 0) <> 0 Then
     TempVars.Add "themeSecondary", CStr(rsTheme!secondaryColor)
     TempVars.Add "themeColorLevels", CStr(rsTheme!colorLevels)
     
-    rsTheme.Close
+    rsTheme.CLOSE
     Set rsTheme = Nothing
 End If
 
@@ -105,8 +105,8 @@ Call setTheme(Me)
 Me.btnBuildOut.Visible = GetSettingBool("Enable_BuildOut", False)
 
 On Error Resume Next
-rsUserSettings.Close: Set rsUserSettings = Nothing
-rsTheme.Close: Set rsTheme = Nothing
+rsUserSettings.CLOSE: Set rsUserSettings = Nothing
+rsTheme.CLOSE: Set rsTheme = Nothing
 Set db = Nothing
 
 Exit Sub

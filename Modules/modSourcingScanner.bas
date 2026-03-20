@@ -31,16 +31,16 @@ Public Sub ScanAndRoutePendingRequests()
         rs.MoveNext
     Loop
  
-Cleanup:
+CleanUp:
     On Error Resume Next
-    If Not rs Is Nothing Then rs.Close
+    If Not rs Is Nothing Then rs.CLOSE
     Set rs = Nothing
     Set db = Nothing
     Exit Sub
  
 ErrHandler:
     'Optional: Debug.Print Err.Number, Err.Description
-    Resume Cleanup
+    Resume CleanUp
 End Sub
  
 Private Sub TryRouteOne(ByVal recId As Long)

@@ -26,15 +26,15 @@ Private Function GetRequestorEmail_(ByVal requestorId As Long) As String
         GetRequestorEmail_ = ""
     End If
  
-Cleanup:
+CleanUp:
     On Error Resume Next
-    If Not rs Is Nothing Then rs.Close
+    If Not rs Is Nothing Then rs.CLOSE
     Set rs = Nothing
     Exit Function
  
 ErrHandler:
     GetRequestorEmail_ = ""
-    Resume Cleanup
+    Resume CleanUp
 End Function
  
 '========================
@@ -60,20 +60,14 @@ ErrHandler:
 End Sub
  
 Private Sub Capacity_Results_Label_Click()
-    On Error GoTo Err_Handler
+On Error GoTo Err_Handler
+
     Me.Capacity_Results.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
+    
+Exit Sub
 Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-'========================
-' Attachments
-'========================
-Private Sub cmdOpenAttachments_Click()
-    DoCmd.OpenForm "fsubStratPlanAttachments", , , _
-        "referenceTable='tblCapacityRequests' AND referenceId=" & Me.RecordID
 End Sub
  
 
@@ -313,7 +307,7 @@ Private Sub openDetails_Click()
             .Bookmark = rs.Bookmark
         End If
  
-        rs.Close
+        rs.CLOSE
         Set rs = Nothing
     End With
  
@@ -326,44 +320,7 @@ End Sub
 Private Sub Form_Load()
 On Error GoTo Err_Handler
 
-'THEME
-Dim db As Database
-Set db = CurrentDb()
-Dim rsUserSettings As Recordset
-Dim rsTheme As Recordset
-
-Set rsUserSettings = db.OpenRecordset("tblUserSettings")
-rsUserSettings.Filter = "[Username] = '" & Environ("username") & "'"
-Set rsUserSettings = rsUserSettings.OpenRecordset
-
-If Nz(rsUserSettings!themeId, 0) <> 0 Then
-    Set rsTheme = db.OpenRecordset("SELECT * FROM tblTheme WHERE recordId = " & rsUserSettings!themeId)
-    
-    If rsTheme!darkMode Then
-        TempVars.Add "themeMode", "Dark"
-    Else
-        TempVars.Add "themeMode", "Light"
-    End If
-    
-    TempVars.Add "themePrimary", CStr(rsTheme!primaryColor)
-    TempVars.Add "themeSecondary", CStr(rsTheme!secondaryColor)
-    TempVars.Add "themeColorLevels", CStr(rsTheme!colorLevels)
-    
-    rsTheme.Close
-    Set rsTheme = Nothing
-End If
-
 Call setTheme(Me)
-'If CommandBars("Ribbon").Height > 100 Then CommandBars.ExecuteMso "MinimizeRibbon"
-'DoCmd.ShowToolbar "Ribbon", acToolbarNo
-'Call DoCmd.NavigateTo("acNavigationCategoryObjectType")
-'Call DoCmd.RunCommand(acCmdWindowHide)
-
-
-On Error Resume Next
-rsUserSettings.Close: Set rsUserSettings = Nothing
-rsTheme.Close: Set rsTheme = Nothing
-Set db = Nothing
 
 Exit Sub
 Err_Handler:

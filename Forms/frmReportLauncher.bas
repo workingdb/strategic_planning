@@ -14,7 +14,7 @@ On Error GoTo Err_Handler
     Dim d1 As Date, d2 As Date
  
     'Use displayed text if cboReportType is multi-column; fallback to Value if not
-    rt = Trim(Nz(Me.cboReportType.Column(1), Nz(Me.cboReportType.value, "")))
+    rt = Trim(Nz(Me.cboReportType.column(1), Nz(Me.cboReportType.value, "")))
  
     If rt = "" Then
         MsgBox "Please select a Report Type.", vbExclamation

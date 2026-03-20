@@ -85,18 +85,18 @@ Public Function NotifyCapacityResultIfNeeded(ByVal RecordID As Long) As Boolean
     sql = "SELECT * FROM [" & REQUESTS_TABLE & "] WHERE [" & FLD_PK & "]=" & RecordID & ";"
     Set rs = db.OpenRecordset(sql, dbOpenDynaset)
  
-    If rs.EOF Then GoTo Cleanup
+    If rs.EOF Then GoTo CleanUp
  
     ' Must have result (works for numeric or text)
-    If Len(Trim(Nz(rs.Fields(FLD_RESULT).value, ""))) = 0 Or Nz(rs.Fields(FLD_RESULT).value, 0) = 0 Then GoTo Cleanup
+    If Len(Trim(Nz(rs.Fields(FLD_RESULT).value, ""))) = 0 Or Nz(rs.Fields(FLD_RESULT).value, 0) = 0 Then GoTo CleanUp
  
     ' Must NOT already have notified
-    If Not IsNull(rs.Fields(FLD_NOTIFIED_ON).value) Then GoTo Cleanup
+    If Not IsNull(rs.Fields(FLD_NOTIFIED_ON).value) Then GoTo CleanUp
  
     ' Requestor ID
     Dim reqId As Long
     reqId = CLng(Nz(rs.Fields(FLD_REQUESTOR).value, 0))
-    If reqId = 0 Then GoTo Cleanup
+    If reqId = 0 Then GoTo CleanUp
  
     ' Requestor email + first name
     Dim toAddr As String
@@ -105,7 +105,7 @@ Public Function NotifyCapacityResultIfNeeded(ByVal RecordID As Long) As Boolean
     toAddr = Trim(Nz(DLookup("[" & FLD_PERM_EMAIL & "]", "[" & PERMISSIONS_TABLE & "]", "[" & FLD_PERM_ID & "]=" & reqId), ""))
     firstName = Trim(Nz(DLookup("[" & FLD_PERM_FIRST & "]", "[" & PERMISSIONS_TABLE & "]", "[" & FLD_PERM_ID & "]=" & reqId), ""))
  
-    If Len(toAddr) = 0 Then GoTo Cleanup
+    If Len(toAddr) = 0 Then GoTo CleanUp
     If Len(firstName) = 0 Then firstName = "there"
  
     ' Capacity Result display text
@@ -200,9 +200,9 @@ Public Function NotifyCapacityResultIfNeeded(ByVal RecordID As Long) As Boolean
  
     NotifyCapacityResultIfNeeded = True
  
-Cleanup:
+CleanUp:
     On Error Resume Next
-    If Not rs Is Nothing Then rs.Close
+    If Not rs Is Nothing Then rs.CLOSE
     Set rs = Nothing
     Set db = Nothing
     Exit Function
@@ -210,7 +210,7 @@ Cleanup:
 ErrHandler:
     MsgBox "NotifyCapacityResultIfNeeded error " & Err.Number & ":" & vbCrLf & Err.Description, vbExclamation
     NotifyCapacityResultIfNeeded = False
-    Resume Cleanup
+    Resume CleanUp
 End Function
  
 ' ==============================
@@ -233,7 +233,7 @@ Private Function BuildAttachmentsHtml_(ByVal RecordID As Long) As String
  
     If rs.EOF Then
         BuildAttachmentsHtml_ = ""
-        GoTo Cleanup
+        GoTo CleanUp
     End If
  
     Dim listItems As String
@@ -258,9 +258,9 @@ Private Function BuildAttachmentsHtml_(ByVal RecordID As Long) As String
         BuildAttachmentsHtml_ = ""
     End If
  
-Cleanup:
+CleanUp:
     On Error Resume Next
-    If Not rs Is Nothing Then rs.Close
+    If Not rs Is Nothing Then rs.CLOSE
     Set rs = Nothing
     Set db = Nothing
     Exit Function
@@ -268,7 +268,7 @@ Cleanup:
 ErrHandler:
     MsgBox "BuildAttachmentsHtml_ error " & Err.Number & ":" & vbCrLf & Err.Description, vbExclamation
     BuildAttachmentsHtml_ = ""
-    Resume Cleanup
+    Resume CleanUp
 End Function
  
 ' ==============================

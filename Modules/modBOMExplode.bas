@@ -25,7 +25,7 @@ Public Sub ExplodeBOM_AllLevels()
  
     Do While Not rsSeed.EOF
  
-        rsAdd.AddNew
+        rsAdd.addNew
         rsAdd!ParentNAM = Nz(rsSeed!assy, "")
         rsAdd!ParentNAM_ID = Nz(rsSeed!ASSEMBLY_ITEM_ID, 0)
  
@@ -56,8 +56,8 @@ Public Sub ExplodeBOM_AllLevels()
         rsSeed.MoveNext
     Loop
  
-    rsSeed.Close
-    rsAdd.Close
+    rsSeed.CLOSE
+    rsAdd.CLOSE
  
     levelNum = 0
  
@@ -106,8 +106,8 @@ Public Sub ExplodeBOM_AllLevels()
  
 ExitHere:
     On Error Resume Next
-    rsSeed.Close
-    rsAdd.Close
+    rsSeed.CLOSE
+    rsAdd.CLOSE
     Set rsSeed = Nothing
     Set rsAdd = Nothing
     Set db = Nothing

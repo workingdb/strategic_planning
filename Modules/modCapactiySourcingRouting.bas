@@ -86,30 +86,30 @@ Public Sub HandleSourcingRoutingById(ByVal recId As Long)
     sql = "SELECT * FROM [" & T_Requests & "] WHERE [" & F_RecordID & "]=" & recId & ";"
     Set rs = CurrentDb.OpenRecordset(sql, dbOpenSnapshot)
 
-    If rs.EOF Then GoTo Cleanup
+    If rs.EOF Then GoTo CleanUp
 
     'Already notified? stop.
-    If Nz(rs.Fields(F_SourcingNotifedFlag).value, False) = True Then GoTo Cleanup
-    If Not IsNull(rs.Fields(F_SourcingNotifiedOn).value) Then GoTo Cleanup
+    If Nz(rs.Fields(F_SourcingNotifedFlag).value, False) = True Then GoTo CleanUp
+    If Not IsNull(rs.Fields(F_SourcingNotifiedOn).value) Then GoTo CleanUp
 
     'Gate: cutoff (BEFORE any action)
-    If Not IsOnOrAfterCutoff_RS(rs) Then GoTo Cleanup
+    If Not IsOnOrAfterCutoff_RS(rs) Then GoTo CleanUp
 
     'Gate: rule match
-    If Not Rule_U6_Purchased_RS(rs) Then GoTo Cleanup
+    If Not Rule_U6_Purchased_RS(rs) Then GoTo CleanUp
 
     'Action
     Apply_U6Purchased_RouteAndNotify_RS rs
 
-Cleanup:
+CleanUp:
     On Error Resume Next
-    If Not rs Is Nothing Then rs.Close
+    If Not rs Is Nothing Then rs.CLOSE
     Set rs = Nothing
     Exit Sub
 
 ErrHandler:
     Debug.Print "HandleSourcingRoutingById error " & Err.Number & ": " & Err.Description
-    Resume Cleanup
+    Resume CleanUp
 End Sub
 
 '========================
@@ -326,7 +326,7 @@ ErrHandler:
     Debug.Print "SendOutsourceEmail_RS error " & Err.Number & ": " & Err.Description
 End Sub
 
-Private Sub SendEmail_OutlookLateBound(toList As String, ccList As String, subject As String, htmlBody As String)
+Public Sub SendEmail_OutlookLateBound(toList As String, ccList As String, subject As String, htmlBody As String)
     On Error GoTo ErrHandler
 
     Dim olApp As Object, mail As Object
@@ -374,7 +374,7 @@ Private Function BuildAttachmentsHtml(capacityRequestId As Long) As String
 
     If (rs.BOF And rs.EOF) Then
         BuildAttachmentsHtml = ""
-        rs.Close: Set rs = Nothing
+        rs.CLOSE: Set rs = Nothing
         Exit Function
     End If
 
@@ -396,7 +396,7 @@ Private Function BuildAttachmentsHtml(capacityRequestId As Long) As String
 
     out = out & "</ul>"
 
-    rs.Close: Set rs = Nothing
+    rs.CLOSE: Set rs = Nothing
     BuildAttachmentsHtml = out
     Exit Function
 
@@ -438,7 +438,7 @@ Private Function GetComboDisplayText(frm As Form, ctlName As String) As String
     Dim c As Control: Set c = frm.Controls(ctlName)
 
     If c.ControlType = acComboBox Then
-        GetComboDisplayText = Nz(c.Column(1), Nz(c.value, ""))
+        GetComboDisplayText = Nz(c.column(1), Nz(c.value, ""))
     Else
         GetComboDisplayText = Nz(c.value, "")
     End If
@@ -466,7 +466,7 @@ Private Function BuildHtmlDetailsTableFromForm(frm As Form) As String
 
                     Dim val As String
                     If ctl.ControlType = acComboBox Then
-                        val = Nz(ctl.Column(1), Nz(ctl.value, ""))
+                        val = Nz(ctl.column(1), Nz(ctl.value, ""))
                     ElseIf ctl.ControlType = acCheckBox Then
                         val = IIf(Nz(ctl.value, False), "Yes", "No")
                     Else
