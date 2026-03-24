@@ -345,8 +345,8 @@ Public Sub SendEmail_OutlookLateBound(toList As String, ccList As String, subjec
         .CC = ccList
         .subject = subject
         .htmlBody = htmlBody
-        .Send 'Production mmode
-        '.Display 'Testing mode
+        '.Send
+        .Display
     End With
 
     Exit Sub
@@ -416,10 +416,10 @@ Private Function GetProductionTypeId(prodTypeName As String) As Variant
 End Function
 
 Private Function GetPermissionsDisplayName(personId As Long) As String
-    Dim fn As Variant, ln As Variant
-    fn = DLookup("[" & P_FirstNameField & "]", T_Permissions, "[" & P_IDField & "]=" & personId)
-    ln = DLookup("[" & P_LastNameField & "]", T_Permissions, "[" & P_IDField & "]=" & personId)
-    GetPermissionsDisplayName = Trim(Nz(fn, "") & " " & Nz(ln, ""))
+    Dim fN As Variant, lN As Variant
+    fN = DLookup("[" & P_FirstNameField & "]", T_Permissions, "[" & P_IDField & "]=" & personId)
+    lN = DLookup("[" & P_LastNameField & "]", T_Permissions, "[" & P_IDField & "]=" & personId)
+    GetPermissionsDisplayName = Trim(Nz(fN, "") & " " & Nz(lN, ""))
 End Function
 
 '========================
@@ -435,12 +435,12 @@ End Function
 
 Private Function GetComboDisplayText(frm As Form, ctlName As String) As String
     On Error GoTo ErrHandler
-    Dim c As Control: Set c = frm.Controls(ctlName)
+    Dim C As Control: Set C = frm.Controls(ctlName)
 
-    If c.ControlType = acComboBox Then
-        GetComboDisplayText = Nz(c.column(1), Nz(c.value, ""))
+    If C.ControlType = acComboBox Then
+        GetComboDisplayText = Nz(C.column(1), Nz(C.value, ""))
     Else
-        GetComboDisplayText = Nz(c.value, "")
+        GetComboDisplayText = Nz(C.value, "")
     End If
     Exit Function
 ErrHandler:

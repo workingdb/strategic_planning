@@ -6,7 +6,7 @@ Option Compare Database
 Option Explicit
 
 Private Sub cboOEM_AfterUpdate()
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
 
     Me.cboModel = Null
     Me.cboProgramCode = Null
@@ -19,7 +19,7 @@ Err_Handler:
 End Sub
  
 Private Sub cboModel_AfterUpdate()
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
 
     Me.cboProgramCode = Null
     Me!programId = Null
@@ -31,7 +31,7 @@ Err_Handler:
 End Sub
 
 Private Sub cboProgramCode_AfterUpdate()
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
  
     Dim pid As Long
     pid = Nz(Me.cboProgramCode.value, 0) 'this is tblPrograms.ID because Bound Column=1
@@ -54,7 +54,7 @@ Err_Handler:
 End Sub
 
 Private Sub cmdSaveBuildout_Click()
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
  
     Dim missing As String
  
@@ -78,7 +78,7 @@ Err_Handler:
 End Sub
  
 Private Sub cmdSaveClose_Click()
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
  
     Dim missing As String
  
@@ -101,7 +101,7 @@ Err_Handler:
 End Sub
  
 Private Sub Form_BeforeInsert(Cancel As Integer)
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
  
     Me.createdDate = Now()
     Me.createdBy = Environ("USERNAME")
@@ -115,22 +115,15 @@ End Sub
 
  
 Private Sub cmdCancelBuildout_Click()
-On Error GoTo ErrHandler
+On Error GoTo Err_Handler
  
-    If MsgBox("Cancel this buildout? Any unsaved changes will be lost.", _
-              vbQuestion + vbYesNo, "Cancel Buildout") <> vbYes Then
-        
-        Exit Sub
-    End If
+    If MsgBox("Cancel this buildout? Any unsaved changes will be lost.", vbQuestion + vbYesNo, "Cancel Buildout") <> vbYes Then Exit Sub
  
-    'If record is new and unsaved
     If Me.newRecord Then
         Me.Undo
-        Exit Sub
-    End If
- 
-    'If record already exists (you generate recordId early), delete it
+    Else
         DoCmd.RunCommand acCmdDeleteRecord
+    End If
         
 Exit Sub
 Err_Handler:

@@ -1,0 +1,67 @@
+Option Compare Database
+Option Explicit
+
+Function pi() As Double
+On Error GoTo Err_Handler
+
+pi = 4 * Atn(1)
+
+Exit Function
+Err_Handler:
+    Call handleError("modMath", "pi", Err.Description, Err.Number)
+End Function
+
+Function Asin(x) As Double
+On Error GoTo Err_Handler
+
+Select Case x
+    Case 1
+        Asin = pi / 2
+    Case -1
+        Asin = (3 * pi) / 2
+    Case Else
+        Asin = Atn(x / Sqr(-x * x + 1))
+End Select
+
+Exit Function
+Err_Handler:
+    Call handleError("modMath", "Asin", Err.Description, Err.Number)
+End Function
+
+Function Acos(x) As Double
+On Error GoTo Err_Handler
+
+Select Case x
+    Case 1
+        Acos = 0
+    Case -1
+        Acos = pi
+    Case Else
+        Acos = Atn(-x / Sqr(-x * x + 1)) + 2 * Atn(1)
+End Select
+
+Exit Function
+Err_Handler:
+    Call handleError("modMath", "Acos", Err.Description, Err.Number)
+End Function
+
+Function gramsToLbs(gramsValue) As Double
+On Error GoTo Err_Handler
+
+gramsToLbs = gramsValue * 0.00220462
+
+Exit Function
+Err_Handler:
+    Call handleError("modMath", "gramsToLbs", Err.Description, Err.Number)
+End Function
+
+Function randomNumber(low As Long, high As Long) As Long
+On Error GoTo Err_Handler
+
+Randomize
+randomNumber = Int((high - low + 1) * Rnd() + low)
+
+Exit Function
+Err_Handler:
+    Call handleError("modMath", "randomNumber", Err.Description, Err.Number)
+End Function

@@ -294,7 +294,7 @@ Private Sub openDetails_Click()
     With Forms!frmCapacityRequestDetails
         .DataEntry = False
         .FilterOn = False
-        .Filter = ""
+        .filter = ""
         .Requery
  
         Dim rs As DAO.Recordset

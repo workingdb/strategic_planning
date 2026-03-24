@@ -55,7 +55,7 @@ Private Sub TryRouteOne(ByVal recId As Long)
     sqlClaim = _
         "UPDATE tblCapacityRequests " & _
         "SET SourcingProcessingOn=Now(), " & _
-        "    SourcingProcessingBy='" & Replace(GetSessionUser(), "'", "''") & "' " & _
+        "    SourcingProcessingBy='" & Replace(Environ("username"), "'", "''") & "' " & _
         "WHERE RecordID=" & recId & " " & _
         "  AND Nz(SourcingNotifiedFlag,0)=0 " & _
         "  AND SourcingNotifiedOn Is Null " & _
@@ -81,9 +81,5 @@ ErrHandler:
         "SET SourcingProcessingOn=Null, SourcingProcessingBy=Null " & _
         "WHERE RecordID=" & recId & ";"
 End Sub
- 
-Private Function GetSessionUser() As String
-    'Pick your favorite identity source
-    GetSessionUser = Environ$("USERNAME")
-End Function
+
  
