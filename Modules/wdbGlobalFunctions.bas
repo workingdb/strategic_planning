@@ -15,7 +15,7 @@ Set rsCap = OpenRecordsetReadOnly(conn, "SELECT * FROM tblCapacityRequests")
 
 Do While Not rsCap.EOF
     strSQL = "INSERT INTO dbo.tblCapacityRequest_partnumbers (requestId,partNumber,unitId,productionType,tonnage,ppv,volumeType,volume,volumeTiming,capacityResults,responseDate,planner,quoteStatus) VALUES (" & _
-            rsCap!recordId & ",'" & _
+            rsCap!RecordID & ",'" & _
             Nz(rsCap!partNumber, "Null") & "'," & _
             Nz(rsCap!Unit, "Null") & "," & _
             Nz(rsCap!productionType, "Null") & "," & _

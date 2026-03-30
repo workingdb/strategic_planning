@@ -8,7 +8,7 @@ Option Explicit
 Private Sub deletebtn_Click()
 On Error GoTo Err_Handler
 
-If IsNull(Me.recordId) Then
+If IsNull(Me.RecordID) Then
     MsgBox "This is an empty record.", vbInformation, "Can't do that"
     Exit Sub
 End If
@@ -20,8 +20,8 @@ If MsgBox("Are you sure you want to delete this?", vbYesNo, "Please confirm") = 
         dbExecute "UPDATE tblBuildout_tasks_template SET indexOrder = indexOrder - 1 WHERE gateTemplateId = " & Me.gateTemplateId & " AND indexOrder > " & oldIndex
     End If
     
-    Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, "DELETE", Me.taskTitle, "DELETED", Form_frmBuildout_template.recordId, "frmBuildout_template")
-    dbExecute "DELETE FROM tblBuildout_tasks_template WHERE recordId = " & Me.recordId
+    Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "DELETE", Me.taskTitle, "DELETED", Form_frmBuildout_template.RecordID, "frmBuildout_template")
+    dbExecute "DELETE FROM tblBuildout_tasks_template WHERE recordId = " & Me.RecordID
     Me.Requery
 End If
 
@@ -44,7 +44,7 @@ End Sub
 Private Sub Form_Current()
 On Error GoTo Err_Handler
 
-Me.txtCF = Me.recordId
+Me.txtCF = Me.RecordID
 
 Exit Sub
 Err_Handler:
@@ -67,7 +67,7 @@ End Sub
 Private Sub moveDown_Click()
 On Error GoTo Err_Handler
 
-If IsNull(Me.recordId) Then Exit Sub
+If IsNull(Me.RecordID) Then Exit Sub
 
 If Me.indexOrder = DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Me.gateTemplateId) Then Exit Sub
 
@@ -83,7 +83,7 @@ Me.Requery
 Me.OrderBy = "indexOrder Asc"
 Me.OrderByOn = True
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, "indexOrder", oldIndex, newIndex, Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "indexOrder", oldIndex, newIndex, Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:
@@ -93,7 +93,7 @@ End Sub
 Private Sub moveUp_Click()
 On Error GoTo Err_Handler
 
-If IsNull(Me.recordId) Then Exit Sub
+If IsNull(Me.RecordID) Then Exit Sub
 If Me.indexOrder = 1 Then Exit Sub
 Dim oldIndex, newIndex
 oldIndex = Me.indexOrder
@@ -107,7 +107,7 @@ Me.Requery
 Me.OrderBy = "indexOrder Asc"
 Me.OrderByOn = True
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, "indexOrder", oldIndex, newIndex, Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "indexOrder", oldIndex, newIndex, Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:
@@ -117,12 +117,12 @@ End Sub
 Private Sub newStep_Click()
 On Error GoTo Err_Handler
 
-dbExecute "INSERT INTO tblBuildout_tasks_template(gateTemplateId,indexOrder) VALUES (" & Form_sfrmBuildout_template_gates.recordId & "," & _
-    Nz(DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Form_sfrmBuildout_template_gates.recordId) + 1, 1) & ")"
+dbExecute "INSERT INTO tblBuildout_tasks_template(gateTemplateId,indexOrder) VALUES (" & Form_sfrmBuildout_template_gates.RecordID & "," & _
+    Nz(DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Form_sfrmBuildout_template_gates.RecordID) + 1, 1) & ")"
     
 Me.Requery
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, "New", "", "New Record", Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "New", "", "New Record", Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:
@@ -132,7 +132,7 @@ End Sub
 Private Sub pillarTask_AfterUpdate()
 On Error GoTo Err_Handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:
@@ -142,7 +142,7 @@ End Sub
 Private Sub responsibleDept_AfterUpdate()
 On Error GoTo Err_Handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:
@@ -152,7 +152,7 @@ End Sub
 Private Sub taskTitle_AfterUpdate()
 On Error GoTo Err_Handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:

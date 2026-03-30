@@ -11,7 +11,7 @@ On Error GoTo Err_Handler
 Call setTheme(Me)
 
 Dim templateId
-templateId = DMin("recordId", "tblBuildout_gates_template", "templateId = " & Me.recordId)
+templateId = DMin("recordId", "tblBuildout_gates_template", "templateId = " & Me.RecordID)
 
 On Error GoTo invis
 Me.sfrmBuildout_template_tasks.Form.Filter = "gateTemplateId = " & templateId
@@ -30,7 +30,7 @@ End Sub
 Private Sub history_Click()
 On Error GoTo Err_Handler
 
-DoCmd.OpenForm "frmHistory", , , "referenceId = " & Me.recordId
+DoCmd.OpenForm "frmHistory", , , "referenceId = " & Me.RecordID
 
 Exit Sub
 Err_Handler:
@@ -52,7 +52,7 @@ End Sub
 Private Sub templateName_AfterUpdate()
 On Error GoTo Err_Handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.recordId, "frmBuildout_template")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
 
 Exit Sub
 Err_Handler:

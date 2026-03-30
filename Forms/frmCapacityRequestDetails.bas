@@ -8,8 +8,8 @@ Option Explicit
 Function trackUpdate()
 On Error GoTo Err_Handler
 
-If IsNull(Me.recordId) Then Exit Function
-Call registerStratPlanUpdates("tblCapacityRequests", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.recordId, Me.name)
+If IsNull(Me.RecordID) Then Exit Function
+Call registerStratPlanUpdates("tblCapacityRequests", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.RecordID, Me.name)
 
 Exit Function
 Err_Handler:
@@ -60,8 +60,8 @@ Private Sub Trash_Click()
 On Error GoTo Err_Handler
 
 If MsgBox("Are you sure you want to delete this request?", vbYesNo, "Please confirm") = vbYes Then
-    If Nz(Me.recordId, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.recordId, "Request", "", "Deleted", Me.recordId, Me.name)
-    dbExecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & Me.recordId)
+    If Nz(Me.RecordID, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, "Request", "", "Deleted", Me.RecordID, Me.name)
+    dbExecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & Me.RecordID)
     TempVars.Add "reqCapDelete", "True"
     DoCmd.Close
     If CurrentProject.AllForms("frmCapacityRequestTracker").IsLoaded Then Form_frmCapacityRequestTracker.Requery

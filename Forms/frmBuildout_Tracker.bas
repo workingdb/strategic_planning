@@ -6,9 +6,9 @@ Option Compare Database
 Option Explicit
 
 Private Sub cmdDetails_Click()
-    DoCmd.OpenForm "frmBuildout_details", , , "[registerId]=" & Me.[recordId]
+    DoCmd.OpenForm "frmBuildout_details", , , "[registerId]=" & Me.[RecordID]
 End Sub
 
 Private Sub cmdExposureInput_Click()
-    DoCmd.OpenForm "frmBuildout_exposure", , , "[registerId]=" & Me.recordId
+    DoCmd.OpenForm "frmBuildout_exposure", , , "[registerId]=" & Me.RecordID
 End Sub
