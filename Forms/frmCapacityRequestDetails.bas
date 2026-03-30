@@ -8,8 +8,8 @@ Option Explicit
 Function trackUpdate()
 On Error GoTo Err_Handler
 
-If IsNull(Me.RecordID) Then Exit Function
-Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.RecordID, Me.name)
+If IsNull(Me.recordId) Then Exit Function
+Call registerStratPlanUpdates("tblCapacityRequests", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.recordId, Me.name)
 
 Exit Function
 Err_Handler:
@@ -59,18 +59,13 @@ End Sub
 Private Sub Trash_Click()
 On Error GoTo Err_Handler
 
-    On Error Resume Next
-    DoCmd.GoToControl Screen.PreviousControl.name
-    err.Clear
-    If (Not Form.newRecord) Then
-        DoCmd.RunCommand acCmdDeleteRecord
-    End If
-    If (Form.newRecord And Form.Dirty) Then
-        DoCmd.RunCommand acCmdUndo
-    End If
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+If MsgBox("Are you sure you want to delete this request?", vbYesNo, "Please confirm") = vbYes Then
+    If Nz(Me.recordId, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.recordId, "Request", "", "Deleted", Me.recordId, Me.name)
+    dbExecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & Me.recordId)
+    TempVars.Add "reqCapDelete", "True"
+    DoCmd.Close
+    If CurrentProject.AllForms("frmCapacityRequestTracker").IsLoaded Then Form_frmCapacityRequestTracker.Requery
+End If
 
 Exit Sub
 Err_Handler:

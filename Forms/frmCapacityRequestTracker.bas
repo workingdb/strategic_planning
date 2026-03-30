@@ -5,48 +5,38 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
  
-Private Sub Capacity_Results_AfterUpdate()
-On Error GoTo Err_Handler
- 
-    'Stamp response date when Capactiy Results has value
-    If Nz(Me.capacityResults, "") <> "" And IsNull(Me.responseDate) Then
-        Me.responseDate = Date
-    End If
-    
-    'Force save so table has the new value
-    If Me.Dirty Then Me.Dirty = False
- 
-    'popup email for notification to
-    Dim emailBody As String, subjectLine As String, strTo As String
-    subjectLine = Me.partNumber & " Capacity Request"
-    emailBody = generateHTML( _
-            subjectLine, _
-            "Capacity Result: " & Me.Capacity_Results.column(1), _
-            "Regarding Capacity Request: " & Me.Request_Type.column(1) & " for " & Me.partNumber & " on program " & Me.Program, _
-            "Notes: " & Me.Notes, _
-            "Customer: " & Me.Customer.column(1), _
-            "PPV: " & Me.PPV _
-            )
-    
-    strTo = getEmail(Nz(Me.Requestor, ""))
-    
-    Call wdbEmail(strTo, "capacityrequests@us.nifco.com", "Capacity Request", emailBody)
-    
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Capacity_Results_Label_Click()
-On Error GoTo Err_Handler
+'Private Sub Capacity_Results_AfterUpdate()
+'On Error GoTo Err_Handler
+'
+'    'Stamp response date when Capactiy Results has value
+'    If Nz(Me.capacityResults, "") <> "" And IsNull(Me.responseDate) Then
+'        Me.responseDate = Date
+'    End If
+'
+'    'Force save so table has the new value
+'    If Me.Dirty Then Me.Dirty = False
+'
+'    'popup email for notification to
+'    Dim emailBody As String, subjectLine As String, strTo As String
+'    subjectLine = Me.partNumber & " Capacity Request"
+'    emailBody = generateHTML( _
+'            subjectLine, _
+'            "Capacity Result: " & Me.Capacity_Results.column(1), _
+'            "Regarding Capacity Request: " & Me.Request_Type.column(1) & " for " & Me.partNumber & " on program " & Me.Program, _
+'            "Notes: " & Me.Notes, _
+'            "Customer: " & Me.Customer.column(1), _
+'            "PPV: " & Me.PPV _
+'            )
+'
+'    strTo = getEmail(Nz(Me.Requestor, ""))
+'
+'    Call wdbEmail(strTo, "capacityrequests@us.nifco.com", "Capacity Request", emailBody)
+'
+'Exit Sub
+'Err_Handler:
+'    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
+'End Sub
 
-    Me.Capacity_Results.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
  
 Private Sub Customer_Label_Click()
     On Error GoTo Err_Handler
@@ -66,42 +56,6 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
-Private Sub NAM_Label_Click()
-    On Error GoTo Err_Handler
-    Me.NAM.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Planner_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Planner.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub PPV_Label_Click()
-    On Error GoTo Err_Handler
-    Me.PPV.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Production_Type_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Production_Type.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
 Private Sub Program_Label_Click()
     On Error GoTo Err_Handler
     Me.Program.SetFocus
@@ -111,18 +65,9 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
-Private Sub Quote_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Quote.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
 Private Sub RecordID_Label_Click()
     On Error GoTo Err_Handler
-    Me.RecordID.SetFocus
+    Me.recordId.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
@@ -156,63 +101,9 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
-Private Sub Response_Date_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Response_Date.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
 Private Sub SOP_Label_Click()
     On Error GoTo Err_Handler
     Me.SOP.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Unit_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Unit.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Vehicle_Model_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Vehicle_Model.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Volume_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Volume.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Volume_Timing_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Volume_Timing.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
- 
-Private Sub Volume_Type_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Volume_Type.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
@@ -230,9 +121,9 @@ End Sub
 Private Sub openDetails_Click()
     On Error GoTo ErrHandler
  
-    If IsNull(Me.RecordID) Then Exit Sub
+    If IsNull(Me.recordId) Then Exit Sub
  
-    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.RecordID
+    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.recordId
  
 Exit Sub
 ErrHandler:

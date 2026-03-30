@@ -1,6 +1,45 @@
 Option Compare Database
 Option Explicit
 
+Function structureChange()
+
+Dim conn As ADODB.Connection
+Dim rsCap As ADODB.Recordset, rsParts As ADODB.Recordset
+Dim strSQL As String
+
+Set conn = New ADODB.Connection
+conn.ConnectionString = "DRIVER=ODBC Driver 17 for SQL Server;SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb;"
+conn.Open
+
+Set rsCap = OpenRecordsetReadOnly(conn, "SELECT * FROM tblCapacityRequests")
+
+Do While Not rsCap.EOF
+    strSQL = "INSERT INTO dbo.tblCapacityRequest_partnumbers (requestId,partNumber,unitId,productionType,tonnage,ppv,volumeType,volume,volumeTiming,capacityResults,responseDate,planner,quoteStatus) VALUES (" & _
+            rsCap!recordId & ",'" & _
+            Nz(rsCap!partNumber, "Null") & "'," & _
+            Nz(rsCap!Unit, "Null") & "," & _
+            Nz(rsCap!productionType, "Null") & "," & _
+            Nz(rsCap!Tonnage, "Null") & "," & _
+            Nz(rsCap!PPV, "Null") & "," & _
+            Nz(rsCap!volumeType, "Null") & "," & _
+            Nz(rsCap!Volume, "Null") & "," & _
+            Nz(rsCap!volumeTiming, "Null") & "," & _
+            Nz(rsCap!capacityResults, "Null") & ",'" & _
+            Format$(rsCap!responseDate, "yyyy-mm-dd hh:nn:ss") & "'," & _
+            Nz(rsCap!Planner, "Null") & "," & _
+            Nz(rsCap!Quote, "Null") & ");"
+    conn.Execute strSQL
+    rsCap.MoveNext
+Loop
+
+
+rsCap.Close
+Set rsCap = Nothing
+conn.Close
+Set conn = Nothing
+
+End Function
+
 Function sendNotification(sendTo As String, notType As Integer, notPriority As Integer, desc As String, emailContent As String, Optional appName As String = "", Optional appId As Variant = "", Optional multiEmail As Boolean = False, Optional customEmail As Boolean = False) As Boolean
 sendNotification = True
 
@@ -67,7 +106,7 @@ With rsNotifications
 End With
 
 On Error Resume Next
-rsNotifications.CLOSE
+rsNotifications.Close
 Set rsNotifications = Nothing
 Set db = Nothing
 
@@ -87,7 +126,7 @@ Set db = CurrentDb()
 Dim rsPermissions As Recordset
 Set rsPermissions = db.OpenRecordset("SELECT * from tblPermissions WHERE user = '" & userName & "'", dbOpenSnapshot)
 getEmail = Nz(rsPermissions!userEmail, "")
-rsPermissions.CLOSE
+rsPermissions.Close
 Set rsPermissions = Nothing
 
 GoTo exitFunc
@@ -96,7 +135,7 @@ tryOracle:
 Dim rsEmployee As Recordset
 Set rsEmployee = db.OpenRecordset("SELECT FIRST_NAME, LAST_NAME, EMAIL_ADDRESS FROM APPS_XXCUS_USER_EMPLOYEES_V WHERE USER_NAME = '" & StrConv(userName, vbUpperCase) & "'", dbOpenSnapshot)
 getEmail = Nz(rsEmployee!EMAIL_ADDRESS, "")
-rsEmployee.CLOSE
+rsEmployee.Close
 Set rsEmployee = Nothing
 
 exitFunc:
@@ -225,7 +264,7 @@ Function userData(data As String, Optional specificUser As String = "") As Strin
     ' Using brackets around the variable [data] and reserved word [User]
     strSQL = "SELECT [" & data & "] FROM tblPermissions WHERE [User] = '" & Replace(specificUser, "'", "''") & "'"
     
-    rs.open strSQL, conn, adOpenForwardOnly, adLockReadOnly
+    rs.Open strSQL, conn, adOpenForwardOnly, adLockReadOnly
     
     If Not rs.EOF Then
         userData = Nz(rs.Fields(0).Value, "")
@@ -234,7 +273,7 @@ Function userData(data As String, Optional specificUser As String = "") As Strin
     End If
 
 CleanUp:
-    If rs.State = adStateOpen Then rs.CLOSE
+    If rs.State = adStateOpen Then rs.Close
     Set rs = Nothing
     Set conn = Nothing
     Exit Function

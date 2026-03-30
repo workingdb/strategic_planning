@@ -51,21 +51,16 @@ On Error GoTo Err_Handler
     Dim strConn As String
     
     strDriver = GetBestSQLDriver()
-    
-    If strDriver = "" Then
-        MsgBox "No suitable SQL Server ODBC driver was found on this computer.", vbCritical
-        Exit Sub
-    End If
+    If strDriver = "" Then Exit Sub
     
     Set db = CurrentDb
     ' Construct your base connection string (DSN-less)
-    ' Adjust SERVER and DATABASE names to match your environment
     strConn = "ODBC;DRIVER=" & strDriver & ";SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb"
     
     ' Loop through all tables and update ODBC links
     For Each tdf In db.TableDefs
         ' Only relink tables that already have an ODBC connection string
-        If Left(tdf.Connect, 15) = "ODBC;DRIVER=SQL" Then
+        If InStr(1, tdf.Connect, "SERVER=ITI-SQL") Then
             tdf.Connect = strConn
             tdf.RefreshLink
         End If

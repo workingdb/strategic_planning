@@ -140,7 +140,7 @@ Set db = CurrentDb()
 Dim rs1 As Recordset
 Set rs1 = db.OpenRecordset("SELECT releaseVal FROM tblDBinfo WHERE recordId = 1", dbOpenSnapshot)
 grabVersion = rs1!releaseVal
-rs1.CLOSE: Set rs1 = Nothing
+rs1.Close: Set rs1 = Nothing
 Set db = Nothing
 
 Exit Function

@@ -17,7 +17,7 @@ Public Function createBuildoutProject(registerId As Long, n0Date As Date, templa
     
     
     
-    rsGateTemplate.open "SELECT * FROM tblBuildout_gates_template WHERE templateId = " & templateId & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
+    rsGateTemplate.Open "SELECT * FROM tblBuildout_gates_template WHERE templateId = " & templateId & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
     
     Do While Not rsGateTemplate.EOF
         runningDate = n0Date - rsGateTemplate!gateDuration
@@ -25,7 +25,7 @@ Public Function createBuildoutProject(registerId As Long, n0Date As Date, templa
         connWrite.BeginTrans
         
         connWrite.Execute "INSERT INTO tblBuildout_gates(registerId, dueDate, indexOrder, gateTemplateId) VALUES (" & _
-                     registerId & ",Date()," & rsGateTemplate!indexOrder & "," & rsGateTemplate!RecordID & ")"
+                     registerId & ",Date()," & rsGateTemplate!indexOrder & "," & rsGateTemplate!recordId & ")"
         
         gateId = connWrite.Execute("SELECT @@IDENTITY")(0)
         
@@ -33,11 +33,11 @@ Public Function createBuildoutProject(registerId As Long, n0Date As Date, templa
         connWrite.BeginTrans
 
         ' -- LOOP STEPS --
-        rsTaskTemplate.open "SELECT * from tblBuildout_tasks_template WHERE [gateTemplateId] = " & rsGateTemplate![RecordID] & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
+        rsTaskTemplate.Open "SELECT * from tblBuildout_tasks_template WHERE [gateTemplateId] = " & rsGateTemplate![recordId] & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
         
         Do While Not rsTaskTemplate.EOF
             strInsert = "INSERT INTO tblBuildout_tasks (gateId, taskStatus, templateTaskId, createdBy, createdDate, lastUpdatedDate, lastUpdatedBy, indexOrder) " & _
-                        "VALUES (" & gateId & ",1," & rsTaskTemplate!RecordID & ",'" & Environ("username") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Environ("username") & _
+                        "VALUES (" & gateId & ",1," & rsTaskTemplate!recordId & ",'" & Environ("username") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Environ("username") & _
                         "'," & rsTaskTemplate!indexOrder & ")"
             
             connWrite.Execute strInsert
@@ -46,7 +46,7 @@ nextStep:
             rsTaskTemplate.MoveNext
         Loop
         
-        rsTaskTemplate.CLOSE
+        rsTaskTemplate.Close
         Set rsTaskTemplate = Nothing
         
         connWrite.CommitTrans
@@ -61,8 +61,8 @@ nextStep:
 CleanUp:
     Set connWrite = Nothing
     Set connRead = Nothing
-    If rsGateTemplate.State = adStateOpen Then rsGateTemplate.CLOSE
-    If rsTaskTemplate.State = adStateOpen Then rsTaskTemplate.CLOSE
+    If rsGateTemplate.State = adStateOpen Then rsGateTemplate.Close
+    If rsTaskTemplate.State = adStateOpen Then rsTaskTemplate.Close
     Exit Function
 
 Err_Handler:

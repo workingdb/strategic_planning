@@ -68,8 +68,8 @@ On Error GoTo Err_Handler
  
     'Set TempVars for KPI queries
     On Error Resume Next
-    TempVars.Remove "StartDate"
-    TempVars.Remove "EndDate"
+    TempVars.remove "StartDate"
+    TempVars.remove "EndDate"
     On Error GoTo 0
  
     TempVars.Add "StartDate", d1
@@ -212,8 +212,8 @@ On Error GoTo Err_Handler
     'Me.cboSomething = Null
  
     'Optional: clear tempvars so nothing carries over
-    TempVars.Remove "StartDate"
-    TempVars.Remove "EndDate"
+    TempVars.remove "StartDate"
+    TempVars.remove "EndDate"
     
     Me.cboReportType.SetFocus
     
