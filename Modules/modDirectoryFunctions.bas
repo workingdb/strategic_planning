@@ -10,7 +10,7 @@ CreateObject("Shell.Application").open CVar(Path)
 
 Exit Sub
 Err_Handler:
-    Call handleError("modDirectoryFunctions", "openPath", Err.Description, Err.Number)
+    Call handleError("modDirectoryFunctions", "openPath", err.Description, err.Number)
 End Sub
 
 Function replaceDriveLetters(linkInput) As String
@@ -24,7 +24,7 @@ replaceDriveLetters = Replace(replaceDriveLetters, "S:\", "\\nas01\allshare\")
 
 Exit Function
 Err_Handler:
-    Call handleError("modDirectoryFunctions", "replaceDriveLetters", Err.Description, Err.Number)
+    Call handleError("modDirectoryFunctions", "replaceDriveLetters", err.Description, err.Number)
 End Function
 
 Function addLastSlash(linkString As String) As String
@@ -35,7 +35,7 @@ If Right(addLastSlash, 1) <> "\" Then addLastSlash = addLastSlash & "\"
 
 Exit Function
 Err_Handler:
-    Call handleError("modDirectoryFunctions", "addLastSlash", Err.Description, Err.Number)
+    Call handleError("modDirectoryFunctions", "addLastSlash", err.Description, err.Number)
 End Function
 
 Function FolderExists(sFile As Variant) As Boolean
@@ -47,6 +47,6 @@ If Dir(sFile, vbDirectory) <> "" Then FolderExists = True
 
 Exit Function
 Err_Handler:
-    If Err.Number = 52 Then Exit Function
-    Call handleError("modDirectoryFunctions", "FolderExists", Err.Description, Err.Number)
+    If err.Number = 52 Then Exit Function
+    Call handleError("modDirectoryFunctions", "FolderExists", err.Description, err.Number)
 End Function

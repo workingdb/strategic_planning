@@ -8,7 +8,7 @@ pi = 4 * Atn(1)
 
 Exit Function
 Err_Handler:
-    Call handleError("modMath", "pi", Err.Description, Err.Number)
+    Call handleError("modMath", "pi", err.Description, err.Number)
 End Function
 
 Function Asin(x) As Double
@@ -25,7 +25,7 @@ End Select
 
 Exit Function
 Err_Handler:
-    Call handleError("modMath", "Asin", Err.Description, Err.Number)
+    Call handleError("modMath", "Asin", err.Description, err.Number)
 End Function
 
 Function Acos(x) As Double
@@ -42,7 +42,7 @@ End Select
 
 Exit Function
 Err_Handler:
-    Call handleError("modMath", "Acos", Err.Description, Err.Number)
+    Call handleError("modMath", "Acos", err.Description, err.Number)
 End Function
 
 Function gramsToLbs(gramsValue) As Double
@@ -52,7 +52,7 @@ gramsToLbs = gramsValue * 0.00220462
 
 Exit Function
 Err_Handler:
-    Call handleError("modMath", "gramsToLbs", Err.Description, Err.Number)
+    Call handleError("modMath", "gramsToLbs", err.Description, err.Number)
 End Function
 
 Function randomNumber(low As Long, high As Long) As Long
@@ -63,5 +63,5 @@ randomNumber = Int((high - low + 1) * Rnd() + low)
 
 Exit Function
 Err_Handler:
-    Call handleError("modMath", "randomNumber", Err.Description, Err.Number)
+    Call handleError("modMath", "randomNumber", err.Description, err.Number)
 End Function

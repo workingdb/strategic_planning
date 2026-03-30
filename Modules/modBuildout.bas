@@ -69,6 +69,6 @@ Err_Handler:
     If Not connWrite Is Nothing Then
         If connWrite.State = adStateOpen Then connWrite.RollbackTrans
     End If
-    Call handleError("modBuildout", "createBuildoutProject", Err.Description, Err.Number)
+    Call handleError("modBuildout", "createBuildoutProject", err.Description, err.Number)
     Resume CleanUp
 End Function

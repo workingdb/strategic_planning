@@ -9,19 +9,19 @@ Private Sub details_Click()
 On Error GoTo Err_Handler
 
 Me.Dirty = False
-DoCmd.OpenForm "frmPartProjectTemplate", acNormal, , "recordId = " & Me.RecordID
+DoCmd.OpenForm "frmBuildout_template", acNormal, , "recordId = " & Me.RecordID
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub projectTitle_AfterUpdate()
 On Error GoTo Err_Handler
 
-'Call registerWdbUpdates("tblPartProjectTemplate", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, "frmPartTrackingSettings")
+Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.RecordID, "frmBuildout_templates")
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

@@ -36,7 +36,7 @@ If (IsZoomed(h) = False) Then ShowWindow h, SW_SHOWMAXIMIZED
 
 Exit Sub
 Err_Handler:
-    Call handleError("modAdminFunctions", "maximizeAccess", Err.Description, Err.Number)
+    Call handleError("modAdminFunctions", "maximizeAccess", err.Description, err.Number)
 End Sub
 
 Public Sub handleError(modName As String, activeCon As String, errDesc As String, errNum As Long, Optional dataTag As String = "")
@@ -129,7 +129,7 @@ End If
 
 Exit Sub
 Err_Handler:
-    Call handleError("modAdminFunctions", "SizeAccess", Err.Description, Err.Number)
+    Call handleError("modAdminFunctions", "SizeAccess", err.Description, err.Number)
 End Sub
 
 Function grabVersion() As String
@@ -145,5 +145,5 @@ Set db = Nothing
 
 Exit Function
 Err_Handler:
-    Call handleError("modAdminFunctions", "grabVersion", Err.Description, Err.Number)
+    Call handleError("modAdminFunctions", "grabVersion", err.Description, err.Number)
 End Function

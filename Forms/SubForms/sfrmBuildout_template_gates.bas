@@ -12,7 +12,7 @@ Me.txtCF = Me.RecordID
 
 If IsNull(Me.RecordID) = False Then
     Form_sfrmBuildout_template_tasks.Visible = True
-    Form_sfrmBuildout_template_tasks.filter = "gateTemplateId = " & Me.RecordID
+    Form_sfrmBuildout_template_tasks.Filter = "gateTemplateId = " & Me.RecordID
     Form_sfrmBuildout_template_tasks.gateTemplateId.defaultValue = Me.RecordID
     Form_sfrmBuildout_template_tasks.FilterOn = True
 Else
@@ -21,7 +21,7 @@ End If
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Current", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Current", err.Description, err.Number)
 End Sub
 
 Private Sub gateDuration_AfterUpdate()
@@ -31,7 +31,7 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.Acti
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub gateTitle_AfterUpdate()
@@ -41,5 +41,5 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.Acti
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

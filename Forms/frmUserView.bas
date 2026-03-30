@@ -14,5 +14,5 @@ DoCmd.applyFilter , "[tblPermissions].User = '" & Environ("username") & "'"
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub

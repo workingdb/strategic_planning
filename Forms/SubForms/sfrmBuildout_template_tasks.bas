@@ -27,7 +27,7 @@ End If
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub Form_BeforeInsert(Cancel As Integer)
@@ -38,7 +38,7 @@ Me.Dirty = False
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub Form_Current()
@@ -48,7 +48,7 @@ Me.txtCF = Me.RecordID
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Current", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Current", err.Description, err.Number)
 End Sub
 
 Private Sub Form_Load()
@@ -61,7 +61,7 @@ Me.OrderByOn = True
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub
 
 Private Sub moveDown_Click()
@@ -87,7 +87,7 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "indexO
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub moveUp_Click()
@@ -111,7 +111,7 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "indexO
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub newStep_Click()
@@ -126,7 +126,7 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "New", 
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub pillarTask_AfterUpdate()
@@ -136,7 +136,7 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.Acti
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub responsibleDept_AfterUpdate()
@@ -146,7 +146,7 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.Acti
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub taskTitle_AfterUpdate()
@@ -156,5 +156,5 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.Acti
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

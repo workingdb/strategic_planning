@@ -14,7 +14,7 @@ Dim templateId
 templateId = DMin("recordId", "tblBuildout_gates_template", "templateId = " & Me.RecordID)
 
 On Error GoTo invis
-Me.sfrmBuildout_template_tasks.Form.filter = "gateTemplateId = " & templateId
+Me.sfrmBuildout_template_tasks.Form.Filter = "gateTemplateId = " & templateId
 Me.sfrmBuildout_template_tasks.Form.gateTemplateId.defaultValue = templateId
 Me.sfrmBuildout_template_tasks.Form.FilterOn = True
 
@@ -24,7 +24,7 @@ Me.sfrmBuildout_template_tasks.Visible = False
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub
 
 Private Sub history_Click()
@@ -34,7 +34,7 @@ DoCmd.OpenForm "frmHistory", , , "referenceId = " & Me.RecordID
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub refresh_Click()
@@ -46,7 +46,7 @@ Me.sfrmBuildout_template_gates.Requery
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub templateName_AfterUpdate()
@@ -56,5 +56,5 @@ Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.Acti
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

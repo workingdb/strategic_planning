@@ -12,5 +12,5 @@ DoCmd.OpenForm "frmUserProfile", , , "user = '" & Me.updatedBy & "'"
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

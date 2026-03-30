@@ -15,7 +15,7 @@ On Error GoTo Err_Handler
     
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub cboModel_AfterUpdate()
@@ -27,14 +27,14 @@ On Error GoTo Err_Handler
      
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub cboProgramCode_AfterUpdate()
 On Error GoTo Err_Handler
  
     Dim pid As Long
-    pid = Nz(Me.cboProgramCode.value, 0) 'this is tblPrograms.ID because Bound Column=1
+    pid = Nz(Me.cboProgramCode.Value, 0) 'this is tblPrograms.ID because Bound Column=1
  
     If pid = 0 Then
         Me!programId = Null
@@ -50,7 +50,7 @@ On Error GoTo Err_Handler
  
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub cmdSaveBuildout_Click()
@@ -74,7 +74,7 @@ On Error GoTo Err_Handler
  
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub cmdSaveClose_Click()
@@ -97,7 +97,7 @@ On Error GoTo Err_Handler
  
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Form_BeforeInsert(Cancel As Integer)
@@ -110,7 +110,7 @@ On Error GoTo Err_Handler
  
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_BeforeInsert", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_BeforeInsert", err.Description, err.Number)
 End Sub
 
  
@@ -127,5 +127,5 @@ On Error GoTo Err_Handler
         
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

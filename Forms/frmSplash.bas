@@ -19,6 +19,9 @@ Private Sub Form_Load()
 
     SizeAccess 280, 280
     Me.Move -2600, -1000
+    
+        'make sure driver reference for SQL Server is OK
+    Call RelinkSQLTables
 
     ' Use the ADODB version of logClick we created earlier
     Call logClick("Form_Load", Me.name)
@@ -103,7 +106,7 @@ CleanUp:
     Exit Sub
 
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
     Resume CleanUp
 End Sub
 
@@ -117,5 +120,5 @@ TempVars.Add "joke", Joke
 
 Exit Function
 Err_Handler:
-    Call handleError(Me.name, "grabJoke", Err.Description, Err.Number)
+    Call handleError(Me.name, "grabJoke", err.Description, err.Number)
 End Function

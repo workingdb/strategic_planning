@@ -5,45 +5,10 @@ Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
  
-'Defer routing until after Access finishes the save cycle
-Private mPendingSourcingRouting As Boolean
- 
-'========================
-' Helpers
-'========================
-Private Function GetRequestorEmail_(ByVal requestorId As Long) As String
-    On Error GoTo ErrHandler
- 
-    Dim rs As DAO.Recordset
-    Dim sql As String
- 
-    sql = "SELECT Email FROM tblPermissions WHERE ID=" & requestorId & ";"
-    Set rs = CurrentDb.OpenRecordset(sql, dbOpenSnapshot)
- 
-    If Not (rs.EOF And rs.BOF) Then
-        GetRequestorEmail_ = Nz(rs!Email, "")
-    Else
-        GetRequestorEmail_ = ""
-    End If
- 
-CleanUp:
-    On Error Resume Next
-    If Not rs Is Nothing Then rs.CLOSE
-    Set rs = Nothing
-    Exit Function
- 
-ErrHandler:
-    GetRequestorEmail_ = ""
-    Resume CleanUp
-End Function
- 
-'========================
-' Results notification (requestor)
-'========================
 Private Sub Capacity_Results_AfterUpdate()
-    On Error GoTo ErrHandler
+On Error GoTo Err_Handler
  
-    'Stamp response date when Cpactiy Results has value
+    'Stamp response date when Capactiy Results has value
     If Nz(Me.capacityResults, "") <> "" And IsNull(Me.responseDate) Then
         Me.responseDate = Date
     End If
@@ -51,12 +16,25 @@ Private Sub Capacity_Results_AfterUpdate()
     'Force save so table has the new value
     If Me.Dirty Then Me.Dirty = False
  
-    'Call the shared notifier
-    Call NotifyCapacityResultIfNeeded(CLng(Me.RecordID))
-    Exit Sub
- 
-ErrHandler:
-    MsgBox "Capacity_Results_AfterUpdate error: " & Err.Number & " - " & Err.Description, vbExclamation
+    'popup email for notification to
+    Dim emailBody As String, subjectLine As String, strTo As String
+    subjectLine = Me.partNumber & " Capacity Request"
+    emailBody = generateHTML( _
+            subjectLine, _
+            "Capacity Result: " & Me.Capacity_Results.column(1), _
+            "Regarding Capacity Request: " & Me.Request_Type.column(1) & " for " & Me.partNumber & " on program " & Me.Program, _
+            "Notes: " & Me.Notes, _
+            "Customer: " & Me.Customer.column(1), _
+            "PPV: " & Me.PPV _
+            )
+    
+    strTo = getEmail(Nz(Me.Requestor, ""))
+    
+    Call wdbEmail(strTo, "capacityrequests@us.nifco.com", "Capacity Request", emailBody)
+    
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Capacity_Results_Label_Click()
@@ -67,43 +45,16 @@ On Error GoTo Err_Handler
     
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
-
-Private Sub Form_Timer()
-    On Error GoTo ErrHandler
- 
-    'Stop timer immediately to avoid repeat firing
-    Me.TimerInterval = 0
- 
-    If mPendingSourcingRouting Then
-        mPendingSourcingRouting = False
- 
-        'Run your sourcing routing now that save is fully done
-        HandleSourcingRouting Me
-    End If
- 
-ExitHere:
-    Exit Sub
- 
-ErrHandler:
-    Me.TimerInterval = 0
-    mPendingSourcingRouting = False
-    MsgBox "frmCapacityRequestTracker Timer error: " & Err.Number & vbCrLf & Err.Description, vbExclamation
-    Resume ExitHere
-End Sub
- 
-'========================
-' UI: Label click filter helpers
-'========================
 Private Sub Customer_Label_Click()
     On Error GoTo Err_Handler
     Me.Customer.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub EOP_Label_Click()
@@ -112,7 +63,7 @@ Private Sub EOP_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub NAM_Label_Click()
@@ -121,7 +72,7 @@ Private Sub NAM_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Planner_Label_Click()
@@ -130,7 +81,7 @@ Private Sub Planner_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub PPV_Label_Click()
@@ -139,7 +90,7 @@ Private Sub PPV_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Production_Type_Label_Click()
@@ -148,7 +99,7 @@ Private Sub Production_Type_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Program_Label_Click()
@@ -157,7 +108,7 @@ Private Sub Program_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Quote_Label_Click()
@@ -166,7 +117,7 @@ Private Sub Quote_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub RecordID_Label_Click()
@@ -175,7 +126,7 @@ Private Sub RecordID_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Request_Date_Label_Click()
@@ -184,7 +135,7 @@ Private Sub Request_Date_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Request_Type_Label_Click()
@@ -193,7 +144,7 @@ Private Sub Request_Type_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Requestor_Label_Click()
@@ -202,7 +153,7 @@ Private Sub Requestor_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Response_Date_Label_Click()
@@ -211,7 +162,7 @@ Private Sub Response_Date_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub SOP_Label_Click()
@@ -220,7 +171,7 @@ Private Sub SOP_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Unit_Label_Click()
@@ -229,7 +180,7 @@ Private Sub Unit_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Vehicle_Model_Label_Click()
@@ -238,7 +189,7 @@ Private Sub Vehicle_Model_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Volume_Label_Click()
@@ -247,7 +198,7 @@ Private Sub Volume_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Volume_Timing_Label_Click()
@@ -256,7 +207,7 @@ Private Sub Volume_Timing_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Volume_Type_Label_Click()
@@ -265,56 +216,27 @@ Private Sub Volume_Type_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
-'========================
-' Buttons
-'========================
 Private Sub newRequest_Click()
     On Error GoTo Err_Handler
     DoCmd.OpenForm "frmCapacityRequestDetails", , , , acFormAdd
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub openDetails_Click()
     On Error GoTo ErrHandler
  
-    Dim rid As Long
-    rid = CLng(Nz(Me.RecordID, 0))
-    If rid = 0 Then
-        MsgBox "No RecordID selected.", vbExclamation
-        Exit Sub
-    End If
+    If IsNull(Me.RecordID) Then Exit Sub
  
-    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal
+    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.RecordID
  
-    With Forms!frmCapacityRequestDetails
-        .DataEntry = False
-        .FilterOn = False
-        .filter = ""
-        .Requery
- 
-        Dim rs As DAO.Recordset
-        Set rs = .RecordsetClone
-        rs.FindFirst "[RecordID]=" & rid
- 
-        If rs.NoMatch Then
-            MsgBox "RecordID " & rid & " not found in details form's recordsource.", vbExclamation
-        Else
-            .Bookmark = rs.Bookmark
-        End If
- 
-        rs.CLOSE
-        Set rs = Nothing
-    End With
- 
-    Exit Sub
- 
+Exit Sub
 ErrHandler:
-    MsgBox "Open Details error " & Err.Number & ":" & vbCrLf & Err.Description, vbExclamation
+    MsgBox "Open Details error " & err.Number & ":" & vbCrLf & err.Description, vbExclamation
 End Sub
 
 Private Sub Form_Load()
@@ -324,5 +246,5 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Numbe)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Numbe)
 End Sub
