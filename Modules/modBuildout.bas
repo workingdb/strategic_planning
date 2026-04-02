@@ -23,7 +23,7 @@ Public Function createBuildoutProject(registerId As Long, n0Date As Date, templa
         connWrite.BeginTrans
         
         connWrite.Execute "INSERT INTO tblBuildout_gates(registerId, dueDate, indexOrder, gateTemplateId) VALUES (" & _
-                     registerId & ",Date()," & rsGateTemplate!indexOrder & "," & rsGateTemplate!recordId & ")"
+                     registerId & ",Date()," & rsGateTemplate!indexOrder & "," & rsGateTemplate!RecordID & ")"
         
         gateId = connWrite.Execute("SELECT @@IDENTITY")(0)
         
@@ -31,11 +31,11 @@ Public Function createBuildoutProject(registerId As Long, n0Date As Date, templa
         connWrite.BeginTrans
 
         ' -- LOOP STEPS --
-        rsTaskTemplate.Open "SELECT * from tblBuildout_tasks_template WHERE [gateTemplateId] = " & rsGateTemplate![recordId] & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
+        rsTaskTemplate.Open "SELECT * from tblBuildout_tasks_template WHERE [gateTemplateId] = " & rsGateTemplate![RecordID] & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
         
         Do While Not rsTaskTemplate.EOF
             strInsert = "INSERT INTO tblBuildout_tasks (gateId, taskStatus, templateTaskId, createdBy, createdDate, lastUpdatedDate, lastUpdatedBy, indexOrder) " & _
-                        "VALUES (" & gateId & ",1," & rsTaskTemplate!recordId & ",'" & Environ("username") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Environ("username") & _
+                        "VALUES (" & gateId & ",1," & rsTaskTemplate!RecordID & ",'" & Environ("username") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Environ("username") & _
                         "'," & rsTaskTemplate!indexOrder & ")"
             
             connWrite.Execute strInsert

@@ -71,7 +71,7 @@ End Sub
  
 Private Sub RecordID_Label_Click()
     On Error GoTo Err_Handler
-    Me.recordId.SetFocus
+    Me.RecordID.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
@@ -125,9 +125,9 @@ End Sub
 Private Sub openDetails_Click()
     On Error GoTo ErrHandler
  
-    If IsNull(Me.recordId) Then Exit Sub
+    If IsNull(Me.RecordID) Then Exit Sub
  
-    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.recordId
+    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.RecordID
  
 Exit Sub
 ErrHandler:
