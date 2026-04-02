@@ -44,7 +44,7 @@ End Sub
 Private Sub themeName_Click()
 On Error GoTo Err_Handler
 
-Form_frmUserView.userTheme = Me.RecordID
+Form_frmUserView.userTheme = Me.recordId
 
 Dim f As Form, sForm As Control
 Dim i As Integer

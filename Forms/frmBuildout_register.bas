@@ -70,7 +70,7 @@ On Error GoTo Err_Handler
  
     DoCmd.RunCommand acCmdSaveRecord
  
-    MsgBox "Saved. Buildout Record ID: " & Me!RecordID, vbInformation
+    MsgBox "Saved. Buildout Record ID: " & Me!recordId, vbInformation
  
 Exit Sub
 Err_Handler:

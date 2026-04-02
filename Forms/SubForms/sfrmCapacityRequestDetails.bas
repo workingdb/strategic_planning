@@ -8,8 +8,8 @@ Option Explicit
 Function trackUpdate()
 On Error GoTo Err_Handler
 
-If IsNull(Me.RecordID) Then Exit Function
-Call registerStratPlanUpdates("tblCapacityRequest_partnumbers", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.RecordID, Me.name)
+If IsNull(Me.recordId) Then Exit Function
+Call registerStratPlanUpdates("tblCapacityRequest_partnumbers", Me.recordId, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.recordId, Me.name)
 
 Exit Function
 Err_Handler:
@@ -155,8 +155,8 @@ Private Sub remove_Click()
 On Error GoTo Err_Handler
 
 If MsgBox("Are you sure you want to delete this?", vbYesNo, "Please confirm") = vbYes Then
-    If Nz(Me.RecordID, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetail_partnumbers", Me.RecordID, "Part Number", Nz(Me.partNumber, ""), "Deleted", Me.RecordID, Me.name)
-    dbExecute ("DELETE FROM tblCapacityRequest_partnumbers WHERE [recordId] = " & Me.RecordID)
+    If Nz(Me.recordId, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetail_partnumbers", Me.recordId, "Part Number", Nz(Me.partNumber, ""), "Deleted", Me.recordId, Me.name)
+    dbExecute ("DELETE FROM tblCapacityRequest_partnumbers WHERE [recordId] = " & Me.recordId)
     Me.Requery
 End If
 
