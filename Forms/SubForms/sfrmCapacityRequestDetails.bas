@@ -134,7 +134,7 @@ If invId <> "" Then
     "GROUP BY INV_MTL_ITEM_CATEGORIES.INVENTORY_ITEM_ID, APPS_MTL_CATEGORIES_VL.SEGMENT1, APPS_MTL_CATEGORIES_VL.STRUCTURE_ID HAVING STRUCTURE_ID = 101 AND [INVENTORY_ITEM_ID] = " & invId, dbOpenSnapshot)
     If rsCat.RecordCount > 0 Then currentUnit = Nz(rsCat!SEGMENT1, "")
 
-    rsCat.Close
+    rsCat.CLOSE
     Set rsCat = Nothing
 End If
 

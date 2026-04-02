@@ -56,6 +56,15 @@ Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
+Private Sub lbl_PN_Click()
+On Error GoTo Err_Handler
+    Me.partNums.SetFocus
+    DoCmd.RunCommand acCmdFilterMenu
+    Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
+End Sub
+
 Private Sub Program_Label_Click()
     On Error GoTo Err_Handler
     Me.Program.SetFocus
@@ -84,7 +93,7 @@ Err_Handler:
 End Sub
  
 Private Sub Request_Type_Label_Click()
-    On Error GoTo Err_Handler
+On Error GoTo Err_Handler
     Me.Request_Type.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub

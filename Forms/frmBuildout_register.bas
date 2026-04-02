@@ -93,7 +93,7 @@ On Error GoTo Err_Handler
     End If
  
     DoCmd.RunCommand acCmdSaveRecord
-    DoCmd.Close acForm, Me.name
+    DoCmd.CLOSE acForm, Me.name
  
 Exit Sub
 Err_Handler:

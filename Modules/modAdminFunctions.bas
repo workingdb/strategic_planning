@@ -91,7 +91,7 @@ dataTag = Replace(Nz(dataTag, ""), "'", "''")
 strSQL = "INSERT INTO tblErrorLog([User],Form,Active_Control,Error_Date,Error_Description,Error_Number,databaseVersion,dataTag0) VALUES ('" & _
  Environ("username") & "','" & modName & "','" & Nz(activeCon, "") & "',#" & Now & "#,'" & errDesc & "'," & errNum & ",'SP:" & Nz(TempVars!dbVersion, "") & "','" & dataTag & "')"
 
-Dim conn As ADODB.Connection
+Dim conn As adodb.Connection
 Set conn = CurrentProject.Connection
 
 conn.Execute strSQL
@@ -140,7 +140,7 @@ Set db = CurrentDb()
 Dim rs1 As Recordset
 Set rs1 = db.OpenRecordset("SELECT releaseVal FROM tblDBinfo WHERE recordId = 1", dbOpenSnapshot)
 grabVersion = rs1!releaseVal
-rs1.Close: Set rs1 = Nothing
+rs1.CLOSE: Set rs1 = Nothing
 Set db = Nothing
 
 Exit Function

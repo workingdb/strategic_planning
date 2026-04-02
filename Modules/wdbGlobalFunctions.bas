@@ -1,13 +1,38 @@
 Option Compare Database
 Option Explicit
 
+Public Function snackBox(sType As String, sTitle As String, sMessage As String, refForm As String, Optional centerBool As Boolean = False, Optional autoClose As Boolean = True)
+On Error GoTo Err_Handler
+
+TempVars.Add "snackType", sType
+TempVars.Add "snackTitle", sTitle
+TempVars.Add "snackMessage", sMessage
+TempVars.Add "snackAutoClose", autoClose
+
+If centerBool Then
+    TempVars.Add "snackCenter", "True"
+    TempVars.Add "snackLeft", Forms(refForm).WindowLeft + Forms(refForm).WindowWidth / 2 - 3393
+    TempVars.Add "snackTop", Forms(refForm).WindowTop + Forms(refForm).WindowHeight / 2 - 500
+Else
+    TempVars.Add "snackCenter", "False"
+    TempVars.Add "snackLeft", Forms(refForm).WindowLeft + 200
+    TempVars.Add "snackTop", Forms(refForm).WindowTop + Forms(refForm).WindowHeight - 1250
+End If
+
+DoCmd.OpenForm "frmSnack"
+
+Exit Function
+Err_Handler:
+    Call handleError("wdbGlobalFunctions", "snackBox", err.Description, err.Number)
+End Function
+
 Function structureChange()
 
-Dim conn As ADODB.Connection
-Dim rsCap As ADODB.Recordset, rsParts As ADODB.Recordset
+Dim conn As adodb.Connection
+Dim rsCap As adodb.Recordset, rsParts As adodb.Recordset
 Dim strSQL As String
 
-Set conn = New ADODB.Connection
+Set conn = New adodb.Connection
 conn.ConnectionString = "DRIVER=ODBC Driver 17 for SQL Server;SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb;"
 conn.Open
 
@@ -33,11 +58,74 @@ Do While Not rsCap.EOF
 Loop
 
 
-rsCap.Close
+rsCap.CLOSE
 Set rsCap = Nothing
-conn.Close
+conn.CLOSE
 Set conn = Nothing
 
+End Function
+
+Function emailContentGen(subject As String, Title As String, subTitle As String, primaryMessage As String, detail1 As String, detail2 As String, detail3 As String, Optional appName As String = "", Optional appId As String = "") As String
+On Error GoTo Err_Handler
+
+If appId <> "" Then
+    primaryMessage = "<a href = ""\\data\mdbdata\WorkingDB\build\workingdb_commands\openNotification.vbs"">" & primaryMessage & "</a>"
+End If
+
+emailContentGen = subject & "," & Title & "," & subTitle & "," & primaryMessage & "," & detail1 & "," & detail2 & "," & detail3 & "," & appName & "," & appId
+
+    Exit Function
+Err_Handler:
+    Call handleError("wdbGlobalFunctions", "emailContentGen", err.Description, err.Number)
+End Function
+
+Function findCapReqPNs(requestId As Long, Optional returnResponse As Boolean = False) As String
+On Error GoTo Err_Handler
+
+findCapReqPNs = ""
+
+Dim rs As adodb.Recordset
+Dim conn As adodb.Connection
+
+Set conn = CurrentProject.Connection
+
+If returnResponse Then
+    Set rs = OpenRecordsetReadOnly(conn, "SELECT partNumber, capacityResults FROM tblCapacityRequest_partnumbers WHERE requestId = " & requestId)
+    
+    Do While Not rs.EOF
+        If Nz(rs!capacityResults, 0) = 0 Then Exit Function
+        findCapReqPNs = findCapReqPNs & rs!partNumber & "|" & SqlLookup(conn, "results", "tblDropDowns_StrategicPlanning", "recordId = " & Nz(rs!capacityResults, 0)) & ","
+        rs.MoveNext
+    Loop
+    
+    If Len(findCapReqPNs) = 0 Then GoTo Clean_Exit
+    findCapReqPNs = Left(findCapReqPNs, Len(findCapReqPNs) - 1)
+Else
+    Set rs = OpenRecordsetReadOnly(conn, "SELECT partNumber FROM tblCapacityRequest_partnumbers WHERE requestId = " & requestId)
+    
+    Do While Not rs.EOF
+        findCapReqPNs = findCapReqPNs & rs!partNumber & ","
+        rs.MoveNext
+    Loop
+    
+    If Len(findCapReqPNs) = 0 Then GoTo Clean_Exit
+    findCapReqPNs = Left(findCapReqPNs, Len(findCapReqPNs) - 1)
+End If
+
+
+
+Clean_Exit:
+On Error Resume Next
+If Not rs Is Nothing Then
+    If rs.State = adStateOpen Then rs.CLOSE
+End If
+Set rs = Nothing
+Set conn = Nothing
+
+Exit Function
+Err_Handler:
+    Call handleError("wdbGlobalFunctions", "setSplashLoading", err.Description, err.Number)
+    GoTo Clean_Exit
 End Function
 
 Function sendNotification(sendTo As String, notType As Integer, notPriority As Integer, desc As String, emailContent As String, Optional appName As String = "", Optional appId As Variant = "", Optional multiEmail As Boolean = False, Optional customEmail As Boolean = False) As Boolean
@@ -68,15 +156,15 @@ End If
 
 Dim strEmail
 If customEmail = False Then
-    Dim ITEM, sendToArr() As String
+    Dim item, sendToArr() As String
     If multiEmail Then
         sendToArr = Split(sendTo, ",")
         strEmail = ""
-        For Each ITEM In sendToArr
-            If ITEM = "" Then GoTo nextItem
-            strEmail = strEmail & getEmail(CStr(ITEM)) & ";"
+        For Each item In sendToArr
+            If item = "" Then GoTo nextItem
+            strEmail = strEmail & getEmail(CStr(item)) & ";"
 nextItem:
-        Next ITEM
+        Next item
         If strEmail = "" Then Exit Function
         strEmail = Left(strEmail, Len(strEmail) - 1)
     Else
@@ -87,7 +175,7 @@ Else
     sendTo = Split(sendTo, "@")(0)
 End If
 
-Set rsNotifications = db.OpenRecordset("tblNotificationsSP")
+Set rsNotifications = db.OpenRecordset("SELECT * FROM tblNotificationsSP WHERE 1 = 0")
 
 With rsNotifications
     .addNew
@@ -106,7 +194,7 @@ With rsNotifications
 End With
 
 On Error Resume Next
-rsNotifications.Close
+rsNotifications.CLOSE
 Set rsNotifications = Nothing
 Set db = Nothing
 
@@ -126,7 +214,7 @@ Set db = CurrentDb()
 Dim rsPermissions As Recordset
 Set rsPermissions = db.OpenRecordset("SELECT * from tblPermissions WHERE user = '" & userName & "'", dbOpenSnapshot)
 getEmail = Nz(rsPermissions!userEmail, "")
-rsPermissions.Close
+rsPermissions.CLOSE
 Set rsPermissions = Nothing
 
 GoTo exitFunc
@@ -135,7 +223,7 @@ tryOracle:
 Dim rsEmployee As Recordset
 Set rsEmployee = db.OpenRecordset("SELECT FIRST_NAME, LAST_NAME, EMAIL_ADDRESS FROM APPS_XXCUS_USER_EMPLOYEES_V WHERE USER_NAME = '" & StrConv(userName, vbUpperCase) & "'", dbOpenSnapshot)
 getEmail = Nz(rsEmployee!EMAIL_ADDRESS, "")
-rsEmployee.Close
+rsEmployee.CLOSE
 Set rsEmployee = Nothing
 
 exitFunc:
@@ -241,7 +329,7 @@ On Error GoTo Err_Handler
 
 If IsNull(TempVars!loadAmount) Then Exit Function
 TempVars.Add "loadAmount", TempVars!loadAmount + 1
-Form_frmSplash.lnLoading.Width = (TempVars!loadAmount / 12) * TempVars!loadWd
+Form_frmSplash.lnLoading.width = (TempVars!loadAmount / 12) * TempVars!loadWd
 Form_frmSplash.lblLoading.Caption = label
 Form_frmSplash.Repaint
 
@@ -255,8 +343,8 @@ Function userData(data As String, Optional specificUser As String = "") As Strin
 
     If specificUser = "" Then specificUser = Environ("username")
 
-    Dim conn As ADODB.Connection
-    Dim rs As New ADODB.Recordset
+    Dim conn As adodb.Connection
+    Dim rs As New adodb.Recordset
     Dim strSQL As String
     
     Set conn = CurrentProject.Connection
@@ -273,7 +361,7 @@ Function userData(data As String, Optional specificUser As String = "") As Strin
     End If
 
 CleanUp:
-    If rs.State = adStateOpen Then rs.Close
+    If rs.State = adStateOpen Then rs.CLOSE
     Set rs = Nothing
     Set conn = Nothing
     Exit Function
@@ -286,7 +374,7 @@ End Function
 Function dbExecute(sql As String)
 On Error GoTo Err_Handler
 
-Dim conn As ADODB.Connection
+Dim conn As adodb.Connection
 Set conn = CurrentProject.Connection
 
 conn.Execute sql
@@ -310,7 +398,7 @@ Public Sub registerStratPlanUpdates( _
 
     On Error GoTo Err_Handler
 
-    Dim cmd As ADODB.Command
+    Dim cmd As adodb.Command
     Dim oldText As String
     Dim newText As String
     Dim tagText As String
@@ -327,7 +415,7 @@ Public Sub registerStratPlanUpdates( _
     ' Normalize blank ID to Null
     If Nz(ID, "") = "" Then ID = Null
 
-    Set cmd = New ADODB.Command
+    Set cmd = New adodb.Command
 
     With cmd
         .ActiveConnection = CurrentProject.Connection
@@ -373,7 +461,7 @@ Function logClick(modName As String, formName As String, Optional dataTag0 = "")
     ' 1. Check if analytics are enabled
     If Nz(DLookup("paramVal", "tblDBinfoBE", "parameter = 'recordAnalytics'"), "False") = "False" Then Exit Function
 
-    Dim conn As ADODB.Connection
+    Dim conn As adodb.Connection
     Set conn = CurrentProject.Connection
     
     Dim strSQL As String

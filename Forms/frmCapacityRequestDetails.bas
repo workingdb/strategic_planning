@@ -63,7 +63,7 @@ If MsgBox("Are you sure you want to delete this request?", vbYesNo, "Please conf
     If Nz(Me.RecordID, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, "Request", "", "Deleted", Me.RecordID, Me.name)
     dbExecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & Me.RecordID)
     TempVars.Add "reqCapDelete", "True"
-    DoCmd.Close
+    DoCmd.CLOSE
     If CurrentProject.AllForms("frmCapacityRequestTracker").IsLoaded Then Form_frmCapacityRequestTracker.Requery
 End If
 
@@ -101,7 +101,29 @@ End Sub
 Private Sub mailReport_Click()
 On Error GoTo Err_Handler
 
-DoCmd.SendObject acReport, "Capacity Confirmation", "", "", "", "", "", "", True, ""
+Dim partNums As String
+partNums = findCapReqPNs(Me.RecordID, True)
+
+Dim pnSplit() As String, item, partNumFinal As String
+pnSplit = Split(partNums, ",")
+partNumFinal = ""
+
+For Each item In pnSplit
+    partNumFinal = partNumFinal & "PN: " & Split(item, "|")(0) & " - Response: " & Split(item, "|")(1)
+Next item
+
+Dim body As String
+body = emailContentGen("Capacity Request Results", _
+    Me.requestType.column(1) & " Results", _
+    "Notes: " & Replace(Me.Notes, ",", ";"), _
+     partNumFinal, _
+    "Requested: " & CStr(Date) & " by: " & Me.Requestor.column(1), _
+    "Vehicle: " & Me.Program.column(1), _
+    "Program: " & Me.Program.column(0))
+Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, "Results", "", "Results Sent to Requestor", Me.RecordID, Me.name)
+If sendNotification(Me.Requestor.column(2), 6, 2, "Capacity Request Results", body) Then
+    Call snackBox("success", "Well Done!", Me.Requestor.column(2) & " Notified!", Me.name)
+End If
 
 Exit Sub
 Err_Handler:
