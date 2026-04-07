@@ -1,24 +1,24 @@
 Option Compare Database
 Option Explicit
 
-Public Function OpenRecordsetReadOnly(conn As adodb.Connection, sql As String) As adodb.Recordset
-    Dim rs As adodb.Recordset
-    Set rs = New adodb.Recordset
+Public Function OpenRecordsetReadOnly(conn As ADODB.Connection, sql As String) As ADODB.Recordset
+    Dim rs As ADODB.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, conn, adOpenForwardOnly, adLockReadOnly, adCmdText
     Set OpenRecordsetReadOnly = rs
 End Function
 
-Public Function OpenRecordsetReadWrite(conn As adodb.Connection, sql As String) As adodb.Recordset
-    Dim rs As adodb.Recordset
-    Set rs = New adodb.Recordset
+Public Function OpenRecordsetReadWrite(conn As ADODB.Connection, sql As String) As ADODB.Recordset
+    Dim rs As ADODB.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, conn, adOpenKeyset, adLockOptimistic, adCmdText
     Set OpenRecordsetReadWrite = rs
 End Function
 
-Public Function SqlMin(conn As adodb.Connection, fieldName As String, tableName As String, _
+Public Function SqlMin(conn As ADODB.Connection, fieldName As String, tableName As String, _
     Optional whereClause As String = "", Optional defaultValue As Variant = Null) As Variant
 
-    Dim rs As adodb.Recordset
+    Dim rs As ADODB.Recordset
     Dim sql As String
 
     sql = "SELECT MIN(" & fieldName & ") FROM " & tableName
@@ -32,14 +32,14 @@ Public Function SqlMin(conn As adodb.Connection, fieldName As String, tableName 
         SqlMin = rs.Fields(0).Value
     End If
 
-    rs.CLOSE
+    rs.Close
     Set rs = Nothing
 End Function
 
-Public Function SqlCount(conn As adodb.Connection, tableName As String, _
+Public Function SqlCount(conn As ADODB.Connection, tableName As String, _
     Optional whereClause As String = "") As Long
 
-    Dim rs As adodb.Recordset
+    Dim rs As ADODB.Recordset
     Dim sql As String
 
     sql = "SELECT COUNT(*) FROM " & tableName
@@ -48,14 +48,14 @@ Public Function SqlCount(conn As adodb.Connection, tableName As String, _
     Set rs = OpenRecordsetReadOnly(conn, sql)
     SqlCount = CLng(Nz(rs.Fields(0).Value, 0))
 
-    rs.CLOSE
+    rs.Close
     Set rs = Nothing
 End Function
 
-Public Function SqlLookup(conn As adodb.Connection, fieldName As String, tableName As String, _
+Public Function SqlLookup(conn As ADODB.Connection, fieldName As String, tableName As String, _
     Optional whereClause As String = "", Optional defaultValue As Variant = Null) As Variant
 
-    Dim rs As adodb.Recordset
+    Dim rs As ADODB.Recordset
     Dim sql As String
 
     sql = "SELECT " & fieldName & " FROM " & tableName
@@ -69,6 +69,6 @@ Public Function SqlLookup(conn As adodb.Connection, fieldName As String, tableNa
         SqlLookup = rs.Fields(0).Value
     End If
 
-    rs.CLOSE
+    rs.Close
     Set rs = Nothing
 End Function

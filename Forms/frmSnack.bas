@@ -7,7 +7,7 @@ Option Explicit
 
 Private Sub backBtn_Click()
 On Error GoTo Err_Handler
-DoCmd.CLOSE
+DoCmd.Close
 Exit Sub
 Err_Handler:
     Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
@@ -17,9 +17,9 @@ Private Sub Form_Load()
 On Error GoTo Err_Handler
 Me.ShortcutMenu = False
 
-Me.progBar.width = 6800
+Me.progBar.Width = 6800
 
-Me.lblTitle.tag = TempVars!snackType 'set icon
+Me.lblTitle.Tag = TempVars!snackType 'set icon
 Me.lblTitle.Caption = TempVars!snackTitle 'set title
 
 Select Case TempVars!snackType 'set progress bar color
@@ -59,10 +59,10 @@ Private Sub Form_Timer()
 
 If TempVars!snackAutoClose = False Then Exit Sub
 
-If Me.progBar.width < TempVars!snackSubtract Then
-    DoCmd.CLOSE
+If Me.progBar.Width < TempVars!snackSubtract Then
+    DoCmd.Close
     Exit Sub
 End If
-Me.progBar.width = Me.progBar.width - Nz(TempVars!snackSubtract, 0)
+Me.progBar.Width = Me.progBar.Width - Nz(TempVars!snackSubtract, 0)
 
 End Sub

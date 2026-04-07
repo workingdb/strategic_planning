@@ -28,11 +28,11 @@ End Function
 
 Function structureChange()
 
-Dim conn As adodb.Connection
-Dim rsCap As adodb.Recordset, rsParts As adodb.Recordset
+Dim conn As ADODB.Connection
+Dim rsCap As ADODB.Recordset, rsParts As ADODB.Recordset
 Dim strSQL As String
 
-Set conn = New adodb.Connection
+Set conn = New ADODB.Connection
 conn.ConnectionString = "DRIVER=ODBC Driver 17 for SQL Server;SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb;"
 conn.Open
 
@@ -58,9 +58,9 @@ Do While Not rsCap.EOF
 Loop
 
 
-rsCap.CLOSE
+rsCap.Close
 Set rsCap = Nothing
-conn.CLOSE
+conn.Close
 Set conn = Nothing
 
 End Function
@@ -84,8 +84,8 @@ On Error GoTo Err_Handler
 
 findCapReqPNs = ""
 
-Dim rs As adodb.Recordset
-Dim conn As adodb.Connection
+Dim rs As ADODB.Recordset
+Dim conn As ADODB.Connection
 
 Set conn = CurrentProject.Connection
 
@@ -117,7 +117,7 @@ End If
 Clean_Exit:
 On Error Resume Next
 If Not rs Is Nothing Then
-    If rs.State = adStateOpen Then rs.CLOSE
+    If rs.State = adStateOpen Then rs.Close
 End If
 Set rs = Nothing
 Set conn = Nothing
@@ -194,7 +194,7 @@ With rsNotifications
 End With
 
 On Error Resume Next
-rsNotifications.CLOSE
+rsNotifications.Close
 Set rsNotifications = Nothing
 Set db = Nothing
 
@@ -214,7 +214,7 @@ Set db = CurrentDb()
 Dim rsPermissions As Recordset
 Set rsPermissions = db.OpenRecordset("SELECT * from tblPermissions WHERE user = '" & userName & "'", dbOpenSnapshot)
 getEmail = Nz(rsPermissions!userEmail, "")
-rsPermissions.CLOSE
+rsPermissions.Close
 Set rsPermissions = Nothing
 
 GoTo exitFunc
@@ -223,7 +223,7 @@ tryOracle:
 Dim rsEmployee As Recordset
 Set rsEmployee = db.OpenRecordset("SELECT FIRST_NAME, LAST_NAME, EMAIL_ADDRESS FROM APPS_XXCUS_USER_EMPLOYEES_V WHERE USER_NAME = '" & StrConv(userName, vbUpperCase) & "'", dbOpenSnapshot)
 getEmail = Nz(rsEmployee!EMAIL_ADDRESS, "")
-rsEmployee.CLOSE
+rsEmployee.Close
 Set rsEmployee = Nothing
 
 exitFunc:
@@ -329,7 +329,7 @@ On Error GoTo Err_Handler
 
 If IsNull(TempVars!loadAmount) Then Exit Function
 TempVars.Add "loadAmount", TempVars!loadAmount + 1
-Form_frmSplash.lnLoading.width = (TempVars!loadAmount / 12) * TempVars!loadWd
+Form_frmSplash.lnLoading.Width = (TempVars!loadAmount / 12) * TempVars!loadWd
 Form_frmSplash.lblLoading.Caption = label
 Form_frmSplash.Repaint
 
@@ -343,8 +343,8 @@ Function userData(data As String, Optional specificUser As String = "") As Strin
 
     If specificUser = "" Then specificUser = Environ("username")
 
-    Dim conn As adodb.Connection
-    Dim rs As New adodb.Recordset
+    Dim conn As ADODB.Connection
+    Dim rs As New ADODB.Recordset
     Dim strSQL As String
     
     Set conn = CurrentProject.Connection
@@ -361,7 +361,7 @@ Function userData(data As String, Optional specificUser As String = "") As Strin
     End If
 
 CleanUp:
-    If rs.State = adStateOpen Then rs.CLOSE
+    If rs.State = adStateOpen Then rs.Close
     Set rs = Nothing
     Set conn = Nothing
     Exit Function
@@ -374,7 +374,7 @@ End Function
 Function dbExecute(sql As String)
 On Error GoTo Err_Handler
 
-Dim conn As adodb.Connection
+Dim conn As ADODB.Connection
 Set conn = CurrentProject.Connection
 
 conn.Execute sql
@@ -398,7 +398,7 @@ Public Sub registerStratPlanUpdates( _
 
     On Error GoTo Err_Handler
 
-    Dim cmd As adodb.Command
+    Dim cmd As ADODB.Command
     Dim oldText As String
     Dim newText As String
     Dim tagText As String
@@ -415,7 +415,7 @@ Public Sub registerStratPlanUpdates( _
     ' Normalize blank ID to Null
     If Nz(ID, "") = "" Then ID = Null
 
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
 
     With cmd
         .ActiveConnection = CurrentProject.Connection
@@ -461,7 +461,7 @@ Function logClick(modName As String, formName As String, Optional dataTag0 = "")
     ' 1. Check if analytics are enabled
     If Nz(DLookup("paramVal", "tblDBinfoBE", "parameter = 'recordAnalytics'"), "False") = "False" Then Exit Function
 
-    Dim conn As adodb.Connection
+    Dim conn As ADODB.Connection
     Set conn = CurrentProject.Connection
     
     Dim strSQL As String

@@ -47,6 +47,7 @@ On Error GoTo Err_Handler
 
     Dim db As DAO.Database
     Dim tdf As DAO.TableDef
+    Dim qdf As DAO.QueryDef
     Dim strDriver As String
     Dim strConn As String
     
@@ -65,6 +66,14 @@ On Error GoTo Err_Handler
             tdf.RefreshLink
         End If
     Next tdf
+    
+    For Each qdf In db.QueryDefs
+    If qdf.Type = dbQSQLPassThrough Then
+        If InStr(1, qdf.Connect, "SERVER=ITI-SQL", vbTextCompare) > 0 Then
+            qdf.Connect = strConn
+        End If
+    End If
+Next qdf
     
 Exit Sub
 Err_Handler:

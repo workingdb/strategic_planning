@@ -75,7 +75,7 @@ If MsgBox("Are you sure you want to delete this request?", vbYesNo, "Please conf
     If Nz(Me.RecordID, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, "Request", "", "Deleted", Me.RecordID, Me.name)
     dbExecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & Me.RecordID)
     TempVars.Add "reqCapDelete", "True"
-    DoCmd.CLOSE
+    DoCmd.Close
     If CurrentProject.AllForms("frmCapacityRequestTracker").IsLoaded Then Form_frmCapacityRequestTracker.Requery
 End If
 

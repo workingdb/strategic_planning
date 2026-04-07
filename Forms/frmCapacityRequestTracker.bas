@@ -4,19 +4,41 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
+
+Function applyFilter(parameter As String)
+
+Dim db As Database
+Set db = CurrentDb()
+
+Dim qdf As QueryDef
+
+Set qdf = db.QueryDefs("frmCapacityRequestTracker_PT")
+
+If parameter = "" Then
+    qdf.sql = Split(qdf.sql, "c.ID")(0) & " c.ID;"
+Else
+    qdf.sql = Split(qdf.sql, "c.ID")(0) & " c.ID WHERE EXISTS (SELECT 1 From tblCapacityRequest_partnumbers As cp WHERE cp.requestId = cr.recordId AND " & parameter & ");"
+End If
+
+db.QueryDefs.refresh
+
+Set qdf = Nothing
+Set db = Nothing
+
+Me.Requery
+
+End Function
  
 Private Sub capacityResults_AfterUpdate()
 On Error GoTo Err_Handler
 
 Select Case Me.ActiveControl
     Case 0 'no response
-        Me.Filter = "recordId IN (SELECT requestId FROM tblCapacityRequest_partnumbers WHERE capacityResults is null)"
-        Me.FilterOn = True
+        applyFilter ("cp.capacityResults is null")
     Case 9999 'all
-        Me.FilterOn = False
+        applyFilter ("")
     Case Else 'specific based on ID
-        Me.Filter = "recordId IN (SELECT requestId FROM tblCapacityRequest_partnumbers WHERE capacityResults = " & Me.capacityResults & ")"
-        Me.FilterOn = True
+        applyFilter ("cp.capacityResults = " & Me.capacityResults)
 End Select
 
 Me.partNumFilt = ""
@@ -47,11 +69,10 @@ End Sub
 Private Sub partNumFilt_AfterUpdate()
 On Error GoTo Err_Handler
 
-If IsNull(Me.partNumFilt) Then
-    Me.FilterOn = False
-Else
-    Me.Filter = "recordId IN (SELECT requestId FROM tblCapacityRequest_partnumbers WHERE partNumber = '" & Me.partNumFilt & "')"
-    Me.FilterOn = True
+If IsNull(Me.partNumFilt) Then 'see all
+    applyFilter ("")
+Else 'filter by part number
+    applyFilter ("cp.partNumber = '" & Me.partNumFilt & "'")
     Me.capacityResults = 9999
 End If
 
@@ -139,8 +160,7 @@ On Error GoTo Err_Handler
 
 Call setTheme(Me)
 
-Me.Filter = "recordId IN (SELECT requestId FROM tblCapacityRequest_partnumbers WHERE capacityResults is null)"
-Me.FilterOn = True
+applyFilter ("cp.capacityResults is null")
 
 Me.capacityResults = 0
 

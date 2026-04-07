@@ -132,9 +132,9 @@ currentUnit = ""
 If invId <> "" Then
     Set rsCat = db.OpenRecordset("SELECT SEGMENT1 FROM INV_MTL_ITEM_CATEGORIES LEFT JOIN APPS_MTL_CATEGORIES_VL ON INV_MTL_ITEM_CATEGORIES.CATEGORY_ID = APPS_MTL_CATEGORIES_VL.CATEGORY_ID " & _
     "GROUP BY INV_MTL_ITEM_CATEGORIES.INVENTORY_ITEM_ID, APPS_MTL_CATEGORIES_VL.SEGMENT1, APPS_MTL_CATEGORIES_VL.STRUCTURE_ID HAVING STRUCTURE_ID = 101 AND [INVENTORY_ITEM_ID] = " & invId, dbOpenSnapshot)
-    If rsCat.RecordCount > 0 Then currentUnit = Nz(rsCat!SEGMENT1, "")
+    If rsCat.RecordCount > 0 Then currentUnit = Nz(rsCat!segment1, "")
 
-    rsCat.CLOSE
+    rsCat.Close
     Set rsCat = Nothing
 End If
 

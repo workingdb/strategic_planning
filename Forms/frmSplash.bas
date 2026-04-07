@@ -51,8 +51,8 @@ Private Sub Form_Load()
     ' --- DATABASE LOGIC (ADODB CONVERSION) ---
     Call setSplashLoading("Doing some digging on you...")
     
-    Dim conn As adodb.Connection: Set conn = CurrentProject.Connection
-    Dim rsUser As New adodb.Recordset, rsPerm As New adodb.Recordset
+    Dim conn As ADODB.Connection: Set conn = CurrentProject.Connection
+    Dim rsUser As New ADODB.Recordset, rsPerm As New ADODB.Recordset
 
     rsUser.Open "SELECT * FROM tblUserSettings WHERE [username] = '" & Environ("username") & "'", conn, adOpenKeyset, adLockOptimistic
     If rsUser.EOF Then
@@ -74,7 +74,7 @@ Private Sub Form_Load()
 
     ' --- THEME LOGIC ---
     If Nz(rsUser!themeId, 0) <> 0 Then
-        Dim rsTheme As New adodb.Recordset
+        Dim rsTheme As New ADODB.Recordset
         rsTheme.Open "SELECT * FROM tblTheme WHERE recordId = " & rsUser!themeId, conn, adOpenForwardOnly, adLockReadOnly
         If Not rsTheme.EOF Then
             TempVars.Add "themeMode", IIf(rsTheme!darkMode, "Dark", "Light")
@@ -83,7 +83,7 @@ Private Sub Form_Load()
             TempVars.Add "themeAccent", CStr(rsTheme!accentColor)
             TempVars.Add "themeColorLevels", CStr(rsTheme!colorLevels)
         End If
-        rsTheme.CLOSE
+        rsTheme.Close
     End If
 
     ' --- FINALIZE STARTUP ---
@@ -93,14 +93,14 @@ Private Sub Form_Load()
     DoCmd.OpenForm "DASHBOARD"
     Forms!DASHBOARD.Visible = False
     
-    DoCmd.CLOSE acForm, Me.name
+    DoCmd.Close acForm, Me.name
     Call maximizeAccess
     Forms!DASHBOARD.Visible = True
     DoCmd.Maximize
 
 CleanUp:
-    If rsUser.State = adStateOpen Then rsUser.CLOSE
-    If rsPerm.State = adStateOpen Then rsPerm.CLOSE
+    If rsUser.State = adStateOpen Then rsUser.Close
+    If rsPerm.State = adStateOpen Then rsPerm.Close
     Set rsUser = Nothing: Set rsPerm = Nothing
     Set conn = Nothing
     Exit Sub

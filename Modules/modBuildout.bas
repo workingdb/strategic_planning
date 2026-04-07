@@ -4,11 +4,11 @@ Option Explicit
 Public Function createBuildoutProject(registerId As Long, n0Date As Date, templateId As Long) As Boolean
     On Error GoTo Err_Handler
 
-    Dim connRead As adodb.Connection: Set connRead = CurrentProject.Connection
-    Dim connWrite As adodb.Connection: Set connWrite = CurrentProject.Connection
-    Dim rsProject As New adodb.Recordset
-    Dim rsGateTemplate As New adodb.Recordset
-    Dim rsTaskTemplate As New adodb.Recordset
+    Dim connRead As ADODB.Connection: Set connRead = CurrentProject.Connection
+    Dim connWrite As ADODB.Connection: Set connWrite = CurrentProject.Connection
+    Dim rsProject As New ADODB.Recordset
+    Dim rsGateTemplate As New ADODB.Recordset
+    Dim rsTaskTemplate As New ADODB.Recordset
     
     Dim strInsert As String, runningDate As Date
     Dim gateId As Long
@@ -44,7 +44,7 @@ nextStep:
             rsTaskTemplate.MoveNext
         Loop
         
-        rsTaskTemplate.CLOSE
+        rsTaskTemplate.Close
         Set rsTaskTemplate = Nothing
         
         connWrite.CommitTrans
@@ -59,8 +59,8 @@ nextStep:
 CleanUp:
     Set connWrite = Nothing
     Set connRead = Nothing
-    If rsGateTemplate.State = adStateOpen Then rsGateTemplate.CLOSE
-    If rsTaskTemplate.State = adStateOpen Then rsTaskTemplate.CLOSE
+    If rsGateTemplate.State = adStateOpen Then rsGateTemplate.Close
+    If rsTaskTemplate.State = adStateOpen Then rsTaskTemplate.Close
     Exit Function
 
 Err_Handler:

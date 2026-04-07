@@ -71,15 +71,15 @@ Else 'if the theme only contains a primary color
 End If
 
 'set the form parts themes
-setForm.FormHeader.BackColor = colorLevels(findColorLevel(setForm.FormHeader.tag))
-setForm.Detail.BackColor = colorLevels(findColorLevel(setForm.Detail.tag))
-If Len(setForm.Detail.tag) = 4 Then
-    setForm.Detail.AlternateBackColor = colorLevels(findColorLevel(setForm.Detail.tag) + 1)
+setForm.FormHeader.BackColor = colorLevels(findColorLevel(setForm.FormHeader.Tag))
+setForm.Detail.BackColor = colorLevels(findColorLevel(setForm.Detail.Tag))
+If Len(setForm.Detail.Tag) = 4 Then
+    setForm.Detail.AlternateBackColor = colorLevels(findColorLevel(setForm.Detail.Tag) + 1)
 Else
     setForm.Detail.AlternateBackColor = setForm.Detail.BackColor
 End If
 
-setForm.FormFooter.BackColor = colorLevels(findColorLevel(setForm.FormFooter.tag))
+setForm.FormFooter.BackColor = colorLevels(findColorLevel(setForm.FormFooter.Tag))
 'NOTE - this does assume form parts don't use tags for other purposes
 
 
@@ -88,11 +88,11 @@ setForm.FormFooter.BackColor = colorLevels(findColorLevel(setForm.FormFooter.tag
 
 
 For Each ctl In setForm.Controls 'simply loop through all controls on the form
-    If Not ctl.tag Like "*.L#*" Then GoTo nextControl 'is there a tag with a theme attribute on it? if not - skip this control
+    If Not ctl.Tag Like "*.L#*" Then GoTo nextControl 'is there a tag with a theme attribute on it? if not - skip this control
     
     '---
     '---FOR ALL CONTROLS---
-    Level = findColorLevel(ctl.tag)
+    Level = findColorLevel(ctl.Tag)
     backCol = colorLevels(Level)
     foreLevInt = Level
     If foreLevInt > 3 Then foreLevInt = 3
@@ -107,7 +107,7 @@ For Each ctl In setForm.Controls 'simply loop through all controls on the form
     
     maxLev = Level + 1
     If maxLev > 4 Then maxLev = 4
-    If ctl.tag Like "*ContrastBorder*" Then
+    If ctl.Tag Like "*ContrastBorder*" Then
         ctl.BorderColor = colorLevels(maxLev)
     Else
         ctl.BorderColor = backCol
@@ -132,7 +132,7 @@ For Each ctl In setForm.Controls 'simply loop through all controls on the form
             
             '---test for individual attributes---
             
-            If ctl.tag Like "*dis*" Then
+            If ctl.Tag Like "*dis*" Then
                 fadeFore = shadeColor(foreBase, disFore)
                 ctl.ForeColor = fadeFore
                 ctl.HoverForeColor = fadeFore
@@ -144,7 +144,7 @@ For Each ctl In setForm.Controls 'simply loop through all controls on the form
                 ctl.PressedForeColor = foreBase
             End If
             
-            If ctl.tag Like "*btnX*" Then
+            If ctl.Tag Like "*btnX*" Then
                 fadeBack = shadeColor(btnXback, scalarBack)
                 btnXbackShade = shadeColor(btnXback, (0.1 * Level) + scalarBack)
                 ctl.BackColor = btnXbackShade
@@ -156,12 +156,12 @@ For Each ctl In setForm.Controls 'simply loop through all controls on the form
             ctl.HoverColor = fadeBack
             ctl.PressedColor = fadeBack
             
-            If ctl.tag Like "*cardBtn*" Then
+            If ctl.Tag Like "*cardBtn*" Then
                 ctl.HoverColor = backCol
                 ctl.PressedColor = backCol
             End If
             
-            If ctl.tag Like "*accentBtn*" Then
+            If ctl.Tag Like "*accentBtn*" Then
                 fadeBack = shadeColor(backAccent, scalarBack)
                 ctl.BackColor = backAccent
                 ctl.Gradient = 17
@@ -170,14 +170,14 @@ For Each ctl In setForm.Controls 'simply loop through all controls on the form
         '---LABEL
         Case acLabel
             ctl.ForeColor = shadeColor(foreBase, levFore)
-            If ctl.tag Like "*lbl_wBack.L#*" Then ctl.BackColor = backCol
+            If ctl.Tag Like "*lbl_wBack.L#*" Then ctl.BackColor = backCol
         '---
         '---TEXT BOX
         Case acTextBox, acComboBox
             ctl.BackColor = backCol
-            If ctl.tag Like "*txtTransFore*" Then
+            If ctl.Tag Like "*txtTransFore*" Then
                 ctl.ForeColor = backCol
-            ElseIf ctl.tag Like "*txtErr*" Then
+            ElseIf ctl.Tag Like "*txtErr*" Then
                 ctl.BorderColor = btnXback
                 ctl.BorderStyle = 1
                 ctl.ForeColor = foreBase

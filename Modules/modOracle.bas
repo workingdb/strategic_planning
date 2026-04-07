@@ -1,9 +1,9 @@
 Option Compare Database
 Option Explicit
 
-Public g_cnOracle As adodb.Connection
+Public g_cnOracle As ADODB.Connection
 
-Public Function GetOracleConnection() As adodb.Connection
+Public Function GetOracleConnection() As ADODB.Connection
     On Error GoTo Reconnect
 
     If Not g_cnOracle Is Nothing Then
@@ -14,7 +14,7 @@ Public Function GetOracleConnection() As adodb.Connection
     End If
 
 Reconnect:
-    Set g_cnOracle = New adodb.Connection
+    Set g_cnOracle = New ADODB.Connection
 
     g_cnOracle.ConnectionString = "DRIVER={Oracle in OraClient11g_home1};SERVER=ebsprd1.world;UID=WorkingDB;PWD=WorkingDB2341;DBQ=ebsprd1.world;"
     g_cnOracle.Open
@@ -29,8 +29,8 @@ getStandardCostOwner = ""
 
 If Nz(partNumber, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim rs As ADODB.Recordset
     Dim sql As String
     
     sql = "SELECT msi.SEGMENT1 AS PN, mcv.SEGMENT3 AS Standard_Cost_Owner " & _
@@ -42,7 +42,7 @@ If Nz(partNumber, "") = "" Then Exit Function
 
     Set cn = GetOracleConnection()
 
-    Set rs = New adodb.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, cn, adOpenForwardOnly, adLockReadOnly
 
     If Not rs.EOF Then
@@ -52,7 +52,7 @@ If Nz(partNumber, "") = "" Then Exit Function
 Clean_Exit:
     On Error Resume Next
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
     Set rs = Nothing
     Set cn = Nothing
@@ -70,8 +70,8 @@ getCustomer = ""
 
 If Nz(partNumber, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim rs As ADODB.Recordset
     Dim sql As String
     
     sql = "SELECT C.CUSTOMER_NAME " & _
@@ -84,7 +84,7 @@ If Nz(partNumber, "") = "" Then Exit Function
 
     Set cn = GetOracleConnection()
 
-    Set rs = New adodb.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, cn, adOpenForwardOnly, adLockReadOnly
     
     Do While Not rs.EOF
@@ -95,7 +95,7 @@ If Nz(partNumber, "") = "" Then Exit Function
 Clean_Exit:
     On Error Resume Next
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
     Set rs = Nothing
     Set cn = Nothing
@@ -125,18 +125,18 @@ Public Function findCost(ByVal partNumber As String, ByVal costType As String, B
 
     orgID = rsLocal!ID
 
-    rsLocal.CLOSE
+    rsLocal.Close
     Set rsLocal = Nothing
     Set db = Nothing
 
     '--- STEP 2: Query Oracle using ADODB
-    Dim cn As adodb.Connection
-    Dim cmd As adodb.Command
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim cmd As ADODB.Command
+    Dim rs As ADODB.Recordset
 
     Set cn = GetOracleConnection()
 
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = cn
     cmd.CommandType = adCmdText
 
@@ -161,7 +161,7 @@ Public Function findCost(ByVal partNumber As String, ByVal costType As String, B
 Clean_Exit:
     On Error Resume Next
 
-    If Not rs Is Nothing Then If rs.State = adStateOpen Then rs.CLOSE
+    If Not rs Is Nothing Then If rs.State = adStateOpen Then rs.Close
 
     Set rs = Nothing
     Set cmd = Nothing
@@ -181,8 +181,8 @@ getCustomerName = ""
 
 If Nz(customerId, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim rs As ADODB.Recordset
     Dim sql As String
     
     sql = "SELECT C.CUSTOMER_NAME " & _
@@ -191,7 +191,7 @@ If Nz(customerId, "") = "" Then Exit Function
 
     Set cn = GetOracleConnection()
 
-    Set rs = New adodb.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, cn, adOpenForwardOnly, adLockReadOnly
     
     If Not rs.EOF Then
@@ -201,7 +201,7 @@ If Nz(customerId, "") = "" Then Exit Function
 Clean_Exit:
     On Error Resume Next
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
     Set rs = Nothing
     Set cn = Nothing
@@ -219,9 +219,9 @@ Public Function findDescription(ByVal partNumber As Variant) As String
 
     If Nz(partNumber, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim cmd As adodb.Command
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim cmd As ADODB.Command
+    Dim rs As ADODB.Recordset
     Dim partValue As String
 
     partValue = CStr(partNumber)
@@ -230,7 +230,7 @@ Public Function findDescription(ByVal partNumber As Variant) As String
     '========================================
     ' 1) Check master items table first
     '========================================
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = cn
     cmd.CommandType = adCmdText
     cmd.CommandText = _
@@ -248,7 +248,7 @@ Public Function findDescription(ByVal partNumber As Variant) As String
         GoTo Clean_Exit
     End If
 
-    rs.CLOSE
+    rs.Close
     Set rs = Nothing
     Set cmd = Nothing
 
@@ -256,7 +256,7 @@ Public Function findDescription(ByVal partNumber As Variant) As String
     ' 2) Check all SIF tables at once
     '    using UNION ALL + ROWNUM
     '========================================
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = cn
     cmd.CommandType = adCmdText
     cmd.CommandText = _
@@ -294,7 +294,7 @@ Clean_Exit:
     On Error Resume Next
 
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
 
     Set rs = Nothing
@@ -315,8 +315,8 @@ findPartRev = "00"
 
 If Nz(partNumber, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim rs As ADODB.Recordset
     Dim sql As String
     
     sql = "SELECT Max(NEW_ITEM_REVISION) As REV " & _
@@ -326,7 +326,7 @@ If Nz(partNumber, "") = "" Then Exit Function
 
     Set cn = GetOracleConnection()
 
-    Set rs = New adodb.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, cn, adOpenForwardOnly, adLockReadOnly
     
     If Not rs.EOF Then
@@ -336,7 +336,7 @@ If Nz(partNumber, "") = "" Then Exit Function
 Clean_Exit:
     On Error Resume Next
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
     Set rs = Nothing
     Set cn = Nothing
@@ -354,18 +354,18 @@ loadECOtype = ""
 
 If Nz(changeNotice, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim rs As ADODB.Recordset
     Dim sql As String
     
     sql = "SELECT CHANGE_ORDER_TYPE_ID from ENG.ENG_ENGINEERING_CHANGES where CHANGE_NOTICE = '" & StrQuoteReplace(changeNotice) & "'"
 
     Set cn = GetOracleConnection()
 
-    Set rs = New adodb.Recordset
+    Set rs = New ADODB.Recordset
     rs.Open sql, cn, adOpenForwardOnly, adLockReadOnly
     
-    Dim conn As adodb.Connection
+    Dim conn As ADODB.Connection
     Set conn = CurrentProject.Connection
     If Not rs.EOF Then
         loadECOtype = SqlLookup(conn, "ECO_Type", "[tblOracleDropDowns]", "[ECO_Type_ID]=" & rs!CHANGE_ORDER_TYPE_ID)
@@ -374,10 +374,10 @@ If Nz(changeNotice, "") = "" Then Exit Function
 Clean_Exit:
     On Error Resume Next
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
     If Not conn Is Nothing Then
-        If conn.State = adStateOpen Then conn.CLOSE
+        If conn.State = adStateOpen Then conn.Close
     End If
     Set conn = Nothing
     Set rs = Nothing
@@ -396,13 +396,13 @@ Public Function idNAM(ByVal inputVal As Variant, ByVal typeVal As Variant) As Va
 
     If Nz(inputVal, "") = "" Then Exit Function
 
-    Dim cn As adodb.Connection
-    Dim cmd As adodb.Command
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim cmd As ADODB.Command
+    Dim rs As ADODB.Recordset
 
     Set cn = GetOracleConnection()
 
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = cn
     cmd.CommandType = adCmdText
 
@@ -446,7 +446,7 @@ Clean_Exit:
     On Error Resume Next
 
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
 
     Set rs = Nothing
@@ -464,13 +464,13 @@ Public Function getDescriptionFromId(ByVal inventId As Long) As String
 
     On Error Resume Next   ' preserve original behavior after initial check
 
-    Dim cn As adodb.Connection
-    Dim cmd As adodb.Command
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim cmd As ADODB.Command
+    Dim rs As ADODB.Recordset
 
     Set cn = GetOracleConnection()
 
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = cn
     cmd.CommandType = adCmdText
     cmd.CommandText = _
@@ -491,7 +491,7 @@ Clean_Exit:
     On Error Resume Next
 
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
 
     Set rs = Nothing
@@ -514,13 +514,13 @@ Public Function getStatusFromId(ByVal inventId As Long) As String
 
     On Error Resume Next   ' preserve original behavior after initial check
 
-    Dim cn As adodb.Connection
-    Dim cmd As adodb.Command
-    Dim rs As adodb.Recordset
+    Dim cn As ADODB.Connection
+    Dim cmd As ADODB.Command
+    Dim rs As ADODB.Recordset
 
     Set cn = GetOracleConnection()
 
-    Set cmd = New adodb.Command
+    Set cmd = New ADODB.Command
     Set cmd.ActiveConnection = cn
     cmd.CommandType = adCmdText
     cmd.CommandText = _
@@ -541,7 +541,7 @@ Clean_Exit:
     On Error Resume Next
 
     If Not rs Is Nothing Then
-        If rs.State = adStateOpen Then rs.CLOSE
+        If rs.State = adStateOpen Then rs.Close
     End If
 
     Set rs = Nothing
