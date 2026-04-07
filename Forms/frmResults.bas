@@ -12,7 +12,7 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub
 
 Private Sub newRecord_Click()
@@ -22,7 +22,7 @@ DoCmd.GoToRecord , , acNewRec
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub saveRecord_Click()
@@ -32,5 +32,5 @@ If Me.Dirty Then Me.Dirty = False
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

@@ -14,7 +14,7 @@ On Error GoTo Err_Handler
     Dim d1 As Date, d2 As Date
  
     'Use displayed text if cboReportType is multi-column; fallback to Value if not
-    rt = Trim(Nz(Me.cboReportType.Column(1), Nz(Me.cboReportType.value, "")))
+    rt = Trim(Nz(Me.cboReportType.column(1), Nz(Me.cboReportType.Value, "")))
  
     If rt = "" Then
         MsgBox "Please select a Report Type.", vbExclamation
@@ -68,8 +68,8 @@ On Error GoTo Err_Handler
  
     'Set TempVars for KPI queries
     On Error Resume Next
-    TempVars.Remove "StartDate"
-    TempVars.Remove "EndDate"
+    TempVars.remove "StartDate"
+    TempVars.remove "EndDate"
     On Error GoTo 0
  
     TempVars.Add "StartDate", d1
@@ -133,7 +133,7 @@ On Error GoTo Err_Handler
  
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 
@@ -157,7 +157,7 @@ On Error GoTo Err_Handler
     Me.cboUnit.Enabled = False: Me.cboUnit.TabStop = False
  
     '--- Show only what the selected report needs ---
-    Select Case Me.cboReportType.value
+    Select Case Me.cboReportType.Value
  
         Case "Capacity by Date Range", "KPI Report"
             Me.txtStartDate.Visible = True
@@ -185,7 +185,7 @@ On Error GoTo Err_Handler
  
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Form_Load()
@@ -212,12 +212,12 @@ On Error GoTo Err_Handler
     'Me.cboSomething = Null
  
     'Optional: clear tempvars so nothing carries over
-    TempVars.Remove "StartDate"
-    TempVars.Remove "EndDate"
+    TempVars.remove "StartDate"
+    TempVars.remove "EndDate"
     
     Me.cboReportType.SetFocus
     
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub

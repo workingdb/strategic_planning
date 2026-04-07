@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="Name%20AutoCorrect%20Save%20Failures_def.xml" generated="2026-03-16T15:36:01">
-<Name_x0020_AutoCorrect_x0020_Save_x0020_Failures>
-<Object_x0020_Name>INV_MTL_SYSTEM_ITEMS_B</Object_x0020_Name>
-<Object_x0020_Type>Table</Object_x0020_Type>
-<Failure_x0020_Reason>Could not save the object</Failure_x0020_Reason>
-<Time>2026-02-25T08:21:34</Time>
-</Name_x0020_AutoCorrect_x0020_Save_x0020_Failures>
-</dataroot>

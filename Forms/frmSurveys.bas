@@ -12,7 +12,7 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub
 
 Private Sub Find_Click()
@@ -20,16 +20,15 @@ On Error GoTo Err_Handler
 
     On Error Resume Next
     DoCmd.GoToControl Screen.PreviousControl.name
-    Err.Clear
+    err.Clear
     DoCmd.RunCommand acCmdFind
     If (MacroError <> 0) Then
-        Beep
         MsgBox MacroError.Description, vbOKOnly, ""
     End If
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub New_Click()
@@ -38,13 +37,12 @@ On Error GoTo Err_Handler
     On Error Resume Next
     DoCmd.GoToRecord , "", acNewRec
     If (MacroError <> 0) Then
-        Beep
         MsgBox MacroError.Description, vbOKOnly, ""
     End If
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub Trash_Click()
@@ -52,24 +50,20 @@ On Error GoTo Err_Handler
 
     On Error Resume Next
     DoCmd.GoToControl Screen.PreviousControl.name
-    Err.Clear
+    err.Clear
     If (Not Form.newRecord) Then
         DoCmd.RunCommand acCmdDeleteRecord
-    End If
-    If (Form.newRecord And Not Form.Dirty) Then
-        Beep
     End If
     If (Form.newRecord And Form.Dirty) Then
         DoCmd.RunCommand acCmdUndo
     End If
     If (MacroError <> 0) Then
-        Beep
         MsgBox MacroError.Description, vbOKOnly, ""
     End If
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
 
 Private Sub copyRecord_Click()
@@ -90,11 +84,10 @@ On Error GoTo Err_Handler
         DoCmd.RunCommand acCmdPaste
     End If
     If (MacroError <> 0) Then
-        Beep
         MsgBox MacroError.Description, vbOKOnly, ""
     End If
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub

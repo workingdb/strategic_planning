@@ -186,9 +186,9 @@ For Each ctl In setForm.Controls 'simply loop through all controls on the form
             End If
             
             If ctl.FormatConditions.Count = 1 Then 'special case for null value conditional formatting. Typically this is used for placeholder values
-                If ctl.FormatConditions.Item(0).Expression1 Like "*IsNull*" Then
-                    ctl.FormatConditions.Item(0).BackColor = backCol
-                    ctl.FormatConditions.Item(0).ForeColor = foreBase
+                If ctl.FormatConditions.item(0).Expression1 Like "*IsNull*" Then
+                    ctl.FormatConditions.item(0).BackColor = backCol
+                    ctl.FormatConditions.item(0).ForeColor = foreBase
                 End If
             End If
         '---
@@ -223,7 +223,7 @@ Next
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "setTheme", Err.Description, Err.Number)
+    Call handleError("modTheme", "setTheme", err.Description, err.Number)
 End Function
 
 Function themeCommandButton()
@@ -233,7 +233,7 @@ On Error GoTo Err_Handler
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "themeCommandButton", Err.Description, Err.Number)
+    Call handleError("modTheme", "themeCommandButton", err.Description, err.Number)
 End Function
 
 Function findColorLevel(tagText As String) As Long
@@ -246,7 +246,7 @@ findColorLevel = Mid(tagText, InStr(tagText, ".L") + 2, 1)
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "findColorLevel", Err.Description, Err.Number)
+    Call handleError("modTheme", "findColorLevel", err.Description, err.Number)
 End Function
 
 Function shadeColor(inputColor As Long, scalar As Double) As Long
@@ -282,7 +282,7 @@ shadeColor = rgb(ioR, ioG, ioB)
 
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "shadeColor", Err.Description, Err.Number)
+    Call handleError("modTheme", "shadeColor", err.Description, err.Number)
 End Function
 
 Public Function colorPicker(Optional lngColor As Long) As Long
@@ -292,5 +292,5 @@ On Error GoTo Err_Handler
     colorPicker = lngColor
 Exit Function
 Err_Handler:
-    Call handleError("modTheme", "colorPicker", Err.Description, Err.Number)
+    Call handleError("modTheme", "colorPicker", err.Description, err.Number)
 End Function

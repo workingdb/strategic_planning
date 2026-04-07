@@ -4,112 +4,57 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
- 
-'Defer routing until after Access finishes the save cycle
-Private mPendingSourcingRouting As Boolean
- 
-'========================
-' Helpers
-'========================
-Private Function GetRequestorEmail_(ByVal requestorId As Long) As String
-    On Error GoTo ErrHandler
- 
-    Dim rs As DAO.Recordset
-    Dim sql As String
- 
-    sql = "SELECT Email FROM tblPermissions WHERE ID=" & requestorId & ";"
-    Set rs = CurrentDb.OpenRecordset(sql, dbOpenSnapshot)
- 
-    If Not (rs.EOF And rs.BOF) Then
-        GetRequestorEmail_ = Nz(rs!Email, "")
-    Else
-        GetRequestorEmail_ = ""
-    End If
- 
-Cleanup:
-    On Error Resume Next
-    If Not rs Is Nothing Then rs.Close
-    Set rs = Nothing
-    Exit Function
- 
-ErrHandler:
-    GetRequestorEmail_ = ""
-    Resume Cleanup
+
+Function applyFilter(parameter As String)
+
+Dim db As Database
+Set db = CurrentDb()
+
+Dim qdf As QueryDef
+
+Set qdf = db.QueryDefs("frmCapacityRequestTracker_PT")
+
+If parameter = "" Then
+    qdf.sql = Split(qdf.sql, "c.ID")(0) & " c.ID;"
+Else
+    qdf.sql = Split(qdf.sql, "c.ID")(0) & " c.ID WHERE EXISTS (SELECT 1 From tblCapacityRequest_partnumbers As cp WHERE cp.requestId = cr.recordId AND " & parameter & ");"
+End If
+
+db.QueryDefs.refresh
+
+Set qdf = Nothing
+Set db = Nothing
+
+Me.Requery
+
 End Function
  
-'========================
-' Results notification (requestor)
-'========================
-Private Sub Capacity_Results_AfterUpdate()
-    On Error GoTo ErrHandler
- 
-    'Stamp response date when Cpactiy Results has value
-    If Nz(Me.capacityResults, "") <> "" And IsNull(Me.responseDate) Then
-        Me.responseDate = Date
-    End If
-    
-    'Force save so table has the new value
-    If Me.Dirty Then Me.Dirty = False
- 
-    'Call the shared notifier
-    Call NotifyCapacityResultIfNeeded(CLng(Me.RecordID))
-    Exit Sub
- 
-ErrHandler:
-    MsgBox "Capacity_Results_AfterUpdate error: " & Err.Number & " - " & Err.Description, vbExclamation
-End Sub
- 
-Private Sub Capacity_Results_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Capacity_Results.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-'========================
-' Attachments
-'========================
-Private Sub cmdOpenAttachments_Click()
-    DoCmd.OpenForm "fsubStratPlanAttachments", , , _
-        "referenceTable='tblCapacityRequests' AND referenceId=" & Me.RecordID
-End Sub
- 
+Private Sub capacityResults_AfterUpdate()
+On Error GoTo Err_Handler
 
-Private Sub Form_Timer()
-    On Error GoTo ErrHandler
- 
-    'Stop timer immediately to avoid repeat firing
-    Me.TimerInterval = 0
- 
-    If mPendingSourcingRouting Then
-        mPendingSourcingRouting = False
- 
-        'Run your sourcing routing now that save is fully done
-        HandleSourcingRouting Me
-    End If
- 
-ExitHere:
-    Exit Sub
- 
-ErrHandler:
-    Me.TimerInterval = 0
-    mPendingSourcingRouting = False
-    MsgBox "frmCapacityRequestTracker Timer error: " & Err.Number & vbCrLf & Err.Description, vbExclamation
-    Resume ExitHere
+Select Case Me.ActiveControl
+    Case 0 'no response
+        applyFilter ("cp.capacityResults is null")
+    Case 9999 'all
+        applyFilter ("")
+    Case Else 'specific based on ID
+        applyFilter ("cp.capacityResults = " & Me.capacityResults)
+End Select
+
+Me.partNumFilt = ""
+
+Exit Sub
+Err_Handler:
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
- 
-'========================
-' UI: Label click filter helpers
-'========================
+
 Private Sub Customer_Label_Click()
     On Error GoTo Err_Handler
     Me.Customer.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub EOP_Label_Click()
@@ -118,61 +63,31 @@ Private Sub EOP_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
- 
-Private Sub NAM_Label_Click()
-    On Error GoTo Err_Handler
-    Me.NAM.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
+
+Private Sub partNumFilt_AfterUpdate()
+On Error GoTo Err_Handler
+
+If IsNull(Me.partNumFilt) Then 'see all
+    applyFilter ("")
+Else 'filter by part number
+    applyFilter ("cp.partNumber = '" & Me.partNumFilt & "'")
+    Me.capacityResults = 9999
+End If
+
+Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
- 
-Private Sub Planner_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Planner.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub PPV_Label_Click()
-    On Error GoTo Err_Handler
-    Me.PPV.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Production_Type_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Production_Type.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
+
 Private Sub Program_Label_Click()
     On Error GoTo Err_Handler
     Me.Program.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Quote_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Quote.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub RecordID_Label_Click()
@@ -181,7 +96,7 @@ Private Sub RecordID_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Request_Date_Label_Click()
@@ -190,16 +105,16 @@ Private Sub Request_Date_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Request_Type_Label_Click()
-    On Error GoTo Err_Handler
+On Error GoTo Err_Handler
     Me.Request_Type.SetFocus
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub Requestor_Label_Click()
@@ -208,16 +123,7 @@ Private Sub Requestor_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Response_Date_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Response_Date.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub SOP_Label_Click()
@@ -226,146 +132,39 @@ Private Sub SOP_Label_Click()
     DoCmd.RunCommand acCmdFilterMenu
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
-Private Sub Unit_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Unit.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Vehicle_Model_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Vehicle_Model.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Volume_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Volume.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Volume_Timing_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Volume_Timing.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-Private Sub Volume_Type_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Volume_Type.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
-End Sub
- 
-'========================
-' Buttons
-'========================
 Private Sub newRequest_Click()
     On Error GoTo Err_Handler
     DoCmd.OpenForm "frmCapacityRequestDetails", , , , acFormAdd
     Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
  
 Private Sub openDetails_Click()
     On Error GoTo ErrHandler
  
-    Dim rid As Long
-    rid = CLng(Nz(Me.RecordID, 0))
-    If rid = 0 Then
-        MsgBox "No RecordID selected.", vbExclamation
-        Exit Sub
-    End If
+    If IsNull(Me.RecordID) Then Exit Sub
  
-    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal
+    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.RecordID
  
-    With Forms!frmCapacityRequestDetails
-        .DataEntry = False
-        .FilterOn = False
-        .Filter = ""
-        .Requery
- 
-        Dim rs As DAO.Recordset
-        Set rs = .RecordsetClone
-        rs.FindFirst "[RecordID]=" & rid
- 
-        If rs.NoMatch Then
-            MsgBox "RecordID " & rid & " not found in details form's recordsource.", vbExclamation
-        Else
-            .Bookmark = rs.Bookmark
-        End If
- 
-        rs.Close
-        Set rs = Nothing
-    End With
- 
-    Exit Sub
- 
+Exit Sub
 ErrHandler:
-    MsgBox "Open Details error " & Err.Number & ":" & vbCrLf & Err.Description, vbExclamation
+    MsgBox "Open Details error " & err.Number & ":" & vbCrLf & err.Description, vbExclamation
 End Sub
 
 Private Sub Form_Load()
 On Error GoTo Err_Handler
 
-'THEME
-Dim db As Database
-Set db = CurrentDb()
-Dim rsUserSettings As Recordset
-Dim rsTheme As Recordset
-
-Set rsUserSettings = db.OpenRecordset("tblUserSettings")
-rsUserSettings.Filter = "[Username] = '" & Environ("username") & "'"
-Set rsUserSettings = rsUserSettings.OpenRecordset
-
-If Nz(rsUserSettings!themeId, 0) <> 0 Then
-    Set rsTheme = db.OpenRecordset("SELECT * FROM tblTheme WHERE recordId = " & rsUserSettings!themeId)
-    
-    If rsTheme!darkMode Then
-        TempVars.Add "themeMode", "Dark"
-    Else
-        TempVars.Add "themeMode", "Light"
-    End If
-    
-    TempVars.Add "themePrimary", CStr(rsTheme!primaryColor)
-    TempVars.Add "themeSecondary", CStr(rsTheme!secondaryColor)
-    TempVars.Add "themeColorLevels", CStr(rsTheme!colorLevels)
-    
-    rsTheme.Close
-    Set rsTheme = Nothing
-End If
-
 Call setTheme(Me)
-'If CommandBars("Ribbon").Height > 100 Then CommandBars.ExecuteMso "MinimizeRibbon"
-'DoCmd.ShowToolbar "Ribbon", acToolbarNo
-'Call DoCmd.NavigateTo("acNavigationCategoryObjectType")
-'Call DoCmd.RunCommand(acCmdWindowHide)
 
+applyFilter ("cp.capacityResults is null")
 
-On Error Resume Next
-rsUserSettings.Close: Set rsUserSettings = Nothing
-rsTheme.Close: Set rsTheme = Nothing
-Set db = Nothing
+Me.capacityResults = 0
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Numbe)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Numbe)
 End Sub

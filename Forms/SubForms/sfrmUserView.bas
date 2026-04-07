@@ -38,7 +38,7 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, "Form_Load", Err.Description, Err.Number)
+    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
 End Sub
 
 Private Sub themeName_Click()
@@ -49,8 +49,8 @@ Form_frmUserView.userTheme = Me.RecordID
 Dim f As Form, sForm As Control
 Dim i As Integer
 
-TempVars.Add "themePrimary", Me.primaryColor.value
-TempVars.Add "themeSecondary", Me.secondaryColor.value
+TempVars.Add "themePrimary", Me.primaryColor.Value
+TempVars.Add "themeSecondary", Me.secondaryColor.Value
 
 If Me.darkMode Then
     TempVars.Add "themeMode", "Dark"
@@ -58,7 +58,7 @@ Else
     TempVars.Add "themeMode", "Light"
 End If
 
-TempVars.Add "themeColorLevels", Me.colorLevels.value
+TempVars.Add "themeColorLevels", Me.colorLevels.Value
 
 Dim obj
 
@@ -81,5 +81,5 @@ Call setTheme(Me)
 
 Exit Sub
 Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, Err.Description, Err.Number)
+    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
 End Sub
