@@ -1,45 +1,45 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub Form_Current()
-On Error GoTo Err_Handler
+private sub form_current()
+on error goto err_handler
 
-Me.txtCF = Me.RecordID
+me.txtcf = me.recordid
 
-If IsNull(Me.RecordID) = False Then
-    Form_sfrmBuildout_template_tasks.Visible = True
-    Form_sfrmBuildout_template_tasks.Filter = "gateTemplateId = " & Me.RecordID
-    Form_sfrmBuildout_template_tasks.gateTemplateId.defaultValue = Me.RecordID
-    Form_sfrmBuildout_template_tasks.FilterOn = True
-Else
-    Form_sfrmBuildout_template_tasks.Visible = False
-End If
+if isnull(me.recordid) = false then
+    form_sfrmbuildout_template_tasks.visible = true
+    form_sfrmbuildout_template_tasks.filter = "gateTemplateId = " & me.recordid
+    form_sfrmbuildout_template_tasks.gatetemplateid.defaultvalue = me.recordid
+    form_sfrmbuildout_template_tasks.filteron = true
+else
+    form_sfrmbuildout_template_tasks.visible = false
+end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Current", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Current", err.description, err.number)
+end sub
 
-Private Sub gateDuration_AfterUpdate()
-On Error GoTo Err_Handler
+private sub gateduration_afterupdate()
+on error goto err_handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub gateTitle_AfterUpdate()
-On Error GoTo Err_Handler
+private sub gatetitle_afterupdate()
+on error goto err_handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

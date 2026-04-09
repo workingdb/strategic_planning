@@ -1,76 +1,76 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub btnCustomers_Click()
-On Error GoTo Err_Handler
+private sub btncustomers_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmCustomers", acNormal, "", "", , acNormal
+docmd.openform "frmCustomers", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnProductionType_Click()
-On Error GoTo Err_Handler
+private sub btnproductiontype_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmProductionType", acNormal, "", "", , acNormal
+docmd.openform "frmProductionType", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnQuoteAward_Click()
-On Error GoTo Err_Handler
+private sub btnquoteaward_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmQuoteAward", acNormal, "", "", , acNormal
+docmd.openform "frmQuoteAward", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnRequestType_Click()
-On Error GoTo Err_Handler
+private sub btnrequesttype_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmRequestType", acNormal, "", "", , acNormal
+docmd.openform "frmRequestType", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnResults_Click()
-On Error GoTo Err_Handler
+private sub btnresults_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmResults", acNormal, "", "", , acNormal
+docmd.openform "frmResults", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnVolumeType_Click()
-On Error GoTo Err_Handler
+private sub btnvolumetype_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmVolumeType", acNormal, "", "", , acNormal
+docmd.openform "frmVolumeType", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+end sub

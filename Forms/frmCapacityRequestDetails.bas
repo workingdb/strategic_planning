@@ -1,143 +1,143 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Function trackUpdate()
-On Error GoTo Err_Handler
+function trackupdate()
+on error goto err_handler
 
-If IsNull(Me.RecordID) Then Exit Function
-Call registerStratPlanUpdates("tblCapacityRequests", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Me.RecordID, Me.name)
+if isnull(me.recordid) then exit function
+call registerstratplanupdates("tblCapacityRequests", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, me.recordid, me.name)
 
-Exit Function
-Err_Handler:
-    Call handleError(Me.name, "trackUpdate", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror(me.name, "trackUpdate", err.description, err.number)
+end function
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+end sub
 
-Private Sub Find_Click()
-On Error GoTo Err_Handler
+private sub find_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.GoToControl Screen.PreviousControl.name
-    err.Clear
-    DoCmd.RunCommand acCmdFind
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.gotocontrol screen.previouscontrol.name
+    err.clear
+    docmd.runcommand accmdfind
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub New_Click()
-On Error GoTo Err_Handler
+private sub new_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.GoToRecord , "", acNewRec
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.gotorecord , "", acnewrec
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub requestType_AfterUpdate()
-On Error GoTo Err_Handler
+private sub requesttype_afterupdate()
+on error goto err_handler
 
-Call trackUpdate
+call trackupdate
 
-Me.surveyPartCount.Visible = Me.requestType = 2
+me.surveypartcount.visible = me.requesttype = 2
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Trash_Click()
-On Error GoTo Err_Handler
+private sub trash_click()
+on error goto err_handler
 
-If MsgBox("Are you sure you want to delete this request?", vbYesNo, "Please confirm") = vbYes Then
-    If Nz(Me.RecordID, 0) <> 0 Then Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, "Request", "", "Deleted", Me.RecordID, Me.name)
-    dbExecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & Me.RecordID)
-    TempVars.Add "reqCapDelete", "True"
-    DoCmd.Close
-    If CurrentProject.AllForms("frmCapacityRequestTracker").IsLoaded Then Form_frmCapacityRequestTracker.Requery
-End If
+if msgbox("Are you sure you want to delete this request?", vbyesno, "Please confirm") = vbyes then
+    if nz(me.recordid, 0) <> 0 then call registerstratplanupdates("tblCapacityRequestDetails", me.recordid, "Request", "", "Deleted", me.recordid, me.name)
+    dbexecute ("DELETE FROM tblCapacityRequests WHERE [recordId] = " & me.recordid)
+    tempvars.add "reqCapDelete", "True"
+    docmd.close
+    if currentproject.allforms("frmCapacityRequestTracker").isloaded then form_frmcapacityrequesttracker.requery
+end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub copy_Click()
-On Error GoTo Err_Handler
+private sub copy_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.RunCommand acCmdSelectRecord
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdCopy
-    End If
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdRecordsGoToNew
-    End If
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdSelectRecord
-    End If
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdPaste
-    End If
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.runcommand accmdselectrecord
+    if (macroerror = 0) then
+        docmd.runcommand accmdcopy
+    end if
+    if (macroerror = 0) then
+        docmd.runcommand accmdrecordsgotonew
+    end if
+    if (macroerror = 0) then
+        docmd.runcommand accmdselectrecord
+    end if
+    if (macroerror = 0) then
+        docmd.runcommand accmdpaste
+    end if
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub mailReport_Click()
-On Error GoTo Err_Handler
+private sub mailreport_click()
+on error goto err_handler
 
-Dim partNums As String
-partNums = findCapReqPNs(Me.RecordID, True)
+dim partnums as string
+partnums = findcapreqpns(me.recordid, true)
 
-Dim pnSplit() As String, item, partNumFinal As String
-pnSplit = Split(partNums, ",")
-partNumFinal = ""
+dim pnsplit() as string, item, partnumfinal as string
+pnsplit = split(partnums, ",")
+partnumfinal = ""
 
-For Each item In pnSplit
-    partNumFinal = partNumFinal & "PN: " & Split(item, "|")(0) & " - Response: " & Split(item, "|")(1)
-Next item
+for each item in pnsplit
+    partnumfinal = partnumfinal & "PN: " & split(item, "|")(0) & " - Response: " & split(item, "|")(1)
+next item
 
-Dim body As String
-body = emailContentGen("Capacity Request Results", _
-    Me.requestType.column(1) & " Results", _
-    "Notes: " & Replace(Me.Notes, ",", ";"), _
-     partNumFinal, _
-    "Requested: " & CStr(Date) & " by: " & Me.Requestor.column(1), _
-    "Vehicle: " & Me.Program.column(1), _
-    "Program: " & Me.Program.column(0))
-Call registerStratPlanUpdates("tblCapacityRequestDetails", Me.RecordID, "Results", "", "Results Sent to Requestor", Me.RecordID, Me.name)
-If sendNotification(Me.Requestor.column(2), 6, 2, "Capacity Request Results", body) Then
-    Call snackBox("success", "Well Done!", Me.Requestor.column(2) & " Notified!", Me.name)
-End If
+dim body as string
+body = emailcontentgen("Capacity Request Results", _
+    me.requesttype.column(1) & " Results", _
+    "Notes: " & replace(me.notes, ",", ";"), _
+     partnumfinal, _
+    "Requested: " & cstr(date) & " by: " & me.requestor.column(1), _
+    "Vehicle: " & me.program.column(1), _
+    "Program: " & me.program.column(0))
+call registerstratplanupdates("tblCapacityRequestDetails", me.recordid, "Results", "", "Results Sent to Requestor", me.recordid, me.name)
+if sendnotification(me.requestor.column(2), 6, 2, "Capacity Request Results", body) then
+    call snackbox("success", "Well Done!", me.requestor.column(2) & " Notified!", me.name)
+end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

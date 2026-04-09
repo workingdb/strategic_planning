@@ -1,16 +1,16 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub imgUser_Click()
-On Error GoTo Err_Handler
+private sub imguser_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmUserProfile", , , "user = '" & Me.updatedBy & "'"
+docmd.openform "frmUserProfile", , , "user = '" & me.updatedby & "'"
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

@@ -1,7 +1,7 @@
 ÿþversion =21
 versionrequired =20
 publishoption =1
-checksum =-1016154691
+checksum =1266047110
 begin report
     layoutforprint = notdefault
     dividinglines = notdefault
@@ -12,16 +12,16 @@ begin report
     datasheetgridlinesbehavior =3
     gridx =24
     gridy =24
-    width =14455
+    width =15840
     datasheetfontheight =11
-    right =18615
-    bottom =13485
+    right =24810
+    bottom =13740
     datasheetgridlinescolor =14211288
     recsrcdt = begin
         0x2e885bf80984e640
     end
     guid = begin
-        0x41d3fb35c7cc1a42b60316299b1db1a9
+        0x6e746f301bc8ef4cbbacc07a4519a3ef
     end
     recordsource ="tblCapacityRequest_partnumbers"
     datasheetfontname ="Yu Gothic UI"
@@ -464,6 +464,7 @@ begin report
             backthemecolorindex =1
             begin
                 begin label
+                    left =1320
                     width =1200
                     height =345
                     fontweight =700
@@ -476,14 +477,15 @@ begin report
                     guid = begin
                         0x25355fb168497b4d9a3b06e4ce042cb6
                     end
-                    layoutcachedwidth =1200
+                    layoutcachedleft =1320
+                    layoutcachedwidth =2520
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =1260
+                    left =2580
                     width =1080
                     height =345
                     fontweight =700
@@ -496,15 +498,15 @@ begin report
                     guid = begin
                         0xd09a72d634f511428779e42f26402b7d
                     end
-                    layoutcachedleft =1260
-                    layoutcachedwidth =2340
+                    layoutcachedleft =2580
+                    layoutcachedwidth =3660
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =6300
+                    left =7620
                     width =585
                     height =345
                     fontweight =700
@@ -517,15 +519,15 @@ begin report
                     guid = begin
                         0x9267be3360d6f1499236cb4f957de1b7
                     end
-                    layoutcachedleft =6300
-                    layoutcachedwidth =6885
+                    layoutcachedleft =7620
+                    layoutcachedwidth =8205
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =8520
+                    left =9840
                     width =1020
                     height =345
                     fontweight =700
@@ -538,15 +540,15 @@ begin report
                     guid = begin
                         0xc01b8fd83d009e488a241bc85b681919
                     end
-                    layoutcachedleft =8520
-                    layoutcachedwidth =9540
+                    layoutcachedleft =9840
+                    layoutcachedwidth =10860
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =2400
+                    left =3720
                     width =840
                     height =345
                     fontweight =700
@@ -559,15 +561,15 @@ begin report
                     guid = begin
                         0x9c3ed09052fe5f4e889c75649f73f33a
                     end
-                    layoutcachedleft =2400
-                    layoutcachedwidth =3240
+                    layoutcachedleft =3720
+                    layoutcachedwidth =4560
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =3300
+                    left =4620
                     width =1800
                     height =345
                     fontweight =700
@@ -580,15 +582,15 @@ begin report
                     guid = begin
                         0x9230e3db0b6b874195e144df7d868b57
                     end
-                    layoutcachedleft =3300
-                    layoutcachedwidth =5100
+                    layoutcachedleft =4620
+                    layoutcachedwidth =6420
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =5160
+                    left =6480
                     width =1080
                     height =345
                     fontweight =700
@@ -601,15 +603,15 @@ begin report
                     guid = begin
                         0xbee031611b610940a9f170c375b76077
                     end
-                    layoutcachedleft =5160
-                    layoutcachedwidth =6240
+                    layoutcachedleft =6480
+                    layoutcachedwidth =7560
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =6960
+                    left =8280
                     width =1515
                     height =345
                     fontweight =700
@@ -622,15 +624,15 @@ begin report
                     guid = begin
                         0x751f5efd3708da44a3d0f85ce394ca3a
                     end
-                    layoutcachedleft =6960
-                    layoutcachedwidth =8475
+                    layoutcachedleft =8280
+                    layoutcachedwidth =9795
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =9600
+                    left =10920
                     width =1680
                     height =345
                     fontweight =700
@@ -643,15 +645,15 @@ begin report
                     guid = begin
                         0x426d793af2547341912537e1e35ab160
                     end
-                    layoutcachedleft =9600
-                    layoutcachedwidth =11280
+                    layoutcachedleft =10920
+                    layoutcachedwidth =12600
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =11340
+                    left =12660
                     width =1845
                     height =345
                     fontweight =700
@@ -664,15 +666,15 @@ begin report
                     guid = begin
                         0x089aa7aca59fb1438d2802d5a1f739e1
                     end
-                    layoutcachedleft =11340
-                    layoutcachedwidth =13185
+                    layoutcachedleft =12660
+                    layoutcachedwidth =14505
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =13200
+                    left =14520
                     width =1195
                     height =360
                     fontweight =700
@@ -685,8 +687,8 @@ begin report
                     guid = begin
                         0x1df091947cf92c4c812734c33020118f
                     end
-                    layoutcachedleft =13200
-                    layoutcachedwidth =14395
+                    layoutcachedleft =14520
+                    layoutcachedwidth =15715
                     layoutcachedheight =360
                     themefontindex =-1
                     borderthemecolorindex =-1
@@ -696,7 +698,7 @@ begin report
         end
         begin section
             keeptogether = notdefault
-            height =1380
+            height =1200
             name ="Detail"
             guid = begin
                 0x550a7b9407f977439afcc9dc9c2da7b1
@@ -709,6 +711,7 @@ begin report
                 begin textbox
                     locked = notdefault
                     imesentencemode =3
+                    left =1320
                     width =1200
                     height =345
                     bordercolor =6381921
@@ -721,14 +724,15 @@ begin report
                     end
                     showdatepicker =1
 
-                    layoutcachedwidth =1200
+                    layoutcachedleft =1320
+                    layoutcachedwidth =2520
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin textbox
                     imesentencemode =3
-                    left =1260
+                    left =2580
                     width =1020
                     height =345
                     tabindex =1
@@ -742,15 +746,15 @@ begin report
                     end
                     showdatepicker =1
 
-                    layoutcachedleft =1260
-                    layoutcachedwidth =2280
+                    layoutcachedleft =2580
+                    layoutcachedwidth =3600
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin textbox
                     imesentencemode =3
-                    left =6300
+                    left =7620
                     width =600
                     height =345
                     tabindex =2
@@ -765,15 +769,15 @@ begin report
                     end
                     showdatepicker =1
 
-                    layoutcachedleft =6300
-                    layoutcachedwidth =6900
+                    layoutcachedleft =7620
+                    layoutcachedwidth =8220
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin textbox
                     imesentencemode =3
-                    left =8520
+                    left =9840
                     width =1020
                     height =345
                     tabindex =3
@@ -788,8 +792,8 @@ begin report
                     end
                     showdatepicker =1
 
-                    layoutcachedleft =8520
-                    layoutcachedwidth =9540
+                    layoutcachedleft =9840
+                    layoutcachedwidth =10860
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
@@ -798,7 +802,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =2340
+                    left =3660
                     width =900
                     height =345
                     tabindex =4
@@ -820,8 +824,8 @@ begin report
                         "itNumber;\";\"tblUnits\";\"\";\"recordID\";\"unitName\";\"PrimaryKey\""
                     allowvaluelistedits =0
 
-                    layoutcachedleft =2340
-                    layoutcachedwidth =3240
+                    layoutcachedleft =3660
+                    layoutcachedwidth =4560
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -831,7 +835,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =3300
+                    left =4620
                     width =1785
                     height =345
                     tabindex =5
@@ -853,8 +857,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =3300
-                    layoutcachedwidth =5085
+                    layoutcachedleft =4620
+                    layoutcachedwidth =6405
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -863,7 +867,7 @@ begin report
                 begin combobox
                     limittolist = notdefault
                     imesentencemode =3
-                    left =5160
+                    left =6480
                     width =1080
                     height =345
                     tabindex =6
@@ -883,8 +887,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =5160
-                    layoutcachedwidth =6240
+                    layoutcachedleft =6480
+                    layoutcachedwidth =7560
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -894,7 +898,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =6960
+                    left =8280
                     width =1500
                     height =345
                     tabindex =7
@@ -916,8 +920,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =6960
-                    layoutcachedwidth =8460
+                    layoutcachedleft =8280
+                    layoutcachedwidth =9780
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -927,7 +931,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =9600
+                    left =10920
                     width =1680
                     height =345
                     tabindex =8
@@ -949,8 +953,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =9600
-                    layoutcachedwidth =11280
+                    layoutcachedleft =10920
+                    layoutcachedwidth =12600
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -960,7 +964,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =11340
+                    left =12660
                     width =1860
                     height =345
                     tabindex =9
@@ -981,8 +985,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =11340
-                    layoutcachedwidth =13200
+                    layoutcachedleft =12660
+                    layoutcachedwidth =14520
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -993,7 +997,7 @@ begin report
                     imesentencemode =3
                     columncount =2
                     listwidth =1440
-                    left =13260
+                    left =14580
                     width =1195
                     height =345
                     tabindex =10
@@ -1016,8 +1020,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =13260
-                    layoutcachedwidth =14455
+                    layoutcachedleft =14580
+                    layoutcachedwidth =15775
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
@@ -1027,25 +1031,50 @@ begin report
                     foreshade =100.0
                 end
                 begin commandbutton
+                    overlapflags =4
                     picturetype =1
-                    left =120
-                    top =420
-                    width =840
-                    height =600
+                    left =480
+                    width =420
+                    height =660
+                    fontsize =14
+                    fontweight =700
                     tabindex =11
-                    name ="Command2"
-                    caption ="Command2"
+                    forecolor =16777215
+                    name ="openDetails"
+                    caption ="Open"
+                    fontname ="Segoe UI"
                     tag ="btnContrastBorder.L3"
                     picture ="\\\\data\\mdbdata\\WorkingDB\\Pictures\\Core\\customerXref.ico"
                     guid = begin
-                        0x4136a125c3281347859e77c9110e7b72
+                        0x7039994cf9ecbb499f0d01a15bcbaf5d
                     end
 
                     cursoronhover =1
-                    layoutcachedleft =120
-                    layoutcachedtop =420
-                    layoutcachedwidth =960
-                    layoutcachedheight =1020
+                    layoutcachedleft =480
+                    layoutcachedwidth =900
+                    layoutcachedheight =660
+                    forethemecolorindex =-1
+                    foretint =100.0
+                    shape =2
+                    gradient =0
+                    backcolor =5395026
+                    backthemecolorindex =-1
+                    backtint =100.0
+                    bordercolor =6381921
+                    borderthemecolorindex =-1
+                    themefontindex =-1
+                    hovercolor =7039851
+                    hoverthemecolorindex =-1
+                    hovertint =100.0
+                    pressedcolor =7039851
+                    pressedthemecolorindex =-1
+                    pressedshade =100.0
+                    hoverforecolor =15132390
+                    hoverforethemecolorindex =-1
+                    hoverforetint =100.0
+                    pressedforecolor =15132390
+                    pressedforethemecolorindex =-1
+                    pressedforetint =100.0
                     webimagepaddingleft =2
                     webimagepaddingtop =2
                     webimagepaddingright =1
@@ -1056,7 +1085,7 @@ begin report
         end
         begin formfooter
             keeptogether = notdefault
-            height =0
+            height =420
             name ="ReportFooter"
             guid = begin
                 0xad217bc3d6b5f54b8e853a5d017fcd8b

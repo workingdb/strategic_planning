@@ -1,74 +1,74 @@
-Option Compare Database
-Option Explicit
+option compare database
+option explicit
 
-Public Function OpenRecordsetReadOnly(conn As ADODB.Connection, sql As String) As ADODB.Recordset
-    Dim rs As ADODB.Recordset
-    Set rs = New ADODB.Recordset
-    rs.Open sql, conn, adOpenForwardOnly, adLockReadOnly, adCmdText
-    Set OpenRecordsetReadOnly = rs
-End Function
+public function openrecordsetreadonly(conn as adodb.connection, sql as string) as adodb.recordset
+    dim rs as adodb.recordset
+    set rs = new adodb.recordset
+    rs.open sql, conn, adopenforwardonly, adlockreadonly, adcmdtext
+    set openrecordsetreadonly = rs
+end function
 
-Public Function OpenRecordsetReadWrite(conn As ADODB.Connection, sql As String) As ADODB.Recordset
-    Dim rs As ADODB.Recordset
-    Set rs = New ADODB.Recordset
-    rs.Open sql, conn, adOpenKeyset, adLockOptimistic, adCmdText
-    Set OpenRecordsetReadWrite = rs
-End Function
+public function openrecordsetreadwrite(conn as adodb.connection, sql as string) as adodb.recordset
+    dim rs as adodb.recordset
+    set rs = new adodb.recordset
+    rs.open sql, conn, adopenkeyset, adlockoptimistic, adcmdtext
+    set openrecordsetreadwrite = rs
+end function
 
-Public Function SqlMin(conn As ADODB.Connection, fieldName As String, tableName As String, _
-    Optional whereClause As String = "", Optional defaultValue As Variant = Null) As Variant
+public function sqlmin(conn as adodb.connection, fieldname as string, tablename as string, _
+    optional whereclause as string = "", optional defaultvalue as variant = null) as variant
 
-    Dim rs As ADODB.Recordset
-    Dim sql As String
+    dim rs as adodb.recordset
+    dim sql as string
 
-    sql = "SELECT MIN(" & fieldName & ") FROM " & tableName
-    If Trim$(whereClause) <> "" Then sql = sql & " WHERE " & whereClause
+    sql = "SELECT MIN(" & fieldname & ") FROM " & tablename
+    if trim$(whereclause) <> "" then sql = sql & " WHERE " & whereclause
 
-    Set rs = OpenRecordsetReadOnly(conn, sql)
+    set rs = openrecordsetreadonly(conn, sql)
 
-    If rs.EOF Or IsNull(rs.Fields(0).Value) Then
-        SqlMin = defaultValue
-    Else
-        SqlMin = rs.Fields(0).Value
-    End If
+    if rs.eof or isnull(rs.fields(0).value) then
+        sqlmin = defaultvalue
+    else
+        sqlmin = rs.fields(0).value
+    end if
 
-    rs.Close
-    Set rs = Nothing
-End Function
+    rs.close
+    set rs = nothing
+end function
 
-Public Function SqlCount(conn As ADODB.Connection, tableName As String, _
-    Optional whereClause As String = "") As Long
+public function sqlcount(conn as adodb.connection, tablename as string, _
+    optional whereclause as string = "") as long
 
-    Dim rs As ADODB.Recordset
-    Dim sql As String
+    dim rs as adodb.recordset
+    dim sql as string
 
-    sql = "SELECT COUNT(*) FROM " & tableName
-    If Trim$(whereClause) <> "" Then sql = sql & " WHERE " & whereClause
+    sql = "SELECT COUNT(*) FROM " & tablename
+    if trim$(whereclause) <> "" then sql = sql & " WHERE " & whereclause
 
-    Set rs = OpenRecordsetReadOnly(conn, sql)
-    SqlCount = CLng(Nz(rs.Fields(0).Value, 0))
+    set rs = openrecordsetreadonly(conn, sql)
+    sqlcount = clng(nz(rs.fields(0).value, 0))
 
-    rs.Close
-    Set rs = Nothing
-End Function
+    rs.close
+    set rs = nothing
+end function
 
-Public Function SqlLookup(conn As ADODB.Connection, fieldName As String, tableName As String, _
-    Optional whereClause As String = "", Optional defaultValue As Variant = Null) As Variant
+public function sqllookup(conn as adodb.connection, fieldname as string, tablename as string, _
+    optional whereclause as string = "", optional defaultvalue as variant = null) as variant
 
-    Dim rs As ADODB.Recordset
-    Dim sql As String
+    dim rs as adodb.recordset
+    dim sql as string
 
-    sql = "SELECT " & fieldName & " FROM " & tableName
-    If Trim$(whereClause) <> "" Then sql = sql & " WHERE " & whereClause
+    sql = "SELECT " & fieldname & " FROM " & tablename
+    if trim$(whereclause) <> "" then sql = sql & " WHERE " & whereclause
 
-    Set rs = OpenRecordsetReadOnly(conn, sql)
+    set rs = openrecordsetreadonly(conn, sql)
 
-    If rs.EOF Or IsNull(rs.Fields(0).Value) Then
-        SqlLookup = defaultValue
-    Else
-        SqlLookup = rs.Fields(0).Value
-    End If
+    if rs.eof or isnull(rs.fields(0).value) then
+        sqllookup = defaultvalue
+    else
+        sqllookup = rs.fields(0).value
+    end if
 
-    rs.Close
-    Set rs = Nothing
-End Function
+    rs.close
+    set rs = nothing
+end function

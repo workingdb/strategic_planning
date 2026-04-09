@@ -1,267 +1,267 @@
-Option Compare Database
-Option Explicit
+option compare database
+option explicit
 
-Public Function snackBox(sType As String, sTitle As String, sMessage As String, refForm As String, Optional centerBool As Boolean = False, Optional autoClose As Boolean = True)
-On Error GoTo Err_Handler
+public function snackbox(stype as string, stitle as string, smessage as string, refform as string, optional centerbool as boolean = false, optional autoclose as boolean = true)
+on error goto err_handler
 
-TempVars.Add "snackType", sType
-TempVars.Add "snackTitle", sTitle
-TempVars.Add "snackMessage", sMessage
-TempVars.Add "snackAutoClose", autoClose
+tempvars.add "snackType", stype
+tempvars.add "snackTitle", stitle
+tempvars.add "snackMessage", smessage
+tempvars.add "snackAutoClose", autoclose
 
-If centerBool Then
-    TempVars.Add "snackCenter", "True"
-    TempVars.Add "snackLeft", Forms(refForm).WindowLeft + Forms(refForm).WindowWidth / 2 - 3393
-    TempVars.Add "snackTop", Forms(refForm).WindowTop + Forms(refForm).WindowHeight / 2 - 500
-Else
-    TempVars.Add "snackCenter", "False"
-    TempVars.Add "snackLeft", Forms(refForm).WindowLeft + 200
-    TempVars.Add "snackTop", Forms(refForm).WindowTop + Forms(refForm).WindowHeight - 1250
-End If
+if centerbool then
+    tempvars.add "snackCenter", "True"
+    tempvars.add "snackLeft", forms(refform).windowleft + forms(refform).windowwidth / 2 - 3393
+    tempvars.add "snackTop", forms(refform).windowtop + forms(refform).windowheight / 2 - 500
+else
+    tempvars.add "snackCenter", "False"
+    tempvars.add "snackLeft", forms(refform).windowleft + 200
+    tempvars.add "snackTop", forms(refform).windowtop + forms(refform).windowheight - 1250
+end if
 
-DoCmd.OpenForm "frmSnack"
+docmd.openform "frmSnack"
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "snackBox", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "snackBox", err.description, err.number)
+end function
 
-Function structureChange()
+function structurechange()
 
-Dim conn As ADODB.Connection
-Dim rsCap As ADODB.Recordset, rsParts As ADODB.Recordset
-Dim strSQL As String
+dim conn as adodb.connection
+dim rscap as adodb.recordset, rsparts as adodb.recordset
+dim strsql as string
 
-Set conn = New ADODB.Connection
-conn.ConnectionString = "DRIVER=ODBC Driver 17 for SQL Server;SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb;"
-conn.Open
+set conn = new adodb.connection
+conn.connectionstring = "DRIVER=ODBC Driver 17 for SQL Server;SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb;"
+conn.open
 
-Set rsCap = OpenRecordsetReadOnly(conn, "SELECT * FROM tblCapacityRequests")
+set rscap = openrecordsetreadonly(conn, "SELECT * FROM tblCapacityRequests")
 
-Do While Not rsCap.EOF
-    strSQL = "INSERT INTO dbo.tblCapacityRequest_partnumbers (requestId,partNumber,unitId,productionType,tonnage,ppv,volumeType,volume,volumeTiming,capacityResults,responseDate,planner,quoteStatus) VALUES (" & _
-            rsCap!RecordID & ",'" & _
-            Nz(rsCap!partNumber, "Null") & "'," & _
-            Nz(rsCap!Unit, "Null") & "," & _
-            Nz(rsCap!productionType, "Null") & "," & _
-            Nz(rsCap!Tonnage, "Null") & "," & _
-            Nz(rsCap!PPV, "Null") & "," & _
-            Nz(rsCap!volumeType, "Null") & "," & _
-            Nz(rsCap!Volume, "Null") & "," & _
-            Nz(rsCap!volumeTiming, "Null") & "," & _
-            Nz(rsCap!capacityResults, "Null") & ",'" & _
-            Format$(rsCap!responseDate, "yyyy-mm-dd hh:nn:ss") & "'," & _
-            Nz(rsCap!Planner, "Null") & "," & _
-            Nz(rsCap!Quote, "Null") & ");"
-    conn.Execute strSQL
-    rsCap.MoveNext
-Loop
+do while not rscap.eof
+    strsql = "INSERT INTO dbo.tblCapacityRequest_partnumbers (requestId,partNumber,unitId,productionType,tonnage,ppv,volumeType,volume,volumeTiming,capacityResults,responseDate,planner,quoteStatus) VALUES (" & _
+            rscap!recordid & ",'" & _
+            nz(rscap!partnumber, "Null") & "'," & _
+            nz(rscap!unit, "Null") & "," & _
+            nz(rscap!productiontype, "Null") & "," & _
+            nz(rscap!tonnage, "Null") & "," & _
+            nz(rscap!ppv, "Null") & "," & _
+            nz(rscap!volumetype, "Null") & "," & _
+            nz(rscap!volume, "Null") & "," & _
+            nz(rscap!volumetiming, "Null") & "," & _
+            nz(rscap!capacityresults, "Null") & ",'" & _
+            format$(rscap!responsedate, "yyyy-mm-dd hh:nn:ss") & "'," & _
+            nz(rscap!planner, "Null") & "," & _
+            nz(rscap!quote, "Null") & ");"
+    conn.execute strsql
+    rscap.movenext
+loop
 
 
-rsCap.Close
-Set rsCap = Nothing
-conn.Close
-Set conn = Nothing
+rscap.close
+set rscap = nothing
+conn.close
+set conn = nothing
 
-End Function
+end function
 
-Function emailContentGen(subject As String, Title As String, subTitle As String, primaryMessage As String, detail1 As String, detail2 As String, detail3 As String, Optional appName As String = "", Optional appId As String = "") As String
-On Error GoTo Err_Handler
+function emailcontentgen(subject as string, title as string, subtitle as string, primarymessage as string, detail1 as string, detail2 as string, detail3 as string, optional appname as string = "", optional appid as string = "") as string
+on error goto err_handler
 
-If appId <> "" Then
-    primaryMessage = "<a href = ""\\data\mdbdata\WorkingDB\build\workingdb_commands\openNotification.vbs"">" & primaryMessage & "</a>"
-End If
+if appid <> "" then
+    primarymessage = "<a href = ""\\data\mdbdata\WorkingDB\build\workingdb_commands\openNotification.vbs"">" & primarymessage & "</a>"
+end if
 
-emailContentGen = subject & "," & Title & "," & subTitle & "," & primaryMessage & "," & detail1 & "," & detail2 & "," & detail3 & "," & appName & "," & appId
+emailcontentgen = subject & "," & title & "," & subtitle & "," & primarymessage & "," & detail1 & "," & detail2 & "," & detail3 & "," & appname & "," & appid
 
-    Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "emailContentGen", err.Description, err.Number)
-End Function
+    exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "emailContentGen", err.description, err.number)
+end function
 
-Function findCapReqPNs(requestId As Long, Optional returnResponse As Boolean = False) As String
-On Error GoTo Err_Handler
+function findcapreqpns(requestid as long, optional returnresponse as boolean = false) as string
+on error goto err_handler
 
-findCapReqPNs = ""
+findcapreqpns = ""
 
-Dim rs As ADODB.Recordset
-Dim conn As ADODB.Connection
+dim rs as adodb.recordset
+dim conn as adodb.connection
 
-Set conn = CurrentProject.Connection
+set conn = currentproject.connection
 
-If returnResponse Then
-    Set rs = OpenRecordsetReadOnly(conn, "SELECT partNumber, capacityResults FROM tblCapacityRequest_partnumbers WHERE requestId = " & requestId)
+if returnresponse then
+    set rs = openrecordsetreadonly(conn, "SELECT partNumber, capacityResults FROM tblCapacityRequest_partnumbers WHERE requestId = " & requestid)
     
-    Do While Not rs.EOF
-        If Nz(rs!capacityResults, 0) = 0 Then Exit Function
-        findCapReqPNs = findCapReqPNs & rs!partNumber & "|" & SqlLookup(conn, "results", "tblDropDowns_StrategicPlanning", "recordId = " & Nz(rs!capacityResults, 0)) & ","
-        rs.MoveNext
-    Loop
+    do while not rs.eof
+        if nz(rs!capacityresults, 0) = 0 then exit function
+        findcapreqpns = findcapreqpns & rs!partnumber & "|" & sqllookup(conn, "results", "tblDropDowns_StrategicPlanning", "recordId = " & nz(rs!capacityresults, 0)) & ","
+        rs.movenext
+    loop
     
-    If Len(findCapReqPNs) = 0 Then GoTo Clean_Exit
-    findCapReqPNs = Left(findCapReqPNs, Len(findCapReqPNs) - 1)
-Else
-    Set rs = OpenRecordsetReadOnly(conn, "SELECT partNumber FROM tblCapacityRequest_partnumbers WHERE requestId = " & requestId)
+    if len(findcapreqpns) = 0 then goto clean_exit
+    findcapreqpns = left(findcapreqpns, len(findcapreqpns) - 1)
+else
+    set rs = openrecordsetreadonly(conn, "SELECT partNumber FROM tblCapacityRequest_partnumbers WHERE requestId = " & requestid)
     
-    Do While Not rs.EOF
-        findCapReqPNs = findCapReqPNs & rs!partNumber & ","
-        rs.MoveNext
-    Loop
+    do while not rs.eof
+        findcapreqpns = findcapreqpns & rs!partnumber & ","
+        rs.movenext
+    loop
     
-    If Len(findCapReqPNs) = 0 Then GoTo Clean_Exit
-    findCapReqPNs = Left(findCapReqPNs, Len(findCapReqPNs) - 1)
-End If
+    if len(findcapreqpns) = 0 then goto clean_exit
+    findcapreqpns = left(findcapreqpns, len(findcapreqpns) - 1)
+end if
 
 
 
-Clean_Exit:
-On Error Resume Next
-If Not rs Is Nothing Then
-    If rs.State = adStateOpen Then rs.Close
-End If
-Set rs = Nothing
-Set conn = Nothing
+clean_exit:
+on error resume next
+if not rs is nothing then
+    if rs.state = adstateopen then rs.close
+end if
+set rs = nothing
+set conn = nothing
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "setSplashLoading", err.Description, err.Number)
-    GoTo Clean_Exit
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "setSplashLoading", err.description, err.number)
+    goto clean_exit
+end function
 
-Function sendNotification(sendTo As String, notType As Integer, notPriority As Integer, desc As String, emailContent As String, Optional appName As String = "", Optional appId As Variant = "", Optional multiEmail As Boolean = False, Optional customEmail As Boolean = False) As Boolean
-sendNotification = True
+function sendnotification(sendto as string, nottype as integer, notpriority as integer, desc as string, emailcontent as string, optional appname as string = "", optional appid as variant = "", optional multiemail as boolean = false, optional customemail as boolean = false) as boolean
+sendnotification = true
 
-On Error GoTo Err_Handler
+on error goto err_handler
 
-Dim db As Database
-Set db = CurrentDb()
+dim db as database
+set db = currentdb()
 
 'has this person been notified about this thing today already?
-Dim rsNotifications As Recordset
-Set rsNotifications = db.OpenRecordset("SELECT * from tblNotificationsSP WHERE recipientUser = '" & sendTo & "' AND notificationDescription = '" & StrQuoteReplace(desc) & "' AND sentDate > #" & Date - 1 & "#")
-'NEEDS CONVERTED TO ADODB
-If rsNotifications.RecordCount > 0 Then
-    If rsNotifications!notificationType = 1 Then
-        Dim msgTxt As String
-        If rsNotifications!senderUser = Environ("username") Then
-            msgTxt = "You already nudged this person today"
-        Else
-            msgTxt = sendTo & " has already been nudged about this today by " & rsNotifications!senderUser & ". Let's wait until tomorrow to nudge them again."
-        End If
-        MsgBox msgTxt, vbInformation, "Hold on a minute..."
-        sendNotification = False
-        Exit Function
-    End If
-End If
+dim rsnotifications as recordset
+set rsnotifications = db.openrecordset("SELECT * from tblNotificationsSP WHERE recipientUser = '" & sendto & "' AND notificationDescription = '" & strquotereplace(desc) & "' AND sentDate > #" & date - 1 & "#")
+'needs converted to adodb
+if rsnotifications.recordcount > 0 then
+    if rsnotifications!notificationtype = 1 then
+        dim msgtxt as string
+        if rsnotifications!senderuser = environ("username") then
+            msgtxt = "You already nudged this person today"
+        else
+            msgtxt = sendto & " has already been nudged about this today by " & rsnotifications!senderuser & ". Let's wait until tomorrow to nudge them again."
+        end if
+        msgbox msgtxt, vbinformation, "Hold on a minute..."
+        sendnotification = false
+        exit function
+    end if
+end if
 
-Dim strEmail
-If customEmail = False Then
-    Dim item, sendToArr() As String
-    If multiEmail Then
-        sendToArr = Split(sendTo, ",")
-        strEmail = ""
-        For Each item In sendToArr
-            If item = "" Then GoTo nextItem
-            strEmail = strEmail & getEmail(CStr(item)) & ";"
-nextItem:
-        Next item
-        If strEmail = "" Then Exit Function
-        strEmail = Left(strEmail, Len(strEmail) - 1)
-    Else
-        strEmail = getEmail(sendTo)
-    End If
-Else
-    strEmail = sendTo
-    sendTo = Split(sendTo, "@")(0)
-End If
+dim stremail
+if customemail = false then
+    dim item, sendtoarr() as string
+    if multiemail then
+        sendtoarr = split(sendto, ",")
+        stremail = ""
+        for each item in sendtoarr
+            if item = "" then goto nextitem
+            stremail = stremail & getemail(cstr(item)) & ";"
+nextitem:
+        next item
+        if stremail = "" then exit function
+        stremail = left(stremail, len(stremail) - 1)
+    else
+        stremail = getemail(sendto)
+    end if
+else
+    stremail = sendto
+    sendto = split(sendto, "@")(0)
+end if
 
-Set rsNotifications = db.OpenRecordset("SELECT * FROM tblNotificationsSP WHERE 1 = 0")
+set rsnotifications = db.openrecordset("SELECT * FROM tblNotificationsSP WHERE 1 = 0")
 
-With rsNotifications
-    .addNew
-    !recipientUser = sendTo
-    !recipientEmail = strEmail
-    !senderUser = Environ("username")
-    !senderEmail = getEmail(Environ("username"))
-    !sentDate = Now()
-    !notificationType = notType
-    !notificationPriority = notPriority
-    !notificationDescription = desc
-    !appName = appName
-    !appId = appId
-    !emailContent = emailContent
-    .Update
-End With
+with rsnotifications
+    .addnew
+    !recipientuser = sendto
+    !recipientemail = stremail
+    !senderuser = environ("username")
+    !senderemail = getemail(environ("username"))
+    !sentdate = now()
+    !notificationtype = nottype
+    !notificationpriority = notpriority
+    !notificationdescription = desc
+    !appname = appname
+    !appid = appid
+    !emailcontent = emailcontent
+    .update
+end with
 
-On Error Resume Next
-rsNotifications.Close
-Set rsNotifications = Nothing
-Set db = Nothing
+on error resume next
+rsnotifications.close
+set rsnotifications = nothing
+set db = nothing
 
-Exit Function
-Err_Handler:
-sendNotification = False
-    Call handleError("wdbGlobalFunctions", "sendNotification", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+sendnotification = false
+    call handleerror("wdbGlobalFunctions", "sendNotification", err.description, err.number)
+end function
 
-Function getEmail(userName As String) As String
-On Error GoTo Err_Handler
+function getemail(username as string) as string
+on error goto err_handler
 
-getEmail = ""
-On Error GoTo tryOracle
-Dim db As Database
-Set db = CurrentDb()
-Dim rsPermissions As Recordset
-Set rsPermissions = db.OpenRecordset("SELECT * from tblPermissions WHERE user = '" & userName & "'", dbOpenSnapshot)
-getEmail = Nz(rsPermissions!userEmail, "")
-rsPermissions.Close
-Set rsPermissions = Nothing
+getemail = ""
+on error goto tryoracle
+dim db as database
+set db = currentdb()
+dim rspermissions as recordset
+set rspermissions = db.openrecordset("SELECT * from tblPermissions WHERE user = '" & username & "'", dbopensnapshot)
+getemail = nz(rspermissions!useremail, "")
+rspermissions.close
+set rspermissions = nothing
 
-GoTo exitFunc
+goto exitfunc
 
-tryOracle:
-Dim rsEmployee As Recordset
-Set rsEmployee = db.OpenRecordset("SELECT FIRST_NAME, LAST_NAME, EMAIL_ADDRESS FROM APPS_XXCUS_USER_EMPLOYEES_V WHERE USER_NAME = '" & StrConv(userName, vbUpperCase) & "'", dbOpenSnapshot)
-getEmail = Nz(rsEmployee!EMAIL_ADDRESS, "")
-rsEmployee.Close
-Set rsEmployee = Nothing
+tryoracle:
+dim rsemployee as recordset
+set rsemployee = db.openrecordset("SELECT FIRST_NAME, LAST_NAME, EMAIL_ADDRESS FROM APPS_XXCUS_USER_EMPLOYEES_V WHERE USER_NAME = '" & strconv(username, vbuppercase) & "'", dbopensnapshot)
+getemail = nz(rsemployee!email_address, "")
+rsemployee.close
+set rsemployee = nothing
 
-exitFunc:
-Set db = Nothing
+exitfunc:
+set db = nothing
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "getEmail", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "getEmail", err.description, err.number)
+end function
 
-Function generateHTML(Title As String, subTitle As String, primaryMessage As String, _
-        detail1 As String, detail2 As String, detail3 As String, _
-        Optional Link As String = "", _
-        Optional addLines As Boolean = False, _
-        Optional appName As String = "", _
-        Optional appId As String = "") As String
+function generatehtml(title as string, subtitle as string, primarymessage as string, _
+        detail1 as string, detail2 as string, detail3 as string, _
+        optional link as string = "", _
+        optional addlines as boolean = false, _
+        optional appname as string = "", _
+        optional appid as string = "") as string
         
-On Error GoTo Err_Handler
+on error goto err_handler
 
-Dim tblHeading As String, tblFooter As String, strHTMLBody As String
+dim tblheading as string, tblfooter as string, strhtmlbody as string
 
-If Link <> "" Then
-    primaryMessage = "<a href = '" & Link & "'>" & primaryMessage & "</a>"
-ElseIf appId <> "" Then
-    primaryMessage = "<a href = ""\\data\mdbdata\WorkingDB\build\workingdb_commands\openNotification.vbs"">" & primaryMessage & "</a>"
-End If
+if link <> "" then
+    primarymessage = "<a href = '" & link & "'>" & primarymessage & "</a>"
+elseif appid <> "" then
+    primarymessage = "<a href = ""\\data\mdbdata\WorkingDB\build\workingdb_commands\openNotification.vbs"">" & primarymessage & "</a>"
+end if
 
-tblHeading = "<table style=""width: 100%; margin: 0 auto; padding: 2em 3em; text-align: center; background-color: #fafafa;"">" & _
+tblheading = "<table style=""width: 100%; margin: 0 auto; padding: 2em 3em; text-align: center; background-color: #fafafa;"">" & _
                             "<tbody>" & _
-                                "<tr><td><h2 style=""color: #414141; font-size: 28px; margin-top: 0;"">" & Title & "</h2></td></tr>" & _
-                                "<tr><td><p style=""color: rgb(73, 73, 73);"">" & subTitle & "</p></td></tr>" & _
+                                "<tr><td><h2 style=""color: #414141; font-size: 28px; margin-top: 0;"">" & title & "</h2></td></tr>" & _
+                                "<tr><td><p style=""color: rgb(73, 73, 73);"">" & subtitle & "</p></td></tr>" & _
                                  "<tr><td><table style=""padding: 1em; text-align: center;"">" & _
-                                     "<tr><td style=""padding: 1em 1.5em; background: #FF6B00; "">" & primaryMessage & "</td></tr>" & _
+                                     "<tr><td style=""padding: 1em 1.5em; background: #FF6B00; "">" & primarymessage & "</td></tr>" & _
                                 "</table></td></tr>" & _
                             "</tbody>" & _
                         "</table>"
                         
-tblFooter = "<table style=""width: 100%; margin: 0 auto; padding: 3em; background: #2b2b2b; color: rgba(255,255,255,.5);"">" & _
+tblfooter = "<table style=""width: 100%; margin: 0 auto; padding: 3em; background: #2b2b2b; color: rgba(255,255,255,.5);"">" & _
                         "<tbody>" & _
                             "<tr style=""border-collapse: collapse;""><td style=""padding: 1em; color: #c9c9c9;"">Details</td></tr>" & _
                             "<tr style=""border-collapse: collapse;""><td style=""padding: .1em 2em;"">" & detail1 & "</td></tr>" & _
@@ -270,232 +270,232 @@ tblFooter = "<table style=""width: 100%; margin: 0 auto; padding: 3em; backgroun
                         "</tbody>" & _
                     "</table>"
                     
-Dim addStuff As String
-addStuff = ""
-If addLines Then
-    addStuff = "<table style=""max-width: 600px; margin: 0 auto; padding: 3em; background: #eaeaea; color: rgba(255,255,255,.5);"">" & _
+dim addstuff as string
+addstuff = ""
+if addlines then
+    addstuff = "<table style=""max-width: 600px; margin: 0 auto; padding: 3em; background: #eaeaea; color: rgba(255,255,255,.5);"">" & _
         "<tr style=""border-collapse: collapse;""><td style=""padding: 1em;"">Extra Notes: type here...</td></tr></table>"
-End If
+end if
 
-strHTMLBody = "" & _
+strhtmlbody = "" & _
 "<!DOCTYPE html><html lang=""en"" xmlns=""http://www.w3.org/1999/xhtml"" xmlns:v=""urn:schemas-microsoft-com:vml"" xmlns:o=""urn:schemas-microsoft-com:office:office"">" & _
     "<head><meta charset=""utf-8""><title>Working DB Notification</title></head>" & _
-    "<body style=""margin: 0 auto; Font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.8;"">" & addStuff & _
+    "<body style=""margin: 0 auto; Font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.8;"">" & addstuff & _
         "<table style=""max-width: 600px; margin: 0 auto; text-align: center; "">" & _
             "<tbody>" & _
-                "<tr><td>" & tblHeading & "</td></tr>" & _
-                "<tr><td>" & tblFooter & "</td></tr>" & _
-                "<tr><td><p style=""color: rgb(192, 192, 192); text-align: center;"">AppName:[" & appName & "], AppId:[" & appId & "]</p></td></tr>" & _
+                "<tr><td>" & tblheading & "</td></tr>" & _
+                "<tr><td>" & tblfooter & "</td></tr>" & _
+                "<tr><td><p style=""color: rgb(192, 192, 192); text-align: center;"">AppName:[" & appname & "], AppId:[" & appid & "]</p></td></tr>" & _
                 "<tr><td><p style=""color: rgb(192, 192, 192); text-align: center;"">This email was created by  &copy; workingDB</p></td></tr>" & _
             "</tbody>" & _
         "</table>" & _
     "</body>" & _
 "</html>"
 
-generateHTML = strHTMLBody
+generatehtml = strhtmlbody
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "generateHTML", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "generateHTML", err.description, err.number)
+end function
 
-Public Function wdbEmail(ByVal strTo As String, ByVal strCC As String, ByVal strSubject As String, body As String) As Boolean
-On Error GoTo Err_Handler
-wdbEmail = True
+public function wdbemail(byval strto as string, byval strcc as string, byval strsubject as string, body as string) as boolean
+on error goto err_handler
+wdbemail = true
     
-Dim objEmail As Object
+dim objemail as object
 
-Set objEmail = CreateObject("outlook.Application")
-Set objEmail = objEmail.CreateItem(0)
+set objemail = createobject("outlook.Application")
+set objemail = objemail.createitem(0)
 
-With objEmail
-    .To = strTo
-    .CC = strCC
-    .subject = strSubject
-    .htmlBody = body
+with objemail
+    .to = strto
+    .cc = strcc
+    .subject = strsubject
+    .htmlbody = body
     .display
-End With
+end with
 
-Set objEmail = Nothing
+set objemail = nothing
     
-Exit Function
-Err_Handler:
-wdbEmail = False
-    Call handleError("wdbGlobalFunctions", "wdbEmail", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+wdbemail = false
+    call handleerror("wdbGlobalFunctions", "wdbEmail", err.description, err.number)
+end function
 
-Function setSplashLoading(label As String)
-On Error GoTo Err_Handler
+function setsplashloading(label as string)
+on error goto err_handler
 
-If IsNull(TempVars!loadAmount) Then Exit Function
-TempVars.Add "loadAmount", TempVars!loadAmount + 1
-Form_frmSplash.lnLoading.Width = (TempVars!loadAmount / 12) * TempVars!loadWd
-Form_frmSplash.lblLoading.Caption = label
-Form_frmSplash.Repaint
+if isnull(tempvars!loadamount) then exit function
+tempvars.add "loadAmount", tempvars!loadamount + 1
+form_frmsplash.lnloading.width = (tempvars!loadamount / 12) * tempvars!loadwd
+form_frmsplash.lblloading.caption = label
+form_frmsplash.repaint
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "setSplashLoading", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "setSplashLoading", err.description, err.number)
+end function
 
-Function userData(data As String, Optional specificUser As String = "") As String
-    On Error GoTo Err_Handler
+function userdata(data as string, optional specificuser as string = "") as string
+    on error goto err_handler
 
-    If specificUser = "" Then specificUser = Environ("username")
+    if specificuser = "" then specificuser = environ("username")
 
-    Dim conn As ADODB.Connection
-    Dim rs As New ADODB.Recordset
-    Dim strSQL As String
+    dim conn as adodb.connection
+    dim rs as new adodb.recordset
+    dim strsql as string
     
-    Set conn = CurrentProject.Connection
+    set conn = currentproject.connection
     
-    ' Using brackets around the variable [data] and reserved word [User]
-    strSQL = "SELECT [" & data & "] FROM tblPermissions WHERE [User] = '" & Replace(specificUser, "'", "''") & "'"
+    ' using brackets around the variable [data] and reserved word [user]
+    strsql = "SELECT [" & data & "] FROM tblPermissions WHERE [User] = '" & replace(specificuser, "'", "''") & "'"
     
-    rs.Open strSQL, conn, adOpenForwardOnly, adLockReadOnly
+    rs.open strsql, conn, adopenforwardonly, adlockreadonly
     
-    If Not rs.EOF Then
-        userData = Nz(rs.Fields(0).Value, "")
-    Else
-        userData = ""
-    End If
+    if not rs.eof then
+        userdata = nz(rs.fields(0).value, "")
+    else
+        userdata = ""
+    end if
 
-CleanUp:
-    If rs.State = adStateOpen Then rs.Close
-    Set rs = Nothing
-    Set conn = Nothing
-    Exit Function
+cleanup:
+    if rs.state = adstateopen then rs.close
+    set rs = nothing
+    set conn = nothing
+    exit function
 
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "userData", err.Description, err.Number)
-    Resume CleanUp
-End Function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "userData", err.description, err.number)
+    resume cleanup
+end function
 
-Function dbExecute(sql As String)
-On Error GoTo Err_Handler
+function dbexecute(sql as string)
+on error goto err_handler
 
-Dim conn As ADODB.Connection
-Set conn = CurrentProject.Connection
+dim conn as adodb.connection
+set conn = currentproject.connection
 
-conn.Execute sql
+conn.execute sql
 
-Set conn = Nothing
+set conn = nothing
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "dbExecute", err.Description, err.Number, sql)
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "dbExecute", err.description, err.number, sql)
+end function
 
-Public Sub registerStratPlanUpdates( _
-    ByVal table As String, _
-    ByVal ID As Variant, _
-    ByVal column As String, _
-    ByVal oldVal As Variant, _
-    ByVal newVal As Variant, _
-    ByVal referenceId As String, _
-    ByVal formName As String, _
-    Optional ByVal tag0 As Variant = "")
+public sub registerstratplanupdates( _
+    byval table as string, _
+    byval id as variant, _
+    byval column as string, _
+    byval oldval as variant, _
+    byval newval as variant, _
+    byval referenceid as string, _
+    byval formname as string, _
+    optional byval tag0 as variant = "")
 
-    On Error GoTo Err_Handler
+    on error goto err_handler
 
-    Dim cmd As ADODB.Command
-    Dim oldText As String
-    Dim newText As String
-    Dim tagText As String
+    dim cmd as adodb.command
+    dim oldtext as string
+    dim newtext as string
+    dim tagtext as string
 
-    ' Normalize dates
-    If VarType(oldVal) = vbDate Then oldVal = Format$(oldVal, "mm/dd/yyyy")
-    If VarType(newVal) = vbDate Then newVal = Format$(newVal, "mm/dd/yyyy")
+    ' normalize dates
+    if vartype(oldval) = vbdate then oldval = format$(oldval, "mm/dd/yyyy")
+    if vartype(newval) = vbdate then newval = format$(newval, "mm/dd/yyyy")
 
-    ' Normalize text values
-    oldText = Left$(StrQuoteReplace(CStr(Nz(oldVal, ""))), 255)
-    newText = Left$(StrQuoteReplace(CStr(Nz(newVal, ""))), 255)
-    tagText = Left$(StrQuoteReplace(CStr(Nz(tag0, ""))), 255)
+    ' normalize text values
+    oldtext = left$(strquotereplace(cstr(nz(oldval, ""))), 255)
+    newtext = left$(strquotereplace(cstr(nz(newval, ""))), 255)
+    tagtext = left$(strquotereplace(cstr(nz(tag0, ""))), 255)
 
-    ' Normalize blank ID to Null
-    If Nz(ID, "") = "" Then ID = Null
+    ' normalize blank id to null
+    if nz(id, "") = "" then id = null
 
-    Set cmd = New ADODB.Command
+    set cmd = new adodb.command
 
-    With cmd
-        .ActiveConnection = CurrentProject.Connection
-        .CommandType = adCmdText
-        .CommandText = _
+    with cmd
+        .activeconnection = currentproject.connection
+        .commandtype = adcmdtext
+        .commandtext = _
             "INSERT INTO tblStratPlan_UpdateTracking (" & _
             "tableName, tableRecordId, updatedBy, updatedDate, columnName, " & _
             "previousData, newData, referenceId, formName, dataTag0) " & _
-            "VALUES (?, ?, ?, '" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "', ?, ?, ?, ?, ?, ?)"
+            "VALUES (?, ?, ?, '" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "', ?, ?, ?, ?, ?, ?)"
 
-        .Parameters.Append .CreateParameter("pTableName", adVarChar, adParamInput, 100, table)
+        .parameters.append .createparameter("pTableName", advarchar, adparaminput, 100, table)
 
-        If IsNull(ID) Then
-            .Parameters.Append .CreateParameter("pTableRecordId", adInteger, adParamInput, , Null)
-        Else
-            .Parameters.Append .CreateParameter("pTableRecordId", adInteger, adParamInput, , ID)
-        End If
+        if isnull(id) then
+            .parameters.append .createparameter("pTableRecordId", adinteger, adparaminput, , null)
+        else
+            .parameters.append .createparameter("pTableRecordId", adinteger, adparaminput, , id)
+        end if
 
-        .Parameters.Append .CreateParameter("pUpdatedBy", adVarChar, adParamInput, 55, Environ$("username"))
-        .Parameters.Append .CreateParameter("pColumnName", adVarChar, adParamInput, 100, column)
-        .Parameters.Append .CreateParameter("pPreviousData", adVarChar, adParamInput, 255, oldText)
-        .Parameters.Append .CreateParameter("pNewData", adVarChar, adParamInput, 255, newText)
-        .Parameters.Append .CreateParameter("pReferenceId", adInteger, adParamInput, , referenceId)
-        .Parameters.Append .CreateParameter("pFormName", adVarChar, adParamInput, 55, StrQuoteReplace(formName))
-        .Parameters.Append .CreateParameter("pDataTag0", adVarChar, adParamInput, 55, tagText)
+        .parameters.append .createparameter("pUpdatedBy", advarchar, adparaminput, 55, environ$("username"))
+        .parameters.append .createparameter("pColumnName", advarchar, adparaminput, 100, column)
+        .parameters.append .createparameter("pPreviousData", advarchar, adparaminput, 255, oldtext)
+        .parameters.append .createparameter("pNewData", advarchar, adparaminput, 255, newtext)
+        .parameters.append .createparameter("pReferenceId", adinteger, adparaminput, , referenceid)
+        .parameters.append .createparameter("pFormName", advarchar, adparaminput, 55, strquotereplace(formname))
+        .parameters.append .createparameter("pDataTag0", advarchar, adparaminput, 55, tagtext)
 
-        .Execute , , adExecuteNoRecords
-    End With
+        .execute , , adexecutenorecords
+    end with
 
-CleanExit:
-    Set cmd = Nothing
-    Exit Sub
+cleanexit:
+    set cmd = nothing
+    exit sub
 
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "registerStratPlanUpdates", err.Description, err.Number)
-    Resume CleanExit
+err_handler:
+    call handleerror("wdbGlobalFunctions", "registerStratPlanUpdates", err.description, err.number)
+    resume cleanexit
 
-End Sub
+end sub
 
-Function logClick(modName As String, formName As String, Optional dataTag0 = "")
-    On Error GoTo Err_Handler
+function logclick(modname as string, formname as string, optional datatag0 = "")
+    on error goto err_handler
 
-    ' 1. Check if analytics are enabled
-    If Nz(DLookup("paramVal", "tblDBinfoBE", "parameter = 'recordAnalytics'"), "False") = "False" Then Exit Function
+    ' 1. check if analytics are enabled
+    if nz(dlookup("paramVal", "tblDBinfoBE", "parameter = 'recordAnalytics'"), "False") = "False" then exit function
 
-    Dim conn As ADODB.Connection
-    Set conn = CurrentProject.Connection
+    dim conn as adodb.connection
+    set conn = currentproject.connection
     
-    Dim strSQL As String
+    dim strsql as string
     
-    ' 2. Build the SQL string for Access
-    ' IMPORTANT: Access ADO requires # for dates and '' for escaped quotes
-    strSQL = "INSERT INTO tblAnalytics ([module], [form], [username], [dateused], [datatag0], [datatag1]) " & _
+    ' 2. build the sql string for access
+    ' important: access ado requires # for dates and '' for escaped quotes
+    strsql = "INSERT INTO tblAnalytics ([module], [form], [username], [dateused], [datatag0], [datatag1]) " & _
              "VALUES (" & _
-             "'" & Replace(modName, "'", "''") & "', " & _
-             "'" & Replace(formName, "'", "''") & "', " & _
-             "'" & Environ("username") & "', " & _
-             "#" & Format(Now(), "yyyy-mm-dd hh:nn:ss") & "#, " & _
-             "'" & Replace(Nz(dataTag0, ""), "'", "''") & "', " & _
-             "'SP" & Nz(TempVars!dbVersion, "") & "')"
+             "'" & replace(modname, "'", "''") & "', " & _
+             "'" & replace(formname, "'", "''") & "', " & _
+             "'" & environ("username") & "', " & _
+             "#" & format(now(), "yyyy-mm-dd hh:nn:ss") & "#, " & _
+             "'" & replace(nz(datatag0, ""), "'", "''") & "', " & _
+             "'SP" & nz(tempvars!dbversion, "") & "')"
 
 
-    ' 3. Execute
-    conn.Execute strSQL
+    ' 3. execute
+    conn.execute strsql
 
-CleanUp:
-    Set conn = Nothing
-    Exit Function
+cleanup:
+    set conn = nothing
+    exit function
 
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "logClick", err.Description, err.Number)
-    Resume CleanUp
-End Function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "logClick", err.description, err.number)
+    resume cleanup
+end function
 
-Public Function StrQuoteReplace(strValue)
-On Error GoTo Err_Handler
+public function strquotereplace(strvalue)
+on error goto err_handler
 
-StrQuoteReplace = Replace(Nz(strValue, ""), "'", "''")
+strquotereplace = replace(nz(strvalue, ""), "'", "''")
 
-Exit Function
-Err_Handler:
-    Call handleError("wdbGlobalFunctions", "StrQuoteReplace", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "StrQuoteReplace", err.description, err.number)
+end function

@@ -1,7 +1,7 @@
 ÿþversion =21
 versionrequired =20
 publishoption =1
-checksum =-1016154691
+checksum =-2056297143
 begin report
     layoutforprint = notdefault
     dividinglines = notdefault
@@ -12,26 +12,28 @@ begin report
     datasheetgridlinesbehavior =3
     gridx =24
     gridy =24
-    width =14455
+    width =14700
     datasheetfontheight =11
-    right =18615
+    itemsuffix =29
+    right =19380
     bottom =13485
     datasheetgridlinescolor =14211288
     recsrcdt = begin
-        0x2e885bf80984e640
+        0x2399e88ef384e640
     end
     guid = begin
-        0x41d3fb35c7cc1a42b60316299b1db1a9
+        0xfac18e400bdc244685cbf1123482ea93
     end
-    recordsource ="tblCapacityRequest_partnumbers"
+    recordsource ="tblCapacityRequests"
+    caption ="tblCapacityRequests"
     datasheetfontname ="Yu Gothic UI"
     prtmip = begin
-        0x6801000068010000680100006801000000000000763800005901000001000000 ,
+        0x6801000068010000680100006801000000000000002d0000e001000001000000 ,
         0x010000006801000000000000a10700000100000001000000
     end
     prtdevmode = begin
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x010400209c000c1203ff800302000100ea0a6f08640001000700580202000100 ,
+        0x010400209c000c120fff800301000100ea0a6f08640001000700580202000100 ,
         0x5802020000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000001000000 ,
         0x0200000000020000010000000000000000000000000000000000000031304452 ,
@@ -201,7 +203,7 @@ begin report
     prtdevmodew = begin
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
         0x45005300490047004e0000002d0034003400450033002d003400360035000000 ,
-        0x01040020dc000c1203ff800302000100ea0a6f08640001000700580202000100 ,
+        0x01040020dc000c120fff800301000100ea0a6f08640001000700580202000100 ,
         0x5802020000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000001000000 ,
@@ -377,40 +379,6 @@ begin report
             gridlinethemecolorindex =1
             gridlineshade =65.0
         end
-        begin commandbutton
-            fontsize =11
-            fontweight =400
-            forecolor =4210752
-            fontname ="Yu Gothic UI"
-            gridlinecolor =10921638
-            forethemecolorindex =0
-            foretint =75.0
-            gridlinethemecolorindex =1
-            gridlineshade =65.0
-            usetheme =1
-            shape =1
-            gradient =12
-            backcolor =6750034
-            backthemecolorindex =4
-            backtint =60.0
-            borderlinestyle =0
-            bordercolor =6750034
-            borderthemecolorindex =4
-            bordertint =60.0
-            themefontindex =1
-            hovercolor =10092428
-            hoverthemecolorindex =4
-            hovertint =40.0
-            pressedcolor =1287680
-            pressedthemecolorindex =4
-            pressedshade =75.0
-            hoverforecolor =4210752
-            hoverforethemecolorindex =0
-            hoverforetint =75.0
-            pressedforecolor =4210752
-            pressedforethemecolorindex =0
-            pressedforetint =75.0
-        end
         begin textbox
             addcolon = notdefault
             felinebreak = notdefault
@@ -432,274 +400,172 @@ begin report
             gridlinethemecolorindex =1
             gridlineshade =65.0
         end
-        begin combobox
-            addcolon = notdefault
-            borderlinestyle =0
-            labelx =-1800
-            fontsize =11
-            bordercolor =10921638
-            forecolor =2039583
-            fontname ="Yu Gothic UI"
-            gridlinecolor =10921638
-            allowvaluelistedits =1
-            inheritvaluelist =1
-            themefontindex =1
-            backthemecolorindex =1
-            borderthemecolorindex =1
-            bordershade =65.0
-            forethemecolorindex =2
-            foreshade =50.0
-            gridlinethemecolorindex =1
-            gridlineshade =65.0
-        end
         begin formheader
             keeptogether = notdefault
-            height =360
+            height =420
+            backcolor =14277081
             name ="ReportHeader"
             guid = begin
-                0xadcbf9228b82524f93cbc44cea71d57b
+                0x5e9e4e208d112d4c8cf2921be3e4f443
             end
             alternatebackthemecolorindex =1
             alternatebackshade =95.0
-            backthemecolorindex =1
+            backthemecolorindex =2
+            backtint =20.0
             begin
                 begin label
-                    width =1200
+                    textalign =3
+                    left =360
+                    width =780
                     height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label69"
-                    caption ="Req ID"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
+                    name ="RecordID_Label"
+                    caption ="RecordID"
+                    tag ="DetachedLabel"
                     guid = begin
-                        0x25355fb168497b4d9a3b06e4ce042cb6
+                        0x2e2fbd867cedc147b931ef14a6af15a6
                     end
-                    layoutcachedwidth =1200
+                    gridlinestylebottom =1
+                    layoutcachedleft =360
+                    layoutcachedwidth =1140
                     layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
                 end
                 begin label
-                    left =1260
-                    width =1080
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label70"
-                    caption ="PN"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0xd09a72d634f511428779e42f26402b7d
-                    end
-                    layoutcachedleft =1260
-                    layoutcachedwidth =2340
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =6300
-                    width =585
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label74"
-                    caption ="PPV"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0x9267be3360d6f1499236cb4f957de1b7
-                    end
-                    layoutcachedleft =6300
-                    layoutcachedwidth =6885
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =8520
-                    width =1020
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label76"
-                    caption ="Volume"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0xc01b8fd83d009e488a241bc85b681919
-                    end
-                    layoutcachedleft =8520
-                    layoutcachedwidth =9540
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =2400
-                    width =840
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label71"
-                    caption ="Unit"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0x9c3ed09052fe5f4e889c75649f73f33a
-                    end
-                    layoutcachedleft =2400
-                    layoutcachedwidth =3240
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =3300
-                    width =1800
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label72"
-                    caption ="Production Type"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0x9230e3db0b6b874195e144df7d868b57
-                    end
-                    layoutcachedleft =3300
-                    layoutcachedwidth =5100
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =5160
-                    width =1080
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label73"
-                    caption ="Tonnage"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0xbee031611b610940a9f170c375b76077
-                    end
-                    layoutcachedleft =5160
-                    layoutcachedwidth =6240
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =6960
-                    width =1515
-                    height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label75"
-                    caption ="Volume Type"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
-                    guid = begin
-                        0x751f5efd3708da44a3d0f85ce394ca3a
-                    end
-                    layoutcachedleft =6960
-                    layoutcachedwidth =8475
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
-                end
-                begin label
-                    left =9600
+                    textalign =1
+                    left =1320
                     width =1680
                     height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label77"
-                    caption ="Volume Timing"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
+                    name ="requestDate_Label"
+                    caption ="requestDate"
+                    tag ="DetachedLabel"
                     guid = begin
-                        0x426d793af2547341912537e1e35ab160
+                        0xc912086e3f931b4bbf59d5016d939812
                     end
-                    layoutcachedleft =9600
-                    layoutcachedwidth =11280
+                    gridlinestylebottom =1
+                    layoutcachedleft =1320
+                    layoutcachedwidth =3000
                     layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
                 end
                 begin label
-                    left =11340
-                    width =1845
+                    textalign =3
+                    left =3120
+                    width =1560
                     height =345
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Label78"
-                    caption ="Capacity Results"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
+                    name ="requestType_Label"
+                    caption ="requestType"
+                    tag ="DetachedLabel"
                     guid = begin
-                        0x089aa7aca59fb1438d2802d5a1f739e1
+                        0x0dfbc84620d03a478fc06f4f9930e5f3
                     end
-                    layoutcachedleft =11340
-                    layoutcachedwidth =13185
+                    gridlinestylebottom =1
+                    layoutcachedleft =3120
+                    layoutcachedwidth =4680
                     layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
                 end
                 begin label
-                    left =13200
-                    width =1195
-                    height =360
-                    fontweight =700
-                    bordercolor =4342338
-                    forecolor =0
-                    name ="Quote_Label"
-                    caption ="Quote"
-                    fontname ="Segoe UI"
-                    tag ="lbl.L1"
+                    textalign =1
+                    left =4980
+                    width =720
+                    height =345
+                    name ="SOP_Label"
+                    caption ="SOP"
+                    tag ="DetachedLabel"
                     guid = begin
-                        0x1df091947cf92c4c812734c33020118f
+                        0x84639d824fc8cd48bfcbc3a245129d35
                     end
-                    layoutcachedleft =13200
-                    layoutcachedwidth =14395
-                    layoutcachedheight =360
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    foretint =100.0
+                    gridlinestylebottom =1
+                    layoutcachedleft =4980
+                    layoutcachedwidth =5700
+                    layoutcachedheight =345
+                end
+                begin label
+                    textalign =1
+                    left =5880
+                    width =900
+                    height =345
+                    name ="EOP_Label"
+                    caption ="EOP"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0xc2e3319ea8a4824299fe641cd7acd3c0
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =5880
+                    layoutcachedwidth =6780
+                    layoutcachedheight =345
+                end
+                begin label
+                    textalign =3
+                    left =6960
+                    width =1320
+                    height =345
+                    name ="Requestor_Label"
+                    caption ="Requestor"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0xfbb1861003cf4b499582981091db5812
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =6960
+                    layoutcachedwidth =8280
+                    layoutcachedheight =345
+                end
+                begin label
+                    textalign =3
+                    left =8400
+                    width =1200
+                    height =345
+                    name ="responseTime_Label"
+                    caption ="responseTime"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0x85381b82a3b7b943a0f118a72e90cbb9
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =8400
+                    layoutcachedwidth =9600
+                    layoutcachedheight =345
+                end
+                begin label
+                    textalign =1
+                    left =9660
+                    width =1260
+                    height =345
+                    name ="SSMA_TimeStamp_Label"
+                    caption ="SSMA_TimeStamp"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0x730f0da3153cc849bdebd4bcf9cb9faf
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =9660
+                    layoutcachedwidth =10920
+                    layoutcachedheight =345
+                end
+                begin label
+                    textalign =3
+                    left =11100
+                    width =2340
+                    height =345
+                    name ="surveyPartCount_Label"
+                    caption ="surveyPartCount"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0xc4f559e289333d4f8da6a966a3daea9f
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =11100
+                    layoutcachedwidth =13440
+                    layoutcachedheight =345
                 end
             end
         end
         begin section
             keeptogether = notdefault
-            height =1380
+            cangrow = notdefault
+            height =1200
             name ="Detail"
             guid = begin
-                0x550a7b9407f977439afcc9dc9c2da7b1
+                0xfa153e76cb45e64aba04b6dd2e824756
             end
             alternatebackcolor =15921906
             alternatebackthemecolorindex =1
@@ -707,350 +573,323 @@ begin report
             backthemecolorindex =1
             begin
                 begin textbox
-                    locked = notdefault
+                    oldborderstyle =0
                     imesentencemode =3
-                    width =1200
+                    left =360
+                    top =60
+                    width =780
                     height =345
-                    bordercolor =6381921
-                    forecolor =0
-                    name ="requestId"
-                    controlsource ="requestId"
-                    tag ="txt.L2"
+                    name ="RecordID"
+                    controlsource ="RecordID"
                     guid = begin
-                        0x168e89f49bb9cf4ab456daeaa0a995ec
+                        0x582ef988e4201b42a54bb64078a90269
                     end
-                    showdatepicker =1
 
-                    layoutcachedwidth =1200
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    foretint =100.0
+                    layoutcachedleft =360
+                    layoutcachedtop =60
+                    layoutcachedwidth =1140
+                    layoutcachedheight =405
                 end
                 begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    left =1260
-                    width =1020
-                    height =345
+                    left =1320
+                    top =60
+                    width =1680
+                    height =360
                     tabindex =1
-                    bordercolor =6381921
-                    forecolor =0
-                    name ="partNumber"
-                    controlsource ="partNumber"
-                    tag ="txtContrastBorder.L2"
+                    name ="requestDate"
+                    controlsource ="requestDate"
                     guid = begin
-                        0x859b9b8e0227154ba15ac4921e8efa6b
+                        0x5245d5a5f298044d97e60a1e008e5dc8
                     end
-                    showdatepicker =1
 
-                    layoutcachedleft =1260
-                    layoutcachedwidth =2280
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    foretint =100.0
+                    layoutcachedleft =1320
+                    layoutcachedtop =60
+                    layoutcachedwidth =3000
+                    layoutcachedheight =420
                 end
                 begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    left =6300
-                    width =600
-                    height =345
+                    left =3120
+                    top =60
+                    width =1560
+                    height =360
                     tabindex =2
-                    bordercolor =6381921
-                    forecolor =0
-                    name ="ppv"
-                    controlsource ="ppv"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
+                    name ="requestType"
+                    controlsource ="requestType"
                     guid = begin
-                        0x660ef533d15b3b49a5e10059f85374a5
+                        0x5b278e641181cc45a0541279038c42a0
                     end
-                    showdatepicker =1
 
-                    layoutcachedleft =6300
-                    layoutcachedwidth =6900
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    foretint =100.0
+                    layoutcachedleft =3120
+                    layoutcachedtop =60
+                    layoutcachedwidth =4680
+                    layoutcachedheight =420
                 end
                 begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    left =8520
-                    width =1020
-                    height =345
+                    left =4980
+                    top =60
+                    width =720
+                    height =360
                     tabindex =3
-                    bordercolor =6381921
-                    forecolor =0
-                    name ="volume"
-                    controlsource ="volume"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
+                    name ="SOP"
+                    controlsource ="SOP"
                     guid = begin
-                        0x8121290285753d4db0b07f34ba62e4ae
+                        0x6ae3025df0a6fd4198a149d076835b1a
                     end
-                    showdatepicker =1
 
-                    layoutcachedleft =8520
-                    layoutcachedwidth =9540
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    foretint =100.0
+                    layoutcachedleft =4980
+                    layoutcachedtop =60
+                    layoutcachedwidth =5700
+                    layoutcachedheight =420
                 end
-                begin combobox
-                    limittolist = notdefault
+                begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    columncount =2
-                    left =2340
+                    left =5880
+                    top =60
                     width =900
-                    height =345
+                    height =360
                     tabindex =4
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"\";\"\";\"10\";\"510\""
+                    name ="EOP"
+                    controlsource ="EOP"
                     guid = begin
-                        0x062867ad66735240b16aed879cbb5936
+                        0x91c671851c66674a85b57fd156a0c3bf
                     end
-                    name ="unitId"
-                    controlsource ="unitId"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblUnits.recordID, tblUnits.unitName FROM tblUnits ORDER BY tblUnits.unit"
-                        "Number;"
-                    columnwidths ="0;1440"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
-                    baseinfo ="\"select tblunits.recordid, tblunits.unitname from tblunits order by tblunits.un"
-                        "itNumber;\";\"tblUnits\";\"\";\"recordID\";\"unitName\";\"PrimaryKey\""
-                    allowvaluelistedits =0
 
-                    layoutcachedleft =2340
-                    layoutcachedwidth =3240
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    forethemecolorindex =0
-                    foreshade =100.0
+                    layoutcachedleft =5880
+                    layoutcachedtop =60
+                    layoutcachedwidth =6780
+                    layoutcachedheight =420
                 end
-                begin combobox
-                    limittolist = notdefault
+                begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    columncount =2
-                    left =3300
-                    width =1785
-                    height =345
+                    left =2520
+                    top =420
+                    width =2100
+                    height =360
                     tabindex =5
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"\";\"\";\"10\";\"110\""
+                    name ="Customer"
+                    controlsource ="Customer"
                     guid = begin
-                        0xfc6221e02eebf24ebdd84911e625fac8
+                        0x54c1bf976aead94ba92a13e462955c10
                     end
-                    name ="productionType"
-                    controlsource ="productionType"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblDropDowns_StrategicPlanning.recordId, tblDropDowns_StrategicPlanning.p"
-                        "roductionType FROM tblDropDowns_StrategicPlanning WHERE (((tblDropDowns_Strategi"
-                        "cPlanning.productionType) Is Not Null)) ORDER BY tblDropDowns_StrategicPlanning."
-                        "productionType;"
-                    columnwidths ="0;1440"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
-                    allowvaluelistedits =0
 
-                    layoutcachedleft =3300
-                    layoutcachedwidth =5085
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    forethemecolorindex =0
-                    foreshade =100.0
+                    layoutcachedleft =2520
+                    layoutcachedtop =420
+                    layoutcachedwidth =4620
+                    layoutcachedheight =780
                 end
-                begin combobox
-                    limittolist = notdefault
+                begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    left =5160
-                    width =1080
-                    height =345
+                    left =6360
+                    top =420
+                    width =1560
+                    height =360
                     tabindex =6
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"10\";\"50\""
+                    name ="Program"
+                    controlsource ="Program"
                     guid = begin
-                        0x7478abb1b103344989f2a8e890a72c1b
+                        0x3d5982c9f528664d92f2efb633f32606
                     end
-                    name ="tonnage"
-                    controlsource ="tonnage"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblDropDownsSP.presssizeall FROM tblDropDownsSP WHERE (((tblDropDownsSP.p"
-                        "resssizeall) Is Not Null));"
-                    columnwidths ="1440"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
-                    allowvaluelistedits =0
 
-                    layoutcachedleft =5160
-                    layoutcachedwidth =6240
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    forethemecolorindex =0
-                    foreshade =100.0
+                    layoutcachedleft =6360
+                    layoutcachedtop =420
+                    layoutcachedwidth =7920
+                    layoutcachedheight =780
                 end
-                begin combobox
-                    limittolist = notdefault
+                begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    columncount =2
-                    left =6960
-                    width =1500
-                    height =345
+                    left =9840
+                    top =420
+                    width =1740
+                    height =360
                     tabindex =7
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"\";\"\";\"10\";\"110\""
+                    name ="vehicleModel"
+                    controlsource ="vehicleModel"
                     guid = begin
-                        0x2a4da5ba6d3af845b31bef1c244b54e9
+                        0x1e1bf695a6f6694299cc92fb223da0c7
                     end
-                    name ="volumeType"
-                    controlsource ="volumeType"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblDropDowns_StrategicPlanning.recordId, tblDropDowns_StrategicPlanning.v"
-                        "olumeType FROM tblDropDowns_StrategicPlanning WHERE (((tblDropDowns_StrategicPla"
-                        "nning.volumeType) Is Not Null)) ORDER BY tblDropDowns_StrategicPlanning.volumeTy"
-                        "pe;"
-                    columnwidths ="0;1440"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
-                    allowvaluelistedits =0
+
+                    layoutcachedleft =9840
+                    layoutcachedtop =420
+                    layoutcachedwidth =11580
+                    layoutcachedheight =780
+                end
+                begin textbox
+                    oldborderstyle =0
+                    imesentencemode =3
+                    left =6960
+                    top =60
+                    width =1320
+                    height =360
+                    tabindex =8
+                    name ="Requestor"
+                    controlsource ="Requestor"
+                    guid = begin
+                        0x9f53ab0c738d8e48b1e3ab35537392a7
+                    end
 
                     layoutcachedleft =6960
-                    layoutcachedwidth =8460
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    forethemecolorindex =0
-                    foreshade =100.0
+                    layoutcachedtop =60
+                    layoutcachedwidth =8280
+                    layoutcachedheight =420
                 end
-                begin combobox
-                    limittolist = notdefault
+                begin textbox
+                    cangrow = notdefault
+                    oldborderstyle =0
                     imesentencemode =3
-                    columncount =2
-                    left =9600
-                    width =1680
-                    height =345
-                    tabindex =8
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"\";\"\";\"10\";\"50\""
-                    guid = begin
-                        0x069cb682f891f84c82540d91acbd434f
-                    end
-                    name ="volumeTiming"
-                    controlsource ="volumeTiming"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblDropDowns_StrategicPlanning.recordId, tblDropDowns_StrategicPlanning.v"
-                        "olumeTiming FROM tblDropDowns_StrategicPlanning WHERE (((tblDropDowns_StrategicP"
-                        "lanning.volumeTiming) Is Not Null)) ORDER BY tblDropDowns_StrategicPlanning.volu"
-                        "meTiming;"
-                    columnwidths ="0;1440"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
-                    allowvaluelistedits =0
-
-                    layoutcachedleft =9600
-                    layoutcachedwidth =11280
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    forethemecolorindex =0
-                    foreshade =100.0
-                end
-                begin combobox
-                    limittolist = notdefault
-                    imesentencemode =3
-                    columncount =2
-                    left =11340
-                    width =1860
-                    height =345
+                    left =1080
+                    top =840
+                    width =13500
+                    height =360
                     tabindex =9
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"\";\"\";\"10\";\"200\""
+                    name ="Notes"
+                    controlsource ="Notes"
                     guid = begin
-                        0x78452729e81f4f478a765ed9bc87e27c
+                        0xc45359fdfa0b964ba888c067305633f2
                     end
-                    name ="capacityResults"
-                    controlsource ="capacityResults"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblDropDowns_StrategicPlanning.recordId, tblDropDowns_StrategicPlanning.r"
-                        "esults FROM tblDropDowns_StrategicPlanning WHERE (((tblDropDowns_StrategicPlanni"
-                        "ng.results) Is Not Null)) ORDER BY tblDropDowns_StrategicPlanning.results;"
-                    columnwidths ="0;1440"
-                    afterupdate ="=trackUpdate()"
-                    tag ="txtContrastBorder.L2"
-                    allowvaluelistedits =0
 
-                    layoutcachedleft =11340
-                    layoutcachedwidth =13200
-                    layoutcachedheight =345
-                    borderthemecolorindex =-1
-                    forethemecolorindex =0
-                    foreshade =100.0
+                    layoutcachedleft =1080
+                    layoutcachedtop =840
+                    layoutcachedwidth =14580
+                    layoutcachedheight =1200
                 end
-                begin combobox
-                    limittolist = notdefault
+                begin textbox
+                    oldborderstyle =0
                     imesentencemode =3
-                    columncount =2
-                    listwidth =1440
-                    left =13260
-                    width =1195
-                    height =345
+                    left =8400
+                    top =60
+                    width =1200
+                    height =360
                     tabindex =10
-                    bordercolor =6381921
-                    forecolor =0
-                    columninfo ="\"\";\"\";\"\";\"\";\"10\";\"50\""
+                    name ="responseTime"
+                    controlsource ="responseTime"
                     guid = begin
-                        0xffbdebea1a7eb9489eeb3a6a7bb054a2
+                        0x1eecc6f90e62d6438211d156e7340143
                     end
-                    name ="quoteStatus"
-                    controlsource ="quoteStatus"
-                    rowsourcetype ="Table/Query"
-                    rowsource ="SELECT tblDropDowns_StrategicPlanning.recordId, tblDropDowns_StrategicPlanning.q"
-                        "uoteAward FROM tblDropDowns_StrategicPlanning WHERE (((tblDropDowns_StrategicPla"
-                        "nning.quoteAward) Is Not Null)) ORDER BY tblDropDowns_StrategicPlanning.quoteAwa"
-                        "rd; "
-                    columnwidths ="0;1440"
-                    afterupdate ="=trackUpdate()"
-                    fontname ="Segoe UI"
-                    tag ="txtContrastBorder.L2"
-                    allowvaluelistedits =0
 
-                    layoutcachedleft =13260
-                    layoutcachedwidth =14455
-                    layoutcachedheight =345
-                    themefontindex =-1
-                    borderthemecolorindex =-1
-                    bordertint =75.0
-                    bordershade =100.0
-                    forethemecolorindex =0
-                    foreshade =100.0
+                    layoutcachedleft =8400
+                    layoutcachedtop =60
+                    layoutcachedwidth =9600
+                    layoutcachedheight =420
                 end
-                begin commandbutton
-                    picturetype =1
-                    left =120
-                    top =420
-                    width =840
-                    height =600
+                begin textbox
+                    oldborderstyle =0
+                    imesentencemode =3
+                    left =9660
+                    top =60
+                    width =1260
+                    height =360
                     tabindex =11
-                    name ="Command2"
-                    caption ="Command2"
-                    tag ="btnContrastBorder.L3"
-                    picture ="\\\\data\\mdbdata\\WorkingDB\\Pictures\\Core\\customerXref.ico"
+                    name ="SSMA_TimeStamp"
+                    controlsource ="SSMA_TimeStamp"
                     guid = begin
-                        0x4136a125c3281347859e77c9110e7b72
+                        0xca15037d3e0ddf4289d26dcbea7ba96a
                     end
 
-                    cursoronhover =1
-                    layoutcachedleft =120
+                    layoutcachedleft =9660
+                    layoutcachedtop =60
+                    layoutcachedwidth =10920
+                    layoutcachedheight =420
+                end
+                begin textbox
+                    oldborderstyle =0
+                    imesentencemode =3
+                    left =11100
+                    top =60
+                    width =2340
+                    height =360
+                    tabindex =12
+                    name ="surveyPartCount"
+                    controlsource ="surveyPartCount"
+                    guid = begin
+                        0x1bbcdb5c7ae0a645ae43c68e81250a4c
+                    end
+
+                    layoutcachedleft =11100
+                    layoutcachedtop =60
+                    layoutcachedwidth =13440
+                    layoutcachedheight =420
+                end
+                begin label
+                    textalign =1
+                    left =360
+                    top =840
+                    width =660
+                    height =345
+                    name ="Notes_Label"
+                    caption ="Notes"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0x24fb1a4d99153e4c8a7c9e29c1cc9c3b
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =360
+                    layoutcachedtop =840
+                    layoutcachedwidth =1020
+                    layoutcachedheight =1185
+                end
+                begin label
+                    textalign =3
+                    left =360
+                    top =420
+                    width =2100
+                    height =345
+                    name ="Customer_Label"
+                    caption ="Customer"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0xebefc295bb0574489c7cb520e32ee9c7
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =360
                     layoutcachedtop =420
-                    layoutcachedwidth =960
-                    layoutcachedheight =1020
-                    webimagepaddingleft =2
-                    webimagepaddingtop =2
-                    webimagepaddingright =1
-                    webimagepaddingbottom =1
-                    overlaps =1
+                    layoutcachedwidth =2460
+                    layoutcachedheight =765
+                end
+                begin label
+                    textalign =1
+                    left =4740
+                    top =420
+                    width =1560
+                    height =345
+                    name ="Program_Label"
+                    caption ="Program"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0x6a8bf1746bb30a4692b62cd2e19d6574
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =4740
+                    layoutcachedtop =420
+                    layoutcachedwidth =6300
+                    layoutcachedheight =765
+                end
+                begin label
+                    textalign =1
+                    left =7980
+                    top =420
+                    width =1740
+                    height =345
+                    name ="vehicleModel_Label"
+                    caption ="vehicleModel"
+                    tag ="DetachedLabel"
+                    guid = begin
+                        0xa9959fae8adf2640b64e64094ca128f0
+                    end
+                    gridlinestylebottom =1
+                    layoutcachedleft =7980
+                    layoutcachedtop =420
+                    layoutcachedwidth =9720
+                    layoutcachedheight =765
                 end
             end
         end
@@ -1059,8 +898,9 @@ begin report
             height =0
             name ="ReportFooter"
             guid = begin
-                0xad217bc3d6b5f54b8e853a5d017fcd8b
+                0x66e90028ba7a52498c2fc37384041e45
             end
+            autoheight =1
             alternatebackthemecolorindex =1
             alternatebackshade =95.0
             backthemecolorindex =1

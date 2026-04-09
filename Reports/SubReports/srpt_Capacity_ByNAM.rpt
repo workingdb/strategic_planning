@@ -1,7 +1,7 @@
 ÿþversion =21
 versionrequired =20
 publishoption =1
-checksum =-1016154691
+checksum =-1883475412
 begin report
     layoutforprint = notdefault
     dividinglines = notdefault
@@ -12,26 +12,29 @@ begin report
     datasheetgridlinesbehavior =3
     gridx =24
     gridy =24
-    width =14455
+    width =15360
     datasheetfontheight =11
-    right =18615
-    bottom =13485
+    itemsuffix =3
+    left =345
+    top =3165
+    right =15495
+    bottom =4995
     datasheetgridlinescolor =14211288
     recsrcdt = begin
-        0x2e885bf80984e640
+        0x04221332f184e640
     end
     guid = begin
-        0x41d3fb35c7cc1a42b60316299b1db1a9
+        0xcbfbb54a98b2b84cb4b27949e0b92345
     end
     recordsource ="tblCapacityRequest_partnumbers"
     datasheetfontname ="Yu Gothic UI"
     prtmip = begin
-        0x6801000068010000680100006801000000000000763800005901000001000000 ,
+        0x6801000068010000680100006801000000000000201c0000e010000001000000 ,
         0x010000006801000000000000a10700000100000001000000
     end
     prtdevmode = begin
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x010400209c000c1203ff800302000100ea0a6f08640001000700580202000100 ,
+        0x010400209c000c120fff800301000100ea0a6f08640001000700580202000100 ,
         0x5802020000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000001000000 ,
         0x0200000000020000010000000000000000000000000000000000000031304452 ,
@@ -184,7 +187,7 @@ begin report
     prtdevnames = begin
         0x080029003f000100000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000000000031 ,
-        0x302e3130362e3234392e313200
+        0x302e3130362e3234392e3132000000000000000000
     end
     filteronload =0
     fittopage =1
@@ -199,12 +202,12 @@ begin report
     alternatebackthemecolorindex =1
     alternatebackshade =95.0
     prtdevmodew = begin
-        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x45005300490047004e0000002d0034003400450033002d003400360035000000 ,
-        0x01040020dc000c1203ff800302000100ea0a6f08640001000700580202000100 ,
-        0x5802020000000000000000000000000000000000000000000000000000000000 ,
-        0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x0000000000000000000000000000000000000000000000000000000001000000 ,
+        0x00005372a10000002056ec9b010403010000000000000000a0c9d48f23020000 ,
+        0x5a0000000000000078264290fc7f0000262172a3230200000000000000000000 ,
+        0x01040020dc000c120fff800301000100ea0a6f08640001000700580202000100 ,
+        0x5802020000000000e0274290fc7f0000c4254290fc7f000080394290fc7f0000 ,
+        0xe0274290fc7f000000254290fc7f000078264290fc7f00002631b487fc7f0000 ,
+        0xc428ad72ac9a0000000000000000000000000000000000000000000001000000 ,
         0x0200000000020000010000000000000000000000000000000000000031304452 ,
         0xd6e70a3c1286f756000000004f040000789c7554cb72db300cfc179f7b883b4d ,
         0xdbe467343009496c4082c3871fe9f4dfbba464cb8d9b9b885d2cc005a8dfbb5c ,
@@ -357,7 +360,8 @@ begin report
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
         0x00000000000000000000000000000000000000000000310030002e0031003000 ,
-        0x36002e003200340039002e00310032000000
+        0x36002e003200340039002e003100320000000000000000000000000000000000 ,
+        0x0000
     end
     nosavectiwhendisabled =1
     begin
@@ -452,18 +456,28 @@ begin report
             gridlinethemecolorindex =1
             gridlineshade =65.0
         end
+        begin subform
+            borderlinestyle =0
+            gridlinecolor =10921638
+            gridlinethemecolorindex =1
+            gridlineshade =65.0
+        end
         begin formheader
             keeptogether = notdefault
             height =360
+            backcolor =14277081
             name ="ReportHeader"
             guid = begin
-                0xadcbf9228b82524f93cbc44cea71d57b
+                0x34d99650cf6f8d44a3d3989610c5234b
             end
+            autoheight =1
             alternatebackthemecolorindex =1
             alternatebackshade =95.0
-            backthemecolorindex =1
+            backthemecolorindex =2
+            backtint =20.0
             begin
                 begin label
+                    left =840
                     width =1200
                     height =345
                     fontweight =700
@@ -474,16 +488,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x25355fb168497b4d9a3b06e4ce042cb6
+                        0xae2425c3dc4e2449953e208638623c6e
                     end
-                    layoutcachedwidth =1200
+                    layoutcachedleft =840
+                    layoutcachedwidth =2040
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =1260
+                    left =2100
                     width =1080
                     height =345
                     fontweight =700
@@ -494,17 +509,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0xd09a72d634f511428779e42f26402b7d
+                        0x4593f7ab8fb28b49b4fac0ea664d3ab7
                     end
-                    layoutcachedleft =1260
-                    layoutcachedwidth =2340
+                    layoutcachedleft =2100
+                    layoutcachedwidth =3180
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =6300
+                    left =7140
                     width =585
                     height =345
                     fontweight =700
@@ -515,17 +530,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x9267be3360d6f1499236cb4f957de1b7
+                        0x320a8c1de4edc84cad5ca3ca50007d54
                     end
-                    layoutcachedleft =6300
-                    layoutcachedwidth =6885
+                    layoutcachedleft =7140
+                    layoutcachedwidth =7725
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =8520
+                    left =9360
                     width =1020
                     height =345
                     fontweight =700
@@ -536,17 +551,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0xc01b8fd83d009e488a241bc85b681919
+                        0x2dce2e5b70ced84385f96efe5cc2c1b9
                     end
-                    layoutcachedleft =8520
-                    layoutcachedwidth =9540
+                    layoutcachedleft =9360
+                    layoutcachedwidth =10380
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =2400
+                    left =3240
                     width =840
                     height =345
                     fontweight =700
@@ -557,17 +572,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x9c3ed09052fe5f4e889c75649f73f33a
+                        0xeb83b8cfd26ee241badde2b941accec3
                     end
-                    layoutcachedleft =2400
-                    layoutcachedwidth =3240
+                    layoutcachedleft =3240
+                    layoutcachedwidth =4080
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =3300
+                    left =4140
                     width =1800
                     height =345
                     fontweight =700
@@ -578,17 +593,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x9230e3db0b6b874195e144df7d868b57
+                        0xa6a17c474093cb408562c1461a3444f4
                     end
-                    layoutcachedleft =3300
-                    layoutcachedwidth =5100
+                    layoutcachedleft =4140
+                    layoutcachedwidth =5940
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =5160
+                    left =6000
                     width =1080
                     height =345
                     fontweight =700
@@ -599,17 +614,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0xbee031611b610940a9f170c375b76077
+                        0x159cdf3859c230438bae2bcc45487bc2
                     end
-                    layoutcachedleft =5160
-                    layoutcachedwidth =6240
+                    layoutcachedleft =6000
+                    layoutcachedwidth =7080
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =6960
+                    left =7800
                     width =1515
                     height =345
                     fontweight =700
@@ -620,17 +635,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x751f5efd3708da44a3d0f85ce394ca3a
+                        0x58629d232ab1534aba8574be2434c296
                     end
-                    layoutcachedleft =6960
-                    layoutcachedwidth =8475
+                    layoutcachedleft =7800
+                    layoutcachedwidth =9315
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =9600
+                    left =10440
                     width =1680
                     height =345
                     fontweight =700
@@ -641,17 +656,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x426d793af2547341912537e1e35ab160
+                        0xf981e8e1846ae640985f8a1a72123607
                     end
-                    layoutcachedleft =9600
-                    layoutcachedwidth =11280
+                    layoutcachedleft =10440
+                    layoutcachedwidth =12120
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =11340
+                    left =12180
                     width =1845
                     height =345
                     fontweight =700
@@ -662,17 +677,17 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x089aa7aca59fb1438d2802d5a1f739e1
+                        0xdcad4aecb80a7d49b4abd871339abaf1
                     end
-                    layoutcachedleft =11340
-                    layoutcachedwidth =13185
+                    layoutcachedleft =12180
+                    layoutcachedwidth =14025
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin label
-                    left =13200
+                    left =14040
                     width =1195
                     height =360
                     fontweight =700
@@ -683,10 +698,10 @@ begin report
                     fontname ="Segoe UI"
                     tag ="lbl.L1"
                     guid = begin
-                        0x1df091947cf92c4c812734c33020118f
+                        0x9fec4f4596bc3a4e8573a44381c86770
                     end
-                    layoutcachedleft =13200
-                    layoutcachedwidth =14395
+                    layoutcachedleft =14040
+                    layoutcachedwidth =15235
                     layoutcachedheight =360
                     themefontindex =-1
                     borderthemecolorindex =-1
@@ -696,10 +711,11 @@ begin report
         end
         begin section
             keeptogether = notdefault
-            height =1380
+            cangrow = notdefault
+            height =480
             name ="Detail"
             guid = begin
-                0x550a7b9407f977439afcc9dc9c2da7b1
+                0xc1f9344a0aed2946a1d79f5cf7838aa3
             end
             alternatebackcolor =15921906
             alternatebackthemecolorindex =1
@@ -709,6 +725,7 @@ begin report
                 begin textbox
                     locked = notdefault
                     imesentencemode =3
+                    left =840
                     width =1200
                     height =345
                     bordercolor =6381921
@@ -717,18 +734,19 @@ begin report
                     controlsource ="requestId"
                     tag ="txt.L2"
                     guid = begin
-                        0x168e89f49bb9cf4ab456daeaa0a995ec
+                        0xcb6034c96a6cd042a16436e15addc53b
                     end
                     showdatepicker =1
 
-                    layoutcachedwidth =1200
+                    layoutcachedleft =840
+                    layoutcachedwidth =2040
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin textbox
                     imesentencemode =3
-                    left =1260
+                    left =2100
                     width =1020
                     height =345
                     tabindex =1
@@ -738,19 +756,19 @@ begin report
                     controlsource ="partNumber"
                     tag ="txtContrastBorder.L2"
                     guid = begin
-                        0x859b9b8e0227154ba15ac4921e8efa6b
+                        0xb3b9cdbc64123e40b8a6952b966a1db9
                     end
                     showdatepicker =1
 
-                    layoutcachedleft =1260
-                    layoutcachedwidth =2280
+                    layoutcachedleft =2100
+                    layoutcachedwidth =3120
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin textbox
                     imesentencemode =3
-                    left =6300
+                    left =7140
                     width =600
                     height =345
                     tabindex =2
@@ -761,19 +779,19 @@ begin report
                     afterupdate ="=trackUpdate()"
                     tag ="txtContrastBorder.L2"
                     guid = begin
-                        0x660ef533d15b3b49a5e10059f85374a5
+                        0x7e44d9d1a28e35459abc02ac28095e52
                     end
                     showdatepicker =1
 
-                    layoutcachedleft =6300
-                    layoutcachedwidth =6900
+                    layoutcachedleft =7140
+                    layoutcachedwidth =7740
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
                 end
                 begin textbox
                     imesentencemode =3
-                    left =8520
+                    left =9360
                     width =1020
                     height =345
                     tabindex =3
@@ -784,12 +802,12 @@ begin report
                     afterupdate ="=trackUpdate()"
                     tag ="txtContrastBorder.L2"
                     guid = begin
-                        0x8121290285753d4db0b07f34ba62e4ae
+                        0x9333fe50c19e0e45bdfb9efa915f2b08
                     end
                     showdatepicker =1
 
-                    layoutcachedleft =8520
-                    layoutcachedwidth =9540
+                    layoutcachedleft =9360
+                    layoutcachedwidth =10380
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     foretint =100.0
@@ -798,7 +816,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =2340
+                    left =3180
                     width =900
                     height =345
                     tabindex =4
@@ -806,7 +824,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"\";\"\";\"10\";\"510\""
                     guid = begin
-                        0x062867ad66735240b16aed879cbb5936
+                        0x63bf0b53626af14d9104fd69fa73ad36
                     end
                     name ="unitId"
                     controlsource ="unitId"
@@ -820,8 +838,8 @@ begin report
                         "itNumber;\";\"tblUnits\";\"\";\"recordID\";\"unitName\";\"PrimaryKey\""
                     allowvaluelistedits =0
 
-                    layoutcachedleft =2340
-                    layoutcachedwidth =3240
+                    layoutcachedleft =3180
+                    layoutcachedwidth =4080
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -831,7 +849,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =3300
+                    left =4140
                     width =1785
                     height =345
                     tabindex =5
@@ -839,7 +857,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"\";\"\";\"10\";\"110\""
                     guid = begin
-                        0xfc6221e02eebf24ebdd84911e625fac8
+                        0xd650d21c5dd93b49a43c6190ea7b394a
                     end
                     name ="productionType"
                     controlsource ="productionType"
@@ -853,8 +871,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =3300
-                    layoutcachedwidth =5085
+                    layoutcachedleft =4140
+                    layoutcachedwidth =5925
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -863,7 +881,7 @@ begin report
                 begin combobox
                     limittolist = notdefault
                     imesentencemode =3
-                    left =5160
+                    left =6000
                     width =1080
                     height =345
                     tabindex =6
@@ -871,7 +889,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"10\";\"50\""
                     guid = begin
-                        0x7478abb1b103344989f2a8e890a72c1b
+                        0xe3e197385f901342a3babe5f75299847
                     end
                     name ="tonnage"
                     controlsource ="tonnage"
@@ -883,8 +901,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =5160
-                    layoutcachedwidth =6240
+                    layoutcachedleft =6000
+                    layoutcachedwidth =7080
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -894,7 +912,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =6960
+                    left =7800
                     width =1500
                     height =345
                     tabindex =7
@@ -902,7 +920,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"\";\"\";\"10\";\"110\""
                     guid = begin
-                        0x2a4da5ba6d3af845b31bef1c244b54e9
+                        0xda23f83782639047b9f904e82a510bf6
                     end
                     name ="volumeType"
                     controlsource ="volumeType"
@@ -916,8 +934,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =6960
-                    layoutcachedwidth =8460
+                    layoutcachedleft =7800
+                    layoutcachedwidth =9300
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -927,7 +945,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =9600
+                    left =10440
                     width =1680
                     height =345
                     tabindex =8
@@ -935,7 +953,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"\";\"\";\"10\";\"50\""
                     guid = begin
-                        0x069cb682f891f84c82540d91acbd434f
+                        0x6458bd92394624469e268aba800a61e8
                     end
                     name ="volumeTiming"
                     controlsource ="volumeTiming"
@@ -949,8 +967,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =9600
-                    layoutcachedwidth =11280
+                    layoutcachedleft =10440
+                    layoutcachedwidth =12120
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -960,7 +978,7 @@ begin report
                     limittolist = notdefault
                     imesentencemode =3
                     columncount =2
-                    left =11340
+                    left =12180
                     width =1860
                     height =345
                     tabindex =9
@@ -968,7 +986,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"\";\"\";\"10\";\"200\""
                     guid = begin
-                        0x78452729e81f4f478a765ed9bc87e27c
+                        0x2da4992c1d41c84080af2c3a828b67e9
                     end
                     name ="capacityResults"
                     controlsource ="capacityResults"
@@ -981,8 +999,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =11340
-                    layoutcachedwidth =13200
+                    layoutcachedleft =12180
+                    layoutcachedwidth =14040
                     layoutcachedheight =345
                     borderthemecolorindex =-1
                     forethemecolorindex =0
@@ -993,7 +1011,7 @@ begin report
                     imesentencemode =3
                     columncount =2
                     listwidth =1440
-                    left =13260
+                    left =14100
                     width =1195
                     height =345
                     tabindex =10
@@ -1001,7 +1019,7 @@ begin report
                     forecolor =0
                     columninfo ="\"\";\"\";\"\";\"\";\"10\";\"50\""
                     guid = begin
-                        0xffbdebea1a7eb9489eeb3a6a7bb054a2
+                        0x6f41f532c29c3f4386aa961c61802f36
                     end
                     name ="quoteStatus"
                     controlsource ="quoteStatus"
@@ -1016,8 +1034,8 @@ begin report
                     tag ="txtContrastBorder.L2"
                     allowvaluelistedits =0
 
-                    layoutcachedleft =13260
-                    layoutcachedwidth =14455
+                    layoutcachedleft =14100
+                    layoutcachedwidth =15295
                     layoutcachedheight =345
                     themefontindex =-1
                     borderthemecolorindex =-1
@@ -1028,24 +1046,22 @@ begin report
                 end
                 begin commandbutton
                     picturetype =1
-                    left =120
-                    top =420
-                    width =840
-                    height =600
+                    left =180
+                    width =480
                     tabindex =11
                     name ="Command2"
                     caption ="Command2"
+                    onclick ="[Event Procedure]"
                     tag ="btnContrastBorder.L3"
                     picture ="\\\\data\\mdbdata\\WorkingDB\\Pictures\\Core\\customerXref.ico"
                     guid = begin
-                        0x4136a125c3281347859e77c9110e7b72
+                        0xb097e2155a131d498dd073707cde26d6
                     end
 
                     cursoronhover =1
-                    layoutcachedleft =120
-                    layoutcachedtop =420
-                    layoutcachedwidth =960
-                    layoutcachedheight =1020
+                    layoutcachedleft =180
+                    layoutcachedwidth =660
+                    layoutcachedheight =360
                     webimagepaddingleft =2
                     webimagepaddingtop =2
                     webimagepaddingright =1
@@ -1059,7 +1075,7 @@ begin report
             height =0
             name ="ReportFooter"
             guid = begin
-                0xad217bc3d6b5f54b8e853a5d017fcd8b
+                0x7084aaa89ea6c14da15842bf5ec95030
             end
             alternatebackthemecolorindex =1
             alternatebackshade =95.0
@@ -1067,3 +1083,23 @@ begin report
         end
     end
 end
+codebehindform
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+
+
+
+private sub command2_click()
+on error goto errhandler
+ 
+    if isnull(me.requestid) then exit sub
+ 
+    docmd.openform "frmCapacityRequestDetails", acnormal, , "recordId = " & me.requestid
+ 
+exit sub
+errhandler:
+    msgbox "Open Details error " & err.number & ":" & vbcrlf & err.description, vbexclamation
+
+end sub
