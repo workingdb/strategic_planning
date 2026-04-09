@@ -1,7 +1,7 @@
 ÿþversion =21
 versionrequired =20
 publishoption =1
-checksum =-198106419
+checksum =1354767174
 begin report
     layoutforprint = notdefault
     dividinglines = notdefault
@@ -16,10 +16,10 @@ begin report
     width =15000
     datasheetfontheight =11
     itemsuffix =53
-    right =18615
-    bottom =13485
+    right =19035
+    bottom =11985
     datasheetgridlinescolor =14211288
-    filter ="[Requestor] = 140"
+    filter ="[Requestor] = 53"
     recsrcdt = begin
         0x51d7c638107ce640
     end
@@ -30,7 +30,7 @@ begin report
     caption ="rpt_SalesManager"
     datasheetfontname ="Yu Gothic UI"
     prtmip = begin
-        0x6801000068010000680100006801000000000000983a0000dc05000001000000 ,
+        0x6801000068010000680100006801000000000000983a0000ae05000001000000 ,
         0x010000006801000000000000a10700000100000001000000
     end
     prtdevmode = begin
@@ -204,10 +204,10 @@ begin report
     alternatebackshade =95.0
     prtdevmodew = begin
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x45005300490047004e0000002d0046003300430036002d003400390038000000 ,
+        0x45005300490047004e0000002d0044003300440030002d003400420036000000 ,
         0x01040020dc000c12032f010002000100ea0a6f08640001000f00580202000100 ,
-        0x5802020000004c006500740074006500720000005d010000a15b199cfb7f0000 ,
-        0x80e72d455d010000000000000000000000000000000000000000000000000000 ,
+        0x5802020000004c00650074007400650072000000000029b40e40000000000000 ,
+        0x0000000000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000001000000 ,
         0x0200000000020000010000000000000000000000000000000000000031304452 ,
         0xd6e70a3c1286f756000000004f040000789c7554cb72db300cfc179f7b883b4d ,
@@ -504,7 +504,7 @@ begin report
             end
         end
         begin pageheader
-            height =720
+            height =600
             name ="PageHeaderSection"
             guid = begin
                 0x58bcc5f761b99441b51dd51bc3fa3510
@@ -569,7 +569,7 @@ begin report
         begin section
             keeptogether = notdefault
             cangrow = notdefault
-            height =1500
+            height =719
             name ="Detail"
             guid = begin
                 0x1b5e8733ae463849a1db2d6f2e60e6ae
@@ -585,7 +585,7 @@ begin report
                     left =120
                     top =60
                     width =14815
-                    height =1394
+                    height =659
                     name ="srpt_SalesManager"
                     sourceobject ="Report.srpt_SalesManager"
                     linkchildfields ="requestId"
@@ -597,7 +597,7 @@ begin report
                     layoutcachedleft =120
                     layoutcachedtop =60
                     layoutcachedwidth =14935
-                    layoutcachedheight =1454
+                    layoutcachedheight =719
                 end
             end
         end

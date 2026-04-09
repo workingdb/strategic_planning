@@ -1,7 +1,7 @@
 ÿþversion =21
 versionrequired =20
 publishoption =1
-checksum =489701945
+checksum =1834249556
 begin report
     layoutforprint = notdefault
     dividinglines = notdefault
@@ -16,10 +16,10 @@ begin report
     width =14820
     datasheetfontheight =11
     itemsuffix =56
-    right =24045
-    bottom =13740
+    right =19035
+    bottom =11985
     datasheetgridlinescolor =14211288
-    filter ="[quoteStatus] = 2"
+    filter ="[quoteStatus] = 1"
     recsrcdt = begin
         0x2612ae9c1385e640
     end
@@ -204,10 +204,10 @@ begin report
     alternatebackshade =95.0
     prtdevmodew = begin
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x45005300490047004e0000002d0046003300430036002d003400390038000000 ,
+        0x45005300490047004e0000002d0044003300440030002d003400420036000000 ,
         0x01040020dc000c12032f010002000100ea0a6f08640001000f00580202000100 ,
-        0x5802020000004c0065007400740065007200000000000000fe02100900000000 ,
-        0x2626260000000000000000000000000000000000000000000000000000000000 ,
+        0x5802020000004c00650074007400650072000000f67f0000d0128da429020000 ,
+        0xd093dbf3f67f0000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000001000000 ,
         0x0200000000020000010000000000000000000000000000000000000031304452 ,
         0xd6e70a3c1286f756000000004f040000789c7554cb72db300cfc179f7b883b4d ,
@@ -504,7 +504,7 @@ begin report
             end
         end
         begin pageheader
-            height =720
+            height =480
             name ="PageHeaderSection"
             guid = begin
                 0x58bcc5f761b99441b51dd51bc3fa3510
@@ -516,7 +516,7 @@ begin report
                 begin textbox
                     imesentencemode =3
                     left =1620
-                    top =180
+                    top =60
                     width =1380
                     height =345
                     name ="Text53"
@@ -527,13 +527,13 @@ begin report
                     end
 
                     layoutcachedleft =1620
-                    layoutcachedtop =180
+                    layoutcachedtop =60
                     layoutcachedwidth =3000
-                    layoutcachedheight =525
+                    layoutcachedheight =405
                     begin
                         begin label
                             left =60
-                            top =180
+                            top =60
                             width =1470
                             height =345
                             name ="Label54"
@@ -542,9 +542,9 @@ begin report
                                 0x72a3ad379321a44da9421a40f5c923cc
                             end
                             layoutcachedleft =60
-                            layoutcachedtop =180
+                            layoutcachedtop =60
                             layoutcachedwidth =1530
-                            layoutcachedheight =525
+                            layoutcachedheight =405
                         end
                     end
                 end
@@ -591,29 +591,11 @@ begin report
             begin
                 begin textbox
                     oldborderstyle =0
-                    textalign =3
-                    imesentencemode =3
-                    left =9780
-                    width =4980
-                    height =310
-                    name ="Text46"
-                    controlsource ="=\"page \" & [Page] & \" of \" & [Pages]"
-                    guid = begin
-                        0xabfe562d5f921d408a465694f911e523
-                    end
-
-                    layoutcachedleft =9780
-                    layoutcachedwidth =14760
-                    layoutcachedheight =310
-                end
-                begin textbox
-                    oldborderstyle =0
                     textalign =1
                     imesentencemode =3
                     left =60
                     width =5040
                     height =310
-                    tabindex =1
                     name ="Text45"
                     controlsource ="=Now()"
                     format ="Long Date"
@@ -625,11 +607,29 @@ begin report
                     layoutcachedwidth =5100
                     layoutcachedheight =310
                 end
+                begin textbox
+                    oldborderstyle =0
+                    textalign =3
+                    imesentencemode =3
+                    left =9780
+                    width =4980
+                    height =310
+                    tabindex =1
+                    name ="Text46"
+                    controlsource ="=\"page \" & [Page] & \" of \" & [Pages]"
+                    guid = begin
+                        0xabfe562d5f921d408a465694f911e523
+                    end
+
+                    layoutcachedleft =9780
+                    layoutcachedwidth =14760
+                    layoutcachedheight =310
+                end
             end
         end
         begin formfooter
             keeptogether = notdefault
-            height =1140
+            height =0
             name ="ReportFooter"
             guid = begin
                 0x36710f8ded95004aaca7075064390976

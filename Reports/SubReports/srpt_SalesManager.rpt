@@ -1,7 +1,7 @@
 ÿþversion =21
 versionrequired =20
 publishoption =1
-checksum =-1016154691
+checksum =-1435923967
 begin report
     layoutforprint = notdefault
     dividinglines = notdefault
@@ -14,8 +14,8 @@ begin report
     gridy =24
     width =14455
     datasheetfontheight =11
-    right =18615
-    bottom =13485
+    right =19035
+    bottom =11985
     datasheetgridlinescolor =14211288
     recsrcdt = begin
         0x2e885bf80984e640
@@ -200,7 +200,7 @@ begin report
     alternatebackshade =95.0
     prtdevmodew = begin
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
-        0x45005300490047004e0000002d0034003400450033002d003400360035000000 ,
+        0x45005300490047004e0000002d0044003300440030002d003400420036000000 ,
         0x01040020dc000c1203ff800302000100ea0a6f08640001000700580202000100 ,
         0x5802020000000000000000000000000000000000000000000000000000000000 ,
         0x0000000000000000000000000000000000000000000000000000000000000000 ,
@@ -464,7 +464,10 @@ begin report
             backthemecolorindex =1
             begin
                 begin label
-                    width =1200
+                    overlapflags =4
+                    textalign =1
+                    left =360
+                    width =840
                     height =345
                     fontweight =700
                     bordercolor =4342338
@@ -476,6 +479,7 @@ begin report
                     guid = begin
                         0x25355fb168497b4d9a3b06e4ce042cb6
                     end
+                    layoutcachedleft =360
                     layoutcachedwidth =1200
                     layoutcachedheight =345
                     themefontindex =-1
@@ -696,7 +700,7 @@ begin report
         end
         begin section
             keeptogether = notdefault
-            height =1380
+            height =360
             name ="Detail"
             guid = begin
                 0x550a7b9407f977439afcc9dc9c2da7b1
@@ -708,8 +712,11 @@ begin report
             begin
                 begin textbox
                     locked = notdefault
+                    overlapflags =4
+                    textalign =1
                     imesentencemode =3
-                    width =1200
+                    left =360
+                    width =840
                     height =345
                     bordercolor =6381921
                     forecolor =0
@@ -721,6 +728,7 @@ begin report
                     end
                     showdatepicker =1
 
+                    layoutcachedleft =360
                     layoutcachedwidth =1200
                     layoutcachedheight =345
                     borderthemecolorindex =-1
@@ -1028,10 +1036,7 @@ begin report
                 end
                 begin commandbutton
                     picturetype =1
-                    left =120
-                    top =420
-                    width =840
-                    height =600
+                    width =360
                     tabindex =11
                     name ="Command2"
                     caption ="Command2"
@@ -1042,10 +1047,8 @@ begin report
                     end
 
                     cursoronhover =1
-                    layoutcachedleft =120
-                    layoutcachedtop =420
-                    layoutcachedwidth =960
-                    layoutcachedheight =1020
+                    layoutcachedwidth =360
+                    layoutcachedheight =360
                     webimagepaddingleft =2
                     webimagepaddingtop =2
                     webimagepaddingright =1

@@ -139,9 +139,9 @@ private sub btngenerate_click()
     end select
  
     if len(whereclause) > 0 then
-        docmd.openreport rptname, acviewpreview, , whereclause
+        docmd.openreport rptname, acviewreport, , whereclause
     else
-        docmd.openreport rptname, acviewpreview
+        docmd.openreport rptname, acviewreport
     end if
  
     exit sub
