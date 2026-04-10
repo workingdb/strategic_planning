@@ -1,6 +1,61 @@
 option compare database
 option explicit
 
+public function addworkdays(dateinput as date, daystoadd as long) as date
+on error goto err_handler
+
+dim db as database
+set db = currentdb()
+dim i as long, testdate as date, daysleft as long, rsholidays as recordset, intdirection
+testdate = dateinput
+daysleft = abs(daystoadd)
+intdirection = 1
+if daystoadd < 0 then intdirection = -1
+
+set rsholidays = db.openrecordset("tblHolidays", dbopensnapshot)
+
+do while daysleft > 0
+    testdate = testdate + intdirection
+    if weekday(testdate) = 7 or weekday(testdate) = 1 then ' if weekend -> skip
+        testdate = testdate + intdirection
+        goto skipdate
+    end if
+    
+    rsholidays.findfirst "holidayDate = #" & testdate & "#"
+    if not rsholidays.nomatch then goto skipdate ' if holiday -> skip to next da
+
+     daysleft = daysleft - 1
+skipdate:
+loop
+
+addworkdays = testdate
+
+on error resume next
+rsholidays.close
+set rsholidays = nothing
+set db = nothing
+
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "addWorkdays", err.description, err.number)
+end function
+
+public function countworkdays(olddate as date, newdate as date) as long
+on error goto err_handler
+
+dim total, sunday, saturday, weekdays, holidays
+
+total = datediff("d", [olddate], [newdate], vbsunday)
+sunday = datediff("ww", [olddate], [newdate], 1)
+saturday = datediff("ww", [olddate], [newdate], 7)
+holidays = dcount("recordId", "tblHolidays", "holidayDate > #" & olddate - 1 & "# AND holidayDate < #" & newdate & "#")
+countworkdays = total - sunday - saturday - holidays
+
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "countWorkdays", err.description, err.number)
+end function
+
 public function snackbox(stype as string, stitle as string, smessage as string, refform as string, optional centerbool as boolean = false, optional autoclose as boolean = true)
 on error goto err_handler
 
