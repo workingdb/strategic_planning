@@ -1,14 +1,14 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub cmdDetails_Click()
-    DoCmd.OpenForm "frmBuildout_details", , , "[registerId]=" & Me.[RecordID]
-End Sub
+private sub cmddetails_click()
+    docmd.openform "frmBuildout_details", , , "[registerId]=" & me.[recordid]
+end sub
 
-Private Sub cmdExposureInput_Click()
-    DoCmd.OpenForm "frmBuildout_exposure", , , "[registerId]=" & Me.RecordID
-End Sub
+private sub cmdexposureinput_click()
+    docmd.openform "frmBuildout_exposure", , , "[registerId]=" & me.recordid
+end sub

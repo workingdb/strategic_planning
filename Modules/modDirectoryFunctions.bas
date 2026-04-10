@@ -1,52 +1,52 @@
-Option Compare Database
-Option Explicit
+option compare database
+option explicit
 
-Declare PtrSafe Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal lpnShowCmd As Long) As Long
+declare ptrsafe function shellexecute lib "shell32.dll" alias "ShellExecuteA" (byval hwnd as long, byval lpoperation as string, byval lpfile as string, byval lpparameters as string, byval lpdirectory as string, byval lpnshowcmd as long) as long
 
-Public Sub openPath(Path)
-On Error GoTo Err_Handler
+public sub openpath(path)
+on error goto err_handler
 
-CreateObject("Shell.Application").Open CVar(Path)
+createobject("Shell.Application").open cvar(path)
 
-Exit Sub
-Err_Handler:
-    Call handleError("modDirectoryFunctions", "openPath", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror("modDirectoryFunctions", "openPath", err.description, err.number)
+end sub
 
-Function replaceDriveLetters(linkInput) As String
-On Error GoTo Err_Handler
+function replacedriveletters(linkinput) as string
+on error goto err_handler
 
-replaceDriveLetters = linkInput
+replacedriveletters = linkinput
 
-replaceDriveLetters = Replace(replaceDriveLetters, "N:\", "\\ncm-fs2\data\Department\")
-replaceDriveLetters = Replace(replaceDriveLetters, "T:\", "\\design\data\")
-replaceDriveLetters = Replace(replaceDriveLetters, "S:\", "\\nas01\allshare\")
+replacedriveletters = replace(replacedriveletters, "N:\", "\\ncm-fs2\data\Department\")
+replacedriveletters = replace(replacedriveletters, "T:\", "\\design\data\")
+replacedriveletters = replace(replacedriveletters, "S:\", "\\nas01\allshare\")
 
-Exit Function
-Err_Handler:
-    Call handleError("modDirectoryFunctions", "replaceDriveLetters", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modDirectoryFunctions", "replaceDriveLetters", err.description, err.number)
+end function
 
-Function addLastSlash(linkString As String) As String
-On Error GoTo Err_Handler
+function addlastslash(linkstring as string) as string
+on error goto err_handler
 
-addLastSlash = linkString
-If Right(addLastSlash, 1) <> "\" Then addLastSlash = addLastSlash & "\"
+addlastslash = linkstring
+if right(addlastslash, 1) <> "\" then addlastslash = addlastslash & "\"
 
-Exit Function
-Err_Handler:
-    Call handleError("modDirectoryFunctions", "addLastSlash", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modDirectoryFunctions", "addLastSlash", err.description, err.number)
+end function
 
-Function FolderExists(sFile As Variant) As Boolean
-On Error GoTo Err_Handler
+function folderexists(sfile as variant) as boolean
+on error goto err_handler
 
-FolderExists = False
-If IsNull(sFile) Then Exit Function
-If Dir(sFile, vbDirectory) <> "" Then FolderExists = True
+folderexists = false
+if isnull(sfile) then exit function
+if dir(sfile, vbdirectory) <> "" then folderexists = true
 
-Exit Function
-Err_Handler:
-    If err.Number = 52 Then Exit Function
-    Call handleError("modDirectoryFunctions", "FolderExists", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    if err.number = 52 then exit function
+    call handleerror("modDirectoryFunctions", "FolderExists", err.description, err.number)
+end function

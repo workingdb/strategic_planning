@@ -1,223 +1,223 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub btnGenerate_Click()
-On Error GoTo Err_Handler
+private sub btngenerate_click()
+on error goto err_handler
  
-    Dim rt As String
-    Dim rptName As String
-    Dim whereClause As String
-    Dim d1 As Date, d2 As Date
+    dim rt as string
+    dim rptname as string
+    dim whereclause as string
+    dim d1 as date, d2 as date
  
-    'Use displayed text if cboReportType is multi-column; fallback to Value if not
-    rt = Trim(Nz(Me.cboReportType.column(1), Nz(Me.cboReportType.Value, "")))
+    'use displayed text if cboreporttype is multi-column; fallback to value if not
+    rt = trim(nz(me.cboreporttype.column(1), nz(me.cboreporttype.value, "")))
  
-    If rt = "" Then
-        MsgBox "Please select a Report Type.", vbExclamation
-        Exit Sub
-    End If
+    if rt = "" then
+        msgbox "Please select a Report Type.", vbexclamation
+        exit sub
+    end if
  
-    Select Case rt
+    select case rt
  
-        Case "Capacity by Date Range"
-            rptName = "rpt_Capacity_DateRange"
+        case "Capacity by Date Range"
+            rptname = "rpt_Capacity_DateRange"
  
-            If IsNull(Me.txtStartDate) Or IsNull(Me.txtEndDate) Then
-                MsgBox "Please enter both Start Date and End Date.", vbExclamation
-                Exit Sub
-            End If
-            If Not IsDate(Me.txtStartDate) Or Not IsDate(Me.txtEndDate) Then
-                MsgBox "Start Date and End Date must be valid dates.", vbExclamation
-                Exit Sub
-            End If
+            if isnull(me.txtstartdate) or isnull(me.txtenddate) then
+                msgbox "Please enter both Start Date and End Date.", vbexclamation
+                exit sub
+            end if
+            if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
+                msgbox "Start Date and End Date must be valid dates.", vbexclamation
+                exit sub
+            end if
  
-            d1 = DateValue(Me.txtStartDate)
-            d2 = DateValue(Me.txtEndDate)
+            d1 = datevalue(me.txtstartdate)
+            d2 = datevalue(me.txtenddate)
  
-            If d2 < d1 Then
-                MsgBox "End Date must be on or after Start Date.", vbExclamation
-                Exit Sub
-            End If
+            if d2 < d1 then
+                msgbox "End Date must be on or after Start Date.", vbexclamation
+                exit sub
+            end if
  
-            whereClause = "[RequestDate] Between #" & Format(d1, "yyyy-mm-dd") & _
-                          "# And #" & Format(d2, "yyyy-mm-dd") & "#"
+            whereclause = "[RequestDate] Between #" & format(d1, "yyyy-mm-dd") & _
+                          "# And #" & format(d2, "yyyy-mm-dd") & "#"
  
-        Case "KPI Report"
-            rptName = "rpt_KPI_Dashboard"
+        case "KPI Report"
+            rptname = "rpt_KPI_Dashboard"
  
-             If IsNull(Me.txtStartDate) Or IsNull(Me.txtEndDate) Then
-                 MsgBox "Please enter both Start Date and End Date.", vbExclamation
-                 Exit Sub
-             End If
-             If Not IsDate(Me.txtStartDate) Or Not IsDate(Me.txtEndDate) Then
-                 MsgBox "Start Date and End Date must be valid dates.", vbExclamation
-                 Exit Sub
-             End If
+             if isnull(me.txtstartdate) or isnull(me.txtenddate) then
+                 msgbox "Please enter both Start Date and End Date.", vbexclamation
+                 exit sub
+             end if
+             if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
+                 msgbox "Start Date and End Date must be valid dates.", vbexclamation
+                 exit sub
+             end if
  
-             d1 = DateValue(Me.txtStartDate)
-             d2 = DateValue(Me.txtEndDate)
+             d1 = datevalue(me.txtstartdate)
+             d2 = datevalue(me.txtenddate)
  
-             If d2 < d1 Then
-                MsgBox "End Date must be on or after Start Date.", vbExclamation
-                Exit Sub
-             End If
+             if d2 < d1 then
+                msgbox "End Date must be on or after Start Date.", vbexclamation
+                exit sub
+             end if
  
-    'Set TempVars for KPI queries
-    On Error Resume Next
-    TempVars.remove "StartDate"
-    TempVars.remove "EndDate"
-    On Error GoTo 0
+    'set tempvars for kpi queries
+    on error resume next
+    tempvars.remove "StartDate"
+    tempvars.remove "EndDate"
+    on error goto 0
  
-    TempVars.Add "StartDate", d1
-    TempVars.Add "EndDate", d2
+    tempvars.add "StartDate", d1
+    tempvars.add "EndDate", d2
  
-    'Open without filter
-    DoCmd.OpenReport rptName, acViewPreview
-    Exit Sub
+    'open without filter
+    docmd.openreport rptname, acviewpreview
+    exit sub
             
  
-        Case "Capacity by NAM"
-            rptName = "rpt_Capacity_ByNAM"
+        case "Capacity by NAM"
+            rptname = "rpt_Capacity_ByNAM"
  
-            If IsNull(Me.txtNAM) Or Trim(Nz(Me.txtNAM, "")) = "" Then
-                MsgBox "Please enter a NAM.", vbExclamation
-                Exit Sub
-            End If
+            if isnull(me.txtnam) or trim(nz(me.txtnam, "")) = "" then
+                msgbox "Please enter a NAM.", vbexclamation
+                exit sub
+            end if
  
-            whereClause = "[partNumber] = """ & Replace(Trim(Me.txtNAM), """", """""") & """"
+            whereclause = "[partNumber] = """ & replace(trim(me.txtnam), """", """""") & """"
  
-        Case "Requests by Sales Manager"
-            rptName = "rpt_SalesManager"
+        case "Requests by Sales Manager"
+            rptname = "rpt_SalesManager"
  
-            If IsNull(Me.cboSalesManager) Then
-                MsgBox "Please select a Sales Manager.", vbExclamation
-                Exit Sub
-            End If
+            if isnull(me.cbosalesmanager) then
+                msgbox "Please select a Sales Manager.", vbexclamation
+                exit sub
+            end if
  
-            whereClause = "[Requestor] = " & CLng(Me.cboSalesManager)
+            whereclause = "[Requestor] = " & clng(me.cbosalesmanager)
  
-        Case "Capacity by Program Code"
-            rptName = "rpt_Capacity_ByProgramCode"
+        case "Capacity by Program Code"
+            rptname = "rpt_Capacity_ByProgramCode"
  
-            If IsNull(Me.cboProgramCode) Or Trim(Nz(Me.cboProgramCode, "")) = "" Then
-                MsgBox "Please select a Program Code.", vbExclamation
-                Exit Sub
-            End If
+            if isnull(me.cboprogramcode) or trim(nz(me.cboprogramcode, "")) = "" then
+                msgbox "Please select a Program Code.", vbexclamation
+                exit sub
+            end if
  
-            whereClause = "[Program] = """ & Replace(Trim(Me.cboProgramCode), """", """""") & """"
+            whereclause = "[Program] = """ & replace(trim(me.cboprogramcode), """", """""") & """"
  
-        Case "Past Due Report"
-            rptName = "rpt_PastDue"
+        case "Past Due Report"
+            rptname = "rpt_PastDue"
             
-             If IsNull(Me.cboUnit) Then
-                MsgBox "Please select a Unit.", vbExclamation
-                Exit Sub
-            End If
+             if isnull(me.cbounit) then
+                msgbox "Please select a Unit.", vbexclamation
+                exit sub
+            end if
  
-            whereClause = "[Unit] = " & CLng(Me.cboUnit)
+            whereclause = "[Unit] = " & clng(me.cbounit)
  
-        Case Else
-            MsgBox "Report type not coded yet: " & rt, vbExclamation
-            Exit Sub
-    End Select
+        case else
+            msgbox "Report type not coded yet: " & rt, vbexclamation
+            exit sub
+    end select
  
-    If Len(whereClause) > 0 Then
-        DoCmd.OpenReport rptName, acViewPreview, , whereClause
-    Else
-        DoCmd.OpenReport rptName, acViewPreview
-    End If
+    if len(whereclause) > 0 then
+        docmd.openreport rptname, acviewpreview, , whereclause
+    else
+        docmd.openreport rptname, acviewpreview
+    end if
  
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
 
-Private Sub cboReportType_AfterUpdate()
-On Error GoTo Err_Handler
+private sub cboreporttype_afterupdate()
+on error goto err_handler
  
-    '--- Hide everything first ---
-    Me.txtStartDate.Visible = False
-    Me.txtEndDate.Visible = False
-    Me.txtNAM.Visible = False
-    Me.cboSalesManager.Visible = False
-    Me.cboProgramCode.Visible = False
-    Me.cboUnit.Visible = False
+    '--- hide everything first ---
+    me.txtstartdate.visible = false
+    me.txtenddate.visible = false
+    me.txtnam.visible = false
+    me.cbosalesmanager.visible = false
+    me.cboprogramcode.visible = false
+    me.cbounit.visible = false
  
-    '--- Default: disable + no tabbing ---
-    Me.txtStartDate.Enabled = False: Me.txtStartDate.TabStop = False
-    Me.txtEndDate.Enabled = False: Me.txtEndDate.TabStop = False
-    Me.txtNAM.Enabled = False: Me.txtNAM.TabStop = False
-    Me.cboSalesManager.Enabled = False: Me.cboSalesManager.TabStop = False
-    Me.cboProgramCode.Enabled = False: Me.cboProgramCode.TabStop = False
-    Me.cboUnit.Enabled = False: Me.cboUnit.TabStop = False
+    '--- default: disable + no tabbing ---
+    me.txtstartdate.enabled = false: me.txtstartdate.tabstop = false
+    me.txtenddate.enabled = false: me.txtenddate.tabstop = false
+    me.txtnam.enabled = false: me.txtnam.tabstop = false
+    me.cbosalesmanager.enabled = false: me.cbosalesmanager.tabstop = false
+    me.cboprogramcode.enabled = false: me.cboprogramcode.tabstop = false
+    me.cbounit.enabled = false: me.cbounit.tabstop = false
  
-    '--- Show only what the selected report needs ---
-    Select Case Me.cboReportType.Value
+    '--- show only what the selected report needs ---
+    select case me.cboreporttype.value
  
-        Case "Capacity by Date Range", "KPI Report"
-            Me.txtStartDate.Visible = True
-            Me.txtEndDate.Visible = True
-            Me.txtStartDate.Enabled = True: Me.txtStartDate.TabStop = True
-            Me.txtEndDate.Enabled = True: Me.txtEndDate.TabStop = True
+        case "Capacity by Date Range", "KPI Report"
+            me.txtstartdate.visible = true
+            me.txtenddate.visible = true
+            me.txtstartdate.enabled = true: me.txtstartdate.tabstop = true
+            me.txtenddate.enabled = true: me.txtenddate.tabstop = true
  
-        Case "Capacity by NAM"
-            Me.txtNAM.Visible = True
-            Me.txtNAM.Enabled = True: Me.txtNAM.TabStop = True
+        case "Capacity by NAM"
+            me.txtnam.visible = true
+            me.txtnam.enabled = true: me.txtnam.tabstop = true
  
-        Case "Requests by Sales Manager"
-            Me.cboSalesManager.Visible = True
-            Me.cboSalesManager.Enabled = True: Me.cboSalesManager.TabStop = True
+        case "Requests by Sales Manager"
+            me.cbosalesmanager.visible = true
+            me.cbosalesmanager.enabled = true: me.cbosalesmanager.tabstop = true
  
-        Case "Capacity by Program Code"
-            Me.cboProgramCode.Visible = True
-            Me.cboProgramCode.Enabled = True: Me.cboProgramCode.TabStop = True
+        case "Capacity by Program Code"
+            me.cboprogramcode.visible = true
+            me.cboprogramcode.enabled = true: me.cboprogramcode.tabstop = true
  
-        Case "Past Due Report"
-            Me.cboUnit.Visible = True
-            Me.cboUnit.Enabled = True: Me.cboUnit.TabStop = True
+        case "Past Due Report"
+            me.cbounit.visible = true
+            me.cbounit.enabled = true: me.cbounit.tabstop = true
  
-    End Select
+    end select
  
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub Form_Load()
-On Error GoTo Err_Handler
-    'Clear all user selections/inputs when the launcher opens
+private sub form_load()
+on error goto err_handler
+    'clear all user selections/inputs when the launcher opens
  
- Call setTheme(Me)
+ call settheme(me)
  
-    On Error Resume Next
+    on error resume next
  
-    'Combos
-    Me.cboReportType = Null
-    Me.cboSalesManager = Null
-    Me.cboProgramCode = Null
-    Me.cboUnit = Null
+    'combos
+    me.cboreporttype = null
+    me.cbosalesmanager = null
+    me.cboprogramcode = null
+    me.cbounit = null
  
-    'Text boxes
-    Me.txtStartDate = Null
-    Me.txtEndDate = Null
-    Me.txtNAM = Null
+    'text boxes
+    me.txtstartdate = null
+    me.txtenddate = null
+    me.txtnam = null
  
-    'If you have any other inputs, add them here:
-    'Me.txtSomething = Null
-    'Me.cboSomething = Null
+    'if you have any other inputs, add them here:
+    'me.txtsomething = null
+    'me.cbosomething = null
  
-    'Optional: clear tempvars so nothing carries over
-    TempVars.remove "StartDate"
-    TempVars.remove "EndDate"
+    'optional: clear tempvars so nothing carries over
+    tempvars.remove "StartDate"
+    tempvars.remove "EndDate"
     
-    Me.cboReportType.SetFocus
+    me.cboreporttype.setfocus
     
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+end sub

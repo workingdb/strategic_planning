@@ -1,72 +1,72 @@
-Option Compare Database
-Option Explicit
+option compare database
+option explicit
 
-Public Function createBuildoutProject(registerId As Long, n0Date As Date, templateId As Long) As Boolean
-    On Error GoTo Err_Handler
+public function createbuildoutproject(registerid as long, n0date as date, templateid as long) as boolean
+    on error goto err_handler
 
-    Dim connRead As ADODB.Connection: Set connRead = CurrentProject.Connection
-    Dim connWrite As ADODB.Connection: Set connWrite = CurrentProject.Connection
-    Dim rsProject As New ADODB.Recordset
-    Dim rsGateTemplate As New ADODB.Recordset
-    Dim rsTaskTemplate As New ADODB.Recordset
+    dim connread as adodb.connection: set connread = currentproject.connection
+    dim connwrite as adodb.connection: set connwrite = currentproject.connection
+    dim rsproject as new adodb.recordset
+    dim rsgatetemplate as new adodb.recordset
+    dim rstasktemplate as new adodb.recordset
     
-    Dim strInsert As String, runningDate As Date
-    Dim gateId As Long
+    dim strinsert as string, runningdate as date
+    dim gateid as long
     
-    runningDate = n0Date
+    runningdate = n0date
     
-    rsGateTemplate.Open "SELECT * FROM tblBuildout_gates_template WHERE templateId = " & templateId & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
+    rsgatetemplate.open "SELECT * FROM tblBuildout_gates_template WHERE templateId = " & templateid & " ORDER BY indexOrder Asc", connread, adopenforwardonly, adlockreadonly
     
-    Do While Not rsGateTemplate.EOF
-        runningDate = n0Date - rsGateTemplate!gateDuration
+    do while not rsgatetemplate.eof
+        runningdate = n0date - rsgatetemplate!gateduration
         
-        connWrite.BeginTrans
+        connwrite.begintrans
         
-        connWrite.Execute "INSERT INTO tblBuildout_gates(registerId, dueDate, indexOrder, gateTemplateId) VALUES (" & _
-                     registerId & ",Date()," & rsGateTemplate!indexOrder & "," & rsGateTemplate!RecordID & ")"
+        connwrite.execute "INSERT INTO tblBuildout_gates(registerId, dueDate, indexOrder, gateTemplateId) VALUES (" & _
+                     registerid & ",Date()," & rsgatetemplate!indexorder & "," & rsgatetemplate!recordid & ")"
         
-        gateId = connWrite.Execute("SELECT @@IDENTITY")(0)
+        gateid = connwrite.execute("SELECT @@IDENTITY")(0)
         
-        connWrite.CommitTrans
-        connWrite.BeginTrans
+        connwrite.committrans
+        connwrite.begintrans
 
-        ' -- LOOP STEPS --
-        rsTaskTemplate.Open "SELECT * from tblBuildout_tasks_template WHERE [gateTemplateId] = " & rsGateTemplate![RecordID] & " ORDER BY indexOrder Asc", connRead, adOpenForwardOnly, adLockReadOnly
+        ' -- loop steps --
+        rstasktemplate.open "SELECT * from tblBuildout_tasks_template WHERE [gateTemplateId] = " & rsgatetemplate![recordid] & " ORDER BY indexOrder Asc", connread, adopenforwardonly, adlockreadonly
         
-        Do While Not rsTaskTemplate.EOF
-            strInsert = "INSERT INTO tblBuildout_tasks (gateId, taskStatus, templateTaskId, createdBy, createdDate, lastUpdatedDate, lastUpdatedBy, indexOrder) " & _
-                        "VALUES (" & gateId & ",1," & rsTaskTemplate!RecordID & ",'" & Environ("username") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Format$(Now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & Environ("username") & _
-                        "'," & rsTaskTemplate!indexOrder & ")"
+        do while not rstasktemplate.eof
+            strinsert = "INSERT INTO tblBuildout_tasks (gateId, taskStatus, templateTaskId, createdBy, createdDate, lastUpdatedDate, lastUpdatedBy, indexOrder) " & _
+                        "VALUES (" & gateid & ",1," & rstasktemplate!recordid & ",'" & environ("username") & "','" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & environ("username") & _
+                        "'," & rstasktemplate!indexorder & ")"
             
-            connWrite.Execute strInsert
+            connwrite.execute strinsert
             
-nextStep:
-            rsTaskTemplate.MoveNext
-        Loop
+nextstep:
+            rstasktemplate.movenext
+        loop
         
-        rsTaskTemplate.Close
-        Set rsTaskTemplate = Nothing
+        rstasktemplate.close
+        set rstasktemplate = nothing
         
-        connWrite.CommitTrans
+        connwrite.committrans
         
-        rsGateTemplate.MoveNext
-    Loop
+        rsgatetemplate.movenext
+    loop
     
     
 
-    createBuildoutProject = True
+    createbuildoutproject = true
 
-CleanUp:
-    Set connWrite = Nothing
-    Set connRead = Nothing
-    If rsGateTemplate.State = adStateOpen Then rsGateTemplate.Close
-    If rsTaskTemplate.State = adStateOpen Then rsTaskTemplate.Close
-    Exit Function
+cleanup:
+    set connwrite = nothing
+    set connread = nothing
+    if rsgatetemplate.state = adstateopen then rsgatetemplate.close
+    if rstasktemplate.state = adstateopen then rstasktemplate.close
+    exit function
 
-Err_Handler:
-    If Not connWrite Is Nothing Then
-        If connWrite.State = adStateOpen Then connWrite.RollbackTrans
-    End If
-    Call handleError("modBuildout", "createBuildoutProject", err.Description, err.Number)
-    Resume CleanUp
-End Function
+err_handler:
+    if not connwrite is nothing then
+        if connwrite.state = adstateopen then connwrite.rollbacktrans
+    end if
+    call handleerror("modBuildout", "createBuildoutProject", err.description, err.number)
+    resume cleanup
+end function

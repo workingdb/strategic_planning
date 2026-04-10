@@ -1,60 +1,60 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Dim templateId
-templateId = DMin("recordId", "tblBuildout_gates_template", "templateId = " & Me.RecordID)
+dim templateid
+templateid = dmin("recordId", "tblBuildout_gates_template", "templateId = " & me.recordid)
 
-On Error GoTo invis
-Me.sfrmBuildout_template_tasks.Form.Filter = "gateTemplateId = " & templateId
-Me.sfrmBuildout_template_tasks.Form.gateTemplateId.defaultValue = templateId
-Me.sfrmBuildout_template_tasks.Form.FilterOn = True
+on error goto invis
+me.sfrmbuildout_template_tasks.form.filter = "gateTemplateId = " & templateid
+me.sfrmbuildout_template_tasks.form.gatetemplateid.defaultvalue = templateid
+me.sfrmbuildout_template_tasks.form.filteron = true
 
-Exit Sub
+exit sub
 invis:
-Me.sfrmBuildout_template_tasks.Visible = False
+me.sfrmbuildout_template_tasks.visible = false
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+end sub
 
-Private Sub history_Click()
-On Error GoTo Err_Handler
+private sub history_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmHistory", , , "referenceId = " & Me.RecordID
+docmd.openform "frmHistory", , , "referenceId = " & me.recordid
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub refresh_Click()
-On Error GoTo Err_Handler
+private sub refresh_click()
+on error goto err_handler
 
-Me.Requery
-Me.sfrmBuildout_template_tasks.Requery
-Me.sfrmBuildout_template_gates.Requery
+me.requery
+me.sfrmbuildout_template_tasks.requery
+me.sfrmbuildout_template_gates.requery
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub templateName_AfterUpdate()
-On Error GoTo Err_Handler
+private sub templatename_afterupdate()
+on error goto err_handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

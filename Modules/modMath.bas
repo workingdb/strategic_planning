@@ -1,67 +1,67 @@
-Option Compare Database
-Option Explicit
+option compare database
+option explicit
 
-Function pi() As Double
-On Error GoTo Err_Handler
+function pi() as double
+on error goto err_handler
 
-pi = 4 * Atn(1)
+pi = 4 * atn(1)
 
-Exit Function
-Err_Handler:
-    Call handleError("modMath", "pi", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modMath", "pi", err.description, err.number)
+end function
 
-Function Asin(x) As Double
-On Error GoTo Err_Handler
+function asin(x) as double
+on error goto err_handler
 
-Select Case x
-    Case 1
-        Asin = pi / 2
-    Case -1
-        Asin = (3 * pi) / 2
-    Case Else
-        Asin = Atn(x / Sqr(-x * x + 1))
-End Select
+select case x
+    case 1
+        asin = pi / 2
+    case -1
+        asin = (3 * pi) / 2
+    case else
+        asin = atn(x / sqr(-x * x + 1))
+end select
 
-Exit Function
-Err_Handler:
-    Call handleError("modMath", "Asin", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modMath", "Asin", err.description, err.number)
+end function
 
-Function Acos(x) As Double
-On Error GoTo Err_Handler
+function acos(x) as double
+on error goto err_handler
 
-Select Case x
-    Case 1
-        Acos = 0
-    Case -1
-        Acos = pi
-    Case Else
-        Acos = Atn(-x / Sqr(-x * x + 1)) + 2 * Atn(1)
-End Select
+select case x
+    case 1
+        acos = 0
+    case -1
+        acos = pi
+    case else
+        acos = atn(-x / sqr(-x * x + 1)) + 2 * atn(1)
+end select
 
-Exit Function
-Err_Handler:
-    Call handleError("modMath", "Acos", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modMath", "Acos", err.description, err.number)
+end function
 
-Function gramsToLbs(gramsValue) As Double
-On Error GoTo Err_Handler
+function gramstolbs(gramsvalue) as double
+on error goto err_handler
 
-gramsToLbs = gramsValue * 0.00220462
+gramstolbs = gramsvalue * 0.00220462
 
-Exit Function
-Err_Handler:
-    Call handleError("modMath", "gramsToLbs", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modMath", "gramsToLbs", err.description, err.number)
+end function
 
-Function randomNumber(low As Long, high As Long) As Long
-On Error GoTo Err_Handler
+function randomnumber(low as long, high as long) as long
+on error goto err_handler
 
-Randomize
-randomNumber = Int((high - low + 1) * Rnd() + low)
+randomize
+randomnumber = int((high - low + 1) * rnd() + low)
 
-Exit Function
-Err_Handler:
-    Call handleError("modMath", "randomNumber", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modMath", "randomNumber", err.description, err.number)
+end function

@@ -1,170 +1,170 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Function applyFilter(parameter As String)
+function applyfilter(parameter as string)
 
-Dim db As Database
-Set db = CurrentDb()
+dim db as database
+set db = currentdb()
 
-Dim qdf As QueryDef
+dim qdf as querydef
 
-Set qdf = db.QueryDefs("frmCapacityRequestTracker_PT")
+set qdf = db.querydefs("frmCapacityRequestTracker_PT")
 
-If parameter = "" Then
-    qdf.sql = Split(qdf.sql, "c.ID")(0) & " c.ID;"
-Else
-    qdf.sql = Split(qdf.sql, "c.ID")(0) & " c.ID WHERE EXISTS (SELECT 1 From tblCapacityRequest_partnumbers As cp WHERE cp.requestId = cr.recordId AND " & parameter & ");"
-End If
+if parameter = "" then
+    qdf.sql = split(qdf.sql, "c.ID")(0) & " c.ID;"
+else
+    qdf.sql = split(qdf.sql, "c.ID")(0) & " c.ID WHERE EXISTS (SELECT 1 From tblCapacityRequest_partnumbers As cp WHERE cp.requestId = cr.recordId AND " & parameter & ");"
+end if
 
-db.QueryDefs.refresh
+db.querydefs.refresh
 
-Set qdf = Nothing
-Set db = Nothing
+set qdf = nothing
+set db = nothing
 
-Me.Requery
+me.requery
 
-End Function
+end function
  
-Private Sub capacityResults_AfterUpdate()
-On Error GoTo Err_Handler
+private sub capacityresults_afterupdate()
+on error goto err_handler
 
-Select Case Me.ActiveControl
-    Case 0 'no response
-        applyFilter ("cp.capacityResults is null")
-    Case 9999 'all
-        applyFilter ("")
-    Case Else 'specific based on ID
-        applyFilter ("cp.capacityResults = " & Me.capacityResults)
-End Select
+select case me.activecontrol
+    case 0 'no response
+        applyfilter ("cp.capacityResults is null")
+    case 9999 'all
+        applyfilter ("")
+    case else 'specific based on id
+        applyfilter ("cp.capacityResults = " & me.capacityresults)
+end select
 
-Me.partNumFilt = ""
+me.partnumfilt = ""
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Customer_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Customer.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub customer_label_click()
+    on error goto err_handler
+    me.customer.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub EOP_Label_Click()
-    On Error GoTo Err_Handler
-    Me.EOP.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub eop_label_click()
+    on error goto err_handler
+    me.eop.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub partNumFilt_AfterUpdate()
-On Error GoTo Err_Handler
+private sub partnumfilt_afterupdate()
+on error goto err_handler
 
-If IsNull(Me.partNumFilt) Then 'see all
-    applyFilter ("")
-Else 'filter by part number
-    applyFilter ("cp.partNumber = '" & Me.partNumFilt & "'")
-    Me.capacityResults = 9999
-End If
+if isnull(me.partnumfilt) then 'see all
+    applyfilter ("")
+else 'filter by part number
+    applyfilter ("cp.partNumber = '" & me.partnumfilt & "'")
+    me.capacityresults = 9999
+end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Program_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Program.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub program_label_click()
+    on error goto err_handler
+    me.program.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub RecordID_Label_Click()
-    On Error GoTo Err_Handler
-    Me.RecordID.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub recordid_label_click()
+    on error goto err_handler
+    me.recordid.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub Request_Date_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Request_Date.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub request_date_label_click()
+    on error goto err_handler
+    me.request_date.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub Request_Type_Label_Click()
-On Error GoTo Err_Handler
-    Me.Request_Type.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub request_type_label_click()
+on error goto err_handler
+    me.request_type.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub Requestor_Label_Click()
-    On Error GoTo Err_Handler
-    Me.Requestor.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub requestor_label_click()
+    on error goto err_handler
+    me.requestor.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub SOP_Label_Click()
-    On Error GoTo Err_Handler
-    Me.SOP.SetFocus
-    DoCmd.RunCommand acCmdFilterMenu
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub sop_label_click()
+    on error goto err_handler
+    me.sop.setfocus
+    docmd.runcommand accmdfiltermenu
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub newRequest_Click()
-    On Error GoTo Err_Handler
-    DoCmd.OpenForm "frmCapacityRequestDetails", , , , acFormAdd
-    Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+private sub newrequest_click()
+    on error goto err_handler
+    docmd.openform "frmCapacityRequestDetails", , , , acformadd
+    exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
  
-Private Sub openDetails_Click()
-    On Error GoTo ErrHandler
+private sub opendetails_click()
+    on error goto errhandler
  
-    If IsNull(Me.RecordID) Then Exit Sub
+    if isnull(me.recordid) then exit sub
  
-    DoCmd.OpenForm "frmCapacityRequestDetails", acNormal, , "recordId = " & Me.RecordID
+    docmd.openform "frmCapacityRequestDetails", acnormal, , "recordId = " & me.recordid
  
-Exit Sub
-ErrHandler:
-    MsgBox "Open Details error " & err.Number & ":" & vbCrLf & err.Description, vbExclamation
-End Sub
+exit sub
+errhandler:
+    msgbox "Open Details error " & err.number & ":" & vbcrlf & err.description, vbexclamation
+end sub
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-applyFilter ("cp.capacityResults is null")
+applyfilter ("cp.capacityResults is null")
 
-Me.capacityResults = 0
+me.capacityresults = 0
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Numbe)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.numbe)
+end sub

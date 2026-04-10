@@ -1,160 +1,160 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub deletebtn_Click()
-On Error GoTo Err_Handler
+private sub deletebtn_click()
+on error goto err_handler
 
-If IsNull(Me.RecordID) Then
-    MsgBox "This is an empty record.", vbInformation, "Can't do that"
-    Exit Sub
-End If
+if isnull(me.recordid) then
+    msgbox "This is an empty record.", vbinformation, "Can't do that"
+    exit sub
+end if
 
-If MsgBox("Are you sure you want to delete this?", vbYesNo, "Please confirm") = vbYes Then
-    Dim oldIndex
-    oldIndex = Me.indexOrder
-    If oldIndex < DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Me.gateTemplateId) Then
-        dbExecute "UPDATE tblBuildout_tasks_template SET indexOrder = indexOrder - 1 WHERE gateTemplateId = " & Me.gateTemplateId & " AND indexOrder > " & oldIndex
-    End If
+if msgbox("Are you sure you want to delete this?", vbyesno, "Please confirm") = vbyes then
+    dim oldindex
+    oldindex = me.indexorder
+    if oldindex < dmax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & me.gatetemplateid) then
+        dbexecute "UPDATE tblBuildout_tasks_template SET indexOrder = indexOrder - 1 WHERE gateTemplateId = " & me.gatetemplateid & " AND indexOrder > " & oldindex
+    end if
     
-    Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "DELETE", Me.taskTitle, "DELETED", Form_frmBuildout_template.RecordID, "frmBuildout_template")
-    dbExecute "DELETE FROM tblBuildout_tasks_template WHERE recordId = " & Me.RecordID
-    Me.Requery
-End If
+    call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, "DELETE", me.tasktitle, "DELETED", form_frmbuildout_template.recordid, "frmBuildout_template")
+    dbexecute "DELETE FROM tblBuildout_tasks_template WHERE recordId = " & me.recordid
+    me.requery
+end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Form_BeforeInsert(Cancel As Integer)
-On Error GoTo Err_Handler
+private sub form_beforeinsert(cancel as integer)
+on error goto err_handler
 
-Me.indexOrder = Nz(DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Me.gateTemplateId) + 1, 1)
-Me.Dirty = False
+me.indexorder = nz(dmax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & me.gatetemplateid) + 1, 1)
+me.dirty = false
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Form_Current()
-On Error GoTo Err_Handler
+private sub form_current()
+on error goto err_handler
 
-Me.txtCF = Me.RecordID
+me.txtcf = me.recordid
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Current", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Current", err.description, err.number)
+end sub
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Me.OrderBy = "indexOrder Asc"
-Me.OrderByOn = True
+me.orderby = "indexOrder Asc"
+me.orderbyon = true
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+end sub
 
-Private Sub moveDown_Click()
-On Error GoTo Err_Handler
+private sub movedown_click()
+on error goto err_handler
 
-If IsNull(Me.RecordID) Then Exit Sub
+if isnull(me.recordid) then exit sub
 
-If Me.indexOrder = DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Me.gateTemplateId) Then Exit Sub
+if me.indexorder = dmax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & me.gatetemplateid) then exit sub
 
-Dim oldIndex, newIndex
-oldIndex = Me.indexOrder
-newIndex = oldIndex + 1
+dim oldindex, newindex
+oldindex = me.indexorder
+newindex = oldindex + 1
 
-dbExecute "UPDATE tblBuildout_tasks_template SET indexOrder = " & oldIndex & " WHERE gateTemplateId = " & Me.gateTemplateId & " AND indexOrder = " & newIndex
-Me.indexOrder = newIndex
-Me.Dirty = False
+dbexecute "UPDATE tblBuildout_tasks_template SET indexOrder = " & oldindex & " WHERE gateTemplateId = " & me.gatetemplateid & " AND indexOrder = " & newindex
+me.indexorder = newindex
+me.dirty = false
     
-Me.Requery
-Me.OrderBy = "indexOrder Asc"
-Me.OrderByOn = True
+me.requery
+me.orderby = "indexOrder Asc"
+me.orderbyon = true
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "indexOrder", oldIndex, newIndex, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, "indexOrder", oldindex, newindex, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub moveUp_Click()
-On Error GoTo Err_Handler
+private sub moveup_click()
+on error goto err_handler
 
-If IsNull(Me.RecordID) Then Exit Sub
-If Me.indexOrder = 1 Then Exit Sub
-Dim oldIndex, newIndex
-oldIndex = Me.indexOrder
-newIndex = oldIndex - 1
+if isnull(me.recordid) then exit sub
+if me.indexorder = 1 then exit sub
+dim oldindex, newindex
+oldindex = me.indexorder
+newindex = oldindex - 1
 
-dbExecute "UPDATE tblBuildout_tasks_template SET indexOrder = " & oldIndex & " WHERE gateTemplateId = " & Me.gateTemplateId & " AND indexOrder = " & newIndex
-Me.indexOrder = newIndex
-Me.Dirty = False
+dbexecute "UPDATE tblBuildout_tasks_template SET indexOrder = " & oldindex & " WHERE gateTemplateId = " & me.gatetemplateid & " AND indexOrder = " & newindex
+me.indexorder = newindex
+me.dirty = false
     
-Me.Requery
-Me.OrderBy = "indexOrder Asc"
-Me.OrderByOn = True
+me.requery
+me.orderby = "indexOrder Asc"
+me.orderbyon = true
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "indexOrder", oldIndex, newIndex, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, "indexOrder", oldindex, newindex, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub newStep_Click()
-On Error GoTo Err_Handler
+private sub newstep_click()
+on error goto err_handler
 
-dbExecute "INSERT INTO tblBuildout_tasks_template(gateTemplateId,indexOrder) VALUES (" & Form_sfrmBuildout_template_gates.RecordID & "," & _
-    Nz(DMax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & Form_sfrmBuildout_template_gates.RecordID) + 1, 1) & ")"
+dbexecute "INSERT INTO tblBuildout_tasks_template(gateTemplateId,indexOrder) VALUES (" & form_sfrmbuildout_template_gates.recordid & "," & _
+    nz(dmax("indexOrder", "tblBuildout_tasks_template", "gateTemplateId = " & form_sfrmbuildout_template_gates.recordid) + 1, 1) & ")"
     
-Me.Requery
+me.requery
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, "New", "", "New Record", Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, "New", "", "New Record", form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub pillarTask_AfterUpdate()
-On Error GoTo Err_Handler
+private sub pillartask_afterupdate()
+on error goto err_handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub responsibleDept_AfterUpdate()
-On Error GoTo Err_Handler
+private sub responsibledept_afterupdate()
+on error goto err_handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub taskTitle_AfterUpdate()
-On Error GoTo Err_Handler
+private sub tasktitle_afterupdate()
+on error goto err_handler
 
-Call registerStratPlanUpdates("tblBuildout_tasks_template", Me.RecordID, Me.ActiveControl.name, Me.ActiveControl.OldValue, Me.ActiveControl, Form_frmBuildout_template.RecordID, "frmBuildout_template")
+call registerstratplanupdates("tblBuildout_tasks_template", me.recordid, me.activecontrol.name, me.activecontrol.oldvalue, me.activecontrol, form_frmbuildout_template.recordid, "frmBuildout_template")
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

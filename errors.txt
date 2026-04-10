@@ -1,0 +1,4 @@
+Strategic Planning encountered an error while importing the object 'qry_Capacity_KPIs subreport1'.
+
+Error encountered at line 1.
+Expected: 'Version'.  Found: ?.

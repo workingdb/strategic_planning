@@ -1,93 +1,93 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+end sub
 
-Private Sub Find_Click()
-On Error GoTo Err_Handler
+private sub find_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.GoToControl Screen.PreviousControl.name
-    err.Clear
-    DoCmd.RunCommand acCmdFind
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.gotocontrol screen.previouscontrol.name
+    err.clear
+    docmd.runcommand accmdfind
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub New_Click()
-On Error GoTo Err_Handler
+private sub new_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.GoToRecord , "", acNewRec
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.gotorecord , "", acnewrec
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Trash_Click()
-On Error GoTo Err_Handler
+private sub trash_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.GoToControl Screen.PreviousControl.name
-    err.Clear
-    If (Not Form.newRecord) Then
-        DoCmd.RunCommand acCmdDeleteRecord
-    End If
-    If (Form.newRecord And Form.Dirty) Then
-        DoCmd.RunCommand acCmdUndo
-    End If
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.gotocontrol screen.previouscontrol.name
+    err.clear
+    if (not form.newrecord) then
+        docmd.runcommand accmddeleterecord
+    end if
+    if (form.newrecord and form.dirty) then
+        docmd.runcommand accmdundo
+    end if
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub copyRecord_Click()
-On Error GoTo Err_Handler
+private sub copyrecord_click()
+on error goto err_handler
 
-    On Error Resume Next
-    DoCmd.RunCommand acCmdSelectRecord
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdCopy
-    End If
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdRecordsGoToNew
-    End If
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdSelectRecord
-    End If
-    If (MacroError = 0) Then
-        DoCmd.RunCommand acCmdPaste
-    End If
-    If (MacroError <> 0) Then
-        MsgBox MacroError.Description, vbOKOnly, ""
-    End If
+    on error resume next
+    docmd.runcommand accmdselectrecord
+    if (macroerror = 0) then
+        docmd.runcommand accmdcopy
+    end if
+    if (macroerror = 0) then
+        docmd.runcommand accmdrecordsgotonew
+    end if
+    if (macroerror = 0) then
+        docmd.runcommand accmdselectrecord
+    end if
+    if (macroerror = 0) then
+        docmd.runcommand accmdpaste
+    end if
+    if (macroerror <> 0) then
+        msgbox macroerror.description, vbokonly, ""
+    end if
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

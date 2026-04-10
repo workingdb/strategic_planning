@@ -1,124 +1,124 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub Form_Load()
-    On Error GoTo Err_Handler
+private sub form_load()
+    on error goto err_handler
 
-    ' --- INITIAL SETUP ---
-    TempVars.Add "loadAmount", 0
-    TempVars.Add "loadWd", 8160
-    TempVars.Add "dbVersion", grabVersion()
-    Me.lblFrozen.Visible = False
-    Call setSplashLoading("Setting up app stuff...")
-    Me.lblVersion.Caption = TempVars!dbVersion
-    Me.lblVersion.Visible = True
+    ' --- initial setup ---
+    tempvars.add "loadAmount", 0
+    tempvars.add "loadWd", 8160
+    tempvars.add "dbVersion", grabversion()
+    me.lblfrozen.visible = false
+    call setsplashloading("Setting up app stuff...")
+    me.lblversion.caption = tempvars!dbversion
+    me.lblversion.visible = true
 
-    SizeAccess 280, 280
-    Me.Move -2600, -1000
+    sizeaccess 280, 280
+    me.move -2600, -1000
     
-        'make sure driver reference for SQL Server is OK
-    Call RelinkSQLTables
+        'make sure driver reference for sql server is ok
+    call relinksqltables
 
-    ' Use the ADODB version of logClick we created earlier
-    Call logClick("Form_Load", Me.name)
+    ' use the adodb version of logclick we created earlier
+    call logclick("Form_Load", me.name)
 
-    ' Splash Image Logic (Keeping DLookup for local settings)
-    Me.Picture = "\\data\mdbdata\WorkingDB\Pictures\Splash\splash" & randomNumber(0, DLookup("splashCount", "tblDBinfoBE", "ID = 1")) & ".png"
+    ' splash image logic (keeping dlookup for local settings)
+    me.picture = "\\data\mdbdata\WorkingDB\Pictures\Splash\splash" & randomnumber(0, dlookup("splashCount", "tblDBinfoBE", "ID = 1")) & ".png"
     
-    On Error Resume Next
-    Me.imgUser.Picture = "\\data\mdbdata\WorkingDB\Pictures\Avatars\" & Environ("username") & ".png"
-    On Error GoTo Err_Handler
+    on error resume next
+    me.imguser.picture = "\\data\mdbdata\WorkingDB\Pictures\Avatars\" & environ("username") & ".png"
+    on error goto err_handler
     
-    DoEvents
-    Form_frmSplash.SetFocus
-    DoEvents
+    doevents
+    form_frmsplash.setfocus
+    doevents
 
-    ' --- RIBBON & SHORTCUTS ---
-    If CommandBars("Ribbon").height > 100 Then CommandBars.ExecuteMso "MinimizeRibbon"
-    DoCmd.ShowToolbar "Ribbon", acToolbarNo
+    ' --- ribbon & shortcuts ---
+    if commandbars("Ribbon").height > 100 then commandbars.executemso "MinimizeRibbon"
+    docmd.showtoolbar "Ribbon", actoolbarno
 
-    On Error Resume Next
-    Dim fso As Object: Set fso = CreateObject("Scripting.FileSystemObject")
-    fso.CopyFile "\\data\mdbdata\WorkingDB\Batch\Working DB.lnk", "\\homes\data\" & Environ("username") & "\Desktop\Working DB.lnk"
-    fso.CopyFile "\\data\mdbdata\WorkingDB\build\workingdb_ghost\WorkingDB_ghost.accde", "C:\workingdb\WorkingDB_ghost.accde"
-    openPath "\\data\mdbdata\WorkingDB\build\workingdb_commands\openGhost.vbs"
-    On Error GoTo Err_Handler
+    on error resume next
+    dim fso as object: set fso = createobject("Scripting.FileSystemObject")
+    fso.copyfile "\\data\mdbdata\WorkingDB\Batch\Working DB.lnk", "\\homes\data\" & environ("username") & "\Desktop\Working DB.lnk"
+    fso.copyfile "\\data\mdbdata\WorkingDB\build\workingdb_ghost\WorkingDB_ghost.accde", "C:\workingdb\WorkingDB_ghost.accde"
+    openpath "\\data\mdbdata\WorkingDB\build\workingdb_commands\openGhost.vbs"
+    on error goto err_handler
 
-    ' --- DATABASE LOGIC (ADODB CONVERSION) ---
-    Call setSplashLoading("Doing some digging on you...")
+    ' --- database logic (adodb conversion) ---
+    call setsplashloading("Doing some digging on you...")
     
-    Dim conn As ADODB.Connection: Set conn = CurrentProject.Connection
-    Dim rsUser As New ADODB.Recordset, rsPerm As New ADODB.Recordset
+    dim conn as adodb.connection: set conn = currentproject.connection
+    dim rsuser as new adodb.recordset, rsperm as new adodb.recordset
 
-    rsUser.Open "SELECT * FROM tblUserSettings WHERE [username] = '" & Environ("username") & "'", conn, adOpenKeyset, adLockOptimistic
-    If rsUser.EOF Then
-        MsgBox "You need to have an account in WorkingDB to access this.", vbOKOnly, "Welcome"
-        Application.Quit
-    End If
+    rsuser.open "SELECT * FROM tblUserSettings WHERE [username] = '" & environ("username") & "'", conn, adopenkeyset, adlockoptimistic
+    if rsuser.eof then
+        msgbox "You need to have an account in WorkingDB to access this.", vbokonly, "Welcome"
+        application.quit
+    end if
 
-    rsPerm.Open "SELECT * FROM tblPermissions WHERE [User] = '" & Environ("username") & "'", conn, adOpenKeyset, adLockOptimistic
+    rsperm.open "SELECT * FROM tblPermissions WHERE [User] = '" & environ("username") & "'", conn, adopenkeyset, adlockoptimistic
     
-    If rsPerm.EOF Then
-        MsgBox "You need to have an account in WorkingDB to access this.", vbOKOnly, "Welcome"
-        Application.Quit
-    End If
+    if rsperm.eof then
+        msgbox "You need to have an account in WorkingDB to access this.", vbokonly, "Welcome"
+        application.quit
+    end if
 
-    ' --- SET TEMPVARS ---
-    TempVars.Add "dept", Nz(rsPerm!Dept, "")
-    TempVars.Add "org", Nz(rsPerm!org, 4)
-    TempVars.Add "smallScreen", Nz(rsUser!smallScreenMode, "False")
+    ' --- set tempvars ---
+    tempvars.add "dept", nz(rsperm!dept, "")
+    tempvars.add "org", nz(rsperm!org, 4)
+    tempvars.add "smallScreen", nz(rsuser!smallscreenmode, "False")
 
-    ' --- THEME LOGIC ---
-    If Nz(rsUser!themeId, 0) <> 0 Then
-        Dim rsTheme As New ADODB.Recordset
-        rsTheme.Open "SELECT * FROM tblTheme WHERE recordId = " & rsUser!themeId, conn, adOpenForwardOnly, adLockReadOnly
-        If Not rsTheme.EOF Then
-            TempVars.Add "themeMode", IIf(rsTheme!darkMode, "Dark", "Light")
-            TempVars.Add "themePrimary", CStr(rsTheme!primaryColor)
-            TempVars.Add "themeSecondary", CStr(rsTheme!secondaryColor)
-            TempVars.Add "themeAccent", CStr(rsTheme!accentColor)
-            TempVars.Add "themeColorLevels", CStr(rsTheme!colorLevels)
-        End If
-        rsTheme.Close
-    End If
+    ' --- theme logic ---
+    if nz(rsuser!themeid, 0) <> 0 then
+        dim rstheme as new adodb.recordset
+        rstheme.open "SELECT * FROM tblTheme WHERE recordId = " & rsuser!themeid, conn, adopenforwardonly, adlockreadonly
+        if not rstheme.eof then
+            tempvars.add "themeMode", iif(rstheme!darkmode, "Dark", "Light")
+            tempvars.add "themePrimary", cstr(rstheme!primarycolor)
+            tempvars.add "themeSecondary", cstr(rstheme!secondarycolor)
+            tempvars.add "themeAccent", cstr(rstheme!accentcolor)
+            tempvars.add "themeColorLevels", cstr(rstheme!colorlevels)
+        end if
+        rstheme.close
+    end if
 
-    ' --- FINALIZE STARTUP ---
-    Call setSplashLoading("Running daily checks...")
-    Call grabJoke
+    ' --- finalize startup ---
+    call setsplashloading("Running daily checks...")
+    call grabjoke
     
-    DoCmd.OpenForm "DASHBOARD"
-    Forms!DASHBOARD.Visible = False
+    docmd.openform "DASHBOARD"
+    forms!dashboard.visible = false
     
-    DoCmd.Close acForm, Me.name
-    Call maximizeAccess
-    Forms!DASHBOARD.Visible = True
-    DoCmd.Maximize
+    docmd.close acform, me.name
+    call maximizeaccess
+    forms!dashboard.visible = true
+    docmd.maximize
 
-CleanUp:
-    If rsUser.State = adStateOpen Then rsUser.Close
-    If rsPerm.State = adStateOpen Then rsPerm.Close
-    Set rsUser = Nothing: Set rsPerm = Nothing
-    Set conn = Nothing
-    Exit Sub
+cleanup:
+    if rsuser.state = adstateopen then rsuser.close
+    if rsperm.state = adstateopen then rsperm.close
+    set rsuser = nothing: set rsperm = nothing
+    set conn = nothing
+    exit sub
 
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Number)
-    Resume CleanUp
-End Sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.number)
+    resume cleanup
+end sub
 
-Function grabJoke()
-On Error GoTo Err_Handler
+function grabjoke()
+on error goto err_handler
 
-Dim Joke As String
-Joke = Nz(DLookup("[factText]", "tblFacts", "[factDate] = #" & Date & "#"))
+dim joke as string
+joke = nz(dlookup("[factText]", "tblFacts", "[factDate] = #" & date & "#"))
 
-TempVars.Add "joke", Joke
+tempvars.add "joke", joke
 
-Exit Function
-Err_Handler:
-    Call handleError(Me.name, "grabJoke", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror(me.name, "grabJoke", err.description, err.number)
+end function

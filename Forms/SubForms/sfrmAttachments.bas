@@ -1,32 +1,32 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub cmdOpenLink_Click()
+private sub cmdopenlink_click()
  
-    Dim url As String
-    url = Trim(Nz(Me.directLink, ""))
+    dim url as string
+    url = trim(nz(me.directlink, ""))
  
-    If Len(url) = 0 Then
-        MsgBox "No link found.", vbInformation
-        Exit Sub
-    End If
+    if len(url) = 0 then
+        msgbox "No link found.", vbinformation
+        exit sub
+    end if
  
-    'Force Windows to open in default browser (Edge/Chrome/etc.)
-    CreateObject("WScript.Shell").Run _
-        "cmd /c start """" """ & url & """", 0, False
+    'force windows to open in default browser (edge/chrome/etc.)
+    createobject("WScript.Shell").run _
+        "cmd /c start """" """ & url & """", 0, false
  
-End Sub
+end sub
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Numbe)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.numbe)
+end sub

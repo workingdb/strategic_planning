@@ -1,76 +1,76 @@
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = True
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = False
-Option Compare Database
-Option Explicit
+attribute vb_globalnamespace = false
+attribute vb_creatable = true
+attribute vb_predeclaredid = true
+attribute vb_exposed = false
+option compare database
+option explicit
 
-Private Sub allRequests_Click()
-On Error GoTo Err_Handler
+private sub allrequests_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmCapacityRequestTracker"
+docmd.openform "frmCapacityRequestTracker"
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnMaintenance_Click()
-On Error GoTo Err_Handler
+private sub btnmaintenance_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmMaintanence", acNormal, "", "", , acNormal
+docmd.openform "frmMaintanence", acnormal, "", "", , acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnOpenReportLauncher_Click()
-On Error GoTo Err_Handler
+private sub btnopenreportlauncher_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmReportLauncher", acNormal
+docmd.openform "frmReportLauncher", acnormal
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnSettings_Click()
-On Error GoTo Err_Handler
+private sub btnsettings_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmUserView"
+docmd.openform "frmUserView"
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub cmdOpenSalesManagerReport_Click()
-On Error GoTo Err_Handler
+private sub cmdopensalesmanagerreport_click()
+on error goto err_handler
 
-DoCmd.OpenReport "rpt_SalesManager", acViewReport
+docmd.openreport "rpt_SalesManager", acviewreport
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub btnSurvery_Click()
-On Error GoTo Err_Handler
+private sub btnsurvery_click()
+on error goto err_handler
 
-DoCmd.OpenForm "frmSurveys", acNormal, "", "", , acNormal
+docmd.openform "frmSurveys", acnormal, "", "", , acnormal
     
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, Me.ActiveControl.name, err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
 
-Private Sub Form_Load()
-On Error GoTo Err_Handler
+private sub form_load()
+on error goto err_handler
 
-Call setTheme(Me)
+call settheme(me)
 
-Exit Sub
-Err_Handler:
-    Call handleError(Me.name, "Form_Load", err.Description, err.Numbe)
-End Sub
+exit sub
+err_handler:
+    call handleerror(me.name, "Form_Load", err.description, err.numbe)
+end sub

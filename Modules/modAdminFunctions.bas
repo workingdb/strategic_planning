@@ -1,149 +1,149 @@
-Option Compare Database
-Option Explicit
+option compare database
+option explicit
 
-Global Const SW_HIDE = 0
-Global Const SW_SHOWNORMAL = 1
-Global Const SW_SHOWMINIMIZED = 2
-Global Const SW_SHOWMAXIMIZED = 3
-Global Const SW_RESTORE = 9
+global const sw_hide = 0
+global const sw_shownormal = 1
+global const sw_showminimized = 2
+global const sw_showmaximized = 3
+global const sw_restore = 9
 
-Private Type RECT
-x1 As Long
-y1 As Long
-x2 As Long
-y2 As Long
-End Type
+private type rect
+x1 as long
+y1 as long
+x2 as long
+y2 as long
+end type
 
-Private Declare PtrSafe Function GetDesktopWindow Lib "user32" () As Long
-Private Declare PtrSafe Function GetWindowRect Lib "user32" (ByVal hwnd As Long, r As RECT) As Long
-Public Declare PtrSafe Function IsZoomed Lib "user32" (ByVal hwnd As Long) As Long
-Private Declare PtrSafe Function moveWindow Lib "user32" Alias "MoveWindow" (ByVal hwnd As Long, ByVal x As Long, ByVal Y As Long, ByVal dx As Long, ByVal dy As Long, ByVal fRepaint As Long) As Long
-Private Declare PtrSafe Function ShowWindow Lib "user32" (ByVal hwnd As Long, ByVal nCmdShow As Long) As Long
+private declare ptrsafe function getdesktopwindow lib "user32" () as long
+private declare ptrsafe function getwindowrect lib "user32" (byval hwnd as long, r as rect) as long
+public declare ptrsafe function iszoomed lib "user32" (byval hwnd as long) as long
+private declare ptrsafe function movewindow lib "user32" alias "MoveWindow" (byval hwnd as long, byval x as long, byval y as long, byval dx as long, byval dy as long, byval frepaint as long) as long
+private declare ptrsafe function showwindow lib "user32" (byval hwnd as long, byval ncmdshow as long) as long
 
-Dim AppX As Long, AppY As Long, AppTop As Long, AppLeft As Long, WinRECT As RECT
+dim appx as long, appy as long, apptop as long, appleft as long, winrect as rect
 
-Sub maximizeAccess()
-On Error GoTo Err_Handler
+sub maximizeaccess()
+on error goto err_handler
 
-Dim h As Long
-Dim r As RECT
+dim h as long
+dim r as rect
 
-On Error Resume Next
+on error resume next
 
-h = Application.hWndAccessApp
-'If maximised, restore
-If (IsZoomed(h) = False) Then ShowWindow h, SW_SHOWMAXIMIZED
+h = application.hwndaccessapp
+'if maximised, restore
+if (iszoomed(h) = false) then showwindow h, sw_showmaximized
 
-Exit Sub
-Err_Handler:
-    Call handleError("modAdminFunctions", "maximizeAccess", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror("modAdminFunctions", "maximizeAccess", err.description, err.number)
+end sub
 
-Public Sub handleError(modName As String, activeCon As String, errDesc As String, errNum As Long, Optional dataTag As String = "")
-On Error Resume Next
+public sub handleerror(modname as string, activecon as string, errdesc as string, errnum as long, optional datatag as string = "")
+on error resume next
 
-If (CurrentProject.Path <> "C:\workingdb") Then
-    MsgBox errDesc, vbInformation, "Error Code: " & errNum
-    Exit Sub
-End If
+if (currentproject.path <> "C:\workingdb") then
+    msgbox errdesc, vbinformation, "Error Code: " & errnum
+    exit sub
+end if
 
-Select Case errNum
-    Case 70
-        MsgBox "Permissions Error - Check if the file is already in use.", vbInformation, "Error Code: " & errNum
-    Case 53
-        MsgBox "File Not Found", vbInformation, "Error Code: " & errNum
-        Exit Sub
-    Case 3011
-        MsgBox "Looks like I'm having issues connecting to SharePoint. Please reopen when you can", vbInformation, "Error Code: " & errNum
-    Case 490, 52, 75
-        MsgBox "I cannot open this file or location - check if it has been moved or deleted. Or - you do not have proper access to this location", vbInformation, "Error Code: " & errNum
-        Exit Sub
-    Case 3022
-        MsgBox "A record with this key already exists. I cannot create another!", vbInformation, "Error Code: " & errNum
-    Case 3167
-        MsgBox "Looks like you already deleted that record", vbInformation, "Error Code: " & errNum
-        Exit Sub
-    Case 94
-        MsgBox "Hmm. Looks like something is missing. Check for an empty field", vbInformation, "Error Code: " & errNum
-    Case 3151
-        MsgBox "You're not connected to Oracle. Just FYI, Oracle connection does not work outside of VMWare.", vbInformation, "Error Code: " & errNum
-        Exit Sub
-    Case 429
-        If modName = "frmCatiaMacros" Then
-            MsgBox "Looks like Catia isn't open", vbInformation, "Error Code: " & errNum
-            Exit Sub
-        Else
-            MsgBox errDesc, vbInformation, "Error Code: " & errNum
-        End If
-    Case 3343
-        MsgBox "Error. Please re-open WorkingDB to reset.", vbCritical, "Error Code: " & errNum
-    Case Else
-        MsgBox errDesc, vbInformation, "Error Code: " & errNum
-End Select
+select case errnum
+    case 70
+        msgbox "Permissions Error - Check if the file is already in use.", vbinformation, "Error Code: " & errnum
+    case 53
+        msgbox "File Not Found", vbinformation, "Error Code: " & errnum
+        exit sub
+    case 3011
+        msgbox "Looks like I'm having issues connecting to SharePoint. Please reopen when you can", vbinformation, "Error Code: " & errnum
+    case 490, 52, 75
+        msgbox "I cannot open this file or location - check if it has been moved or deleted. Or - you do not have proper access to this location", vbinformation, "Error Code: " & errnum
+        exit sub
+    case 3022
+        msgbox "A record with this key already exists. I cannot create another!", vbinformation, "Error Code: " & errnum
+    case 3167
+        msgbox "Looks like you already deleted that record", vbinformation, "Error Code: " & errnum
+        exit sub
+    case 94
+        msgbox "Hmm. Looks like something is missing. Check for an empty field", vbinformation, "Error Code: " & errnum
+    case 3151
+        msgbox "You're not connected to Oracle. Just FYI, Oracle connection does not work outside of VMWare.", vbinformation, "Error Code: " & errnum
+        exit sub
+    case 429
+        if modname = "frmCatiaMacros" then
+            msgbox "Looks like Catia isn't open", vbinformation, "Error Code: " & errnum
+            exit sub
+        else
+            msgbox errdesc, vbinformation, "Error Code: " & errnum
+        end if
+    case 3343
+        msgbox "Error. Please re-open WorkingDB to reset.", vbcritical, "Error Code: " & errnum
+    case else
+        msgbox errdesc, vbinformation, "Error Code: " & errnum
+end select
 
-Dim strSQL As String
+dim strsql as string
 
-modName = Replace(Nz(modName, ""), "'", "''")
-errDesc = Replace(Nz(errDesc, ""), "'", "''")
-errNum = Replace(Nz(errNum, ""), "'", "''")
-dataTag = Replace(Nz(dataTag, ""), "'", "''")
+modname = replace(nz(modname, ""), "'", "''")
+errdesc = replace(nz(errdesc, ""), "'", "''")
+errnum = replace(nz(errnum, ""), "'", "''")
+datatag = replace(nz(datatag, ""), "'", "''")
 
-strSQL = "INSERT INTO tblErrorLog([User],Form,Active_Control,Error_Date,Error_Description,Error_Number,databaseVersion,dataTag0) VALUES ('" & _
- Environ("username") & "','" & modName & "','" & Nz(activeCon, "") & "',#" & Now & "#,'" & errDesc & "'," & errNum & ",'SP:" & Nz(TempVars!dbVersion, "") & "','" & dataTag & "')"
+strsql = "INSERT INTO tblErrorLog([User],Form,Active_Control,Error_Date,Error_Description,Error_Number,databaseVersion,dataTag0) VALUES ('" & _
+ environ("username") & "','" & modname & "','" & nz(activecon, "") & "',#" & now & "#,'" & errdesc & "'," & errnum & ",'SP:" & nz(tempvars!dbversion, "") & "','" & datatag & "')"
 
-Dim conn As ADODB.Connection
-Set conn = CurrentProject.Connection
+dim conn as adodb.connection
+set conn = currentproject.connection
 
-conn.Execute strSQL
+conn.execute strsql
 
-Set conn = Nothing
+set conn = nothing
 
-End Sub
+end sub
 
-Sub SizeAccess(ByVal dx As Long, ByVal dy As Long)
-On Error GoTo Err_Handler
-'Set size of Access and center on Desktop
+sub sizeaccess(byval dx as long, byval dy as long)
+on error goto err_handler
+'set size of access and center on desktop
 
-Dim h As Long
-Dim r As RECT
+dim h as long
+dim r as rect
 
-On Error Resume Next
+on error resume next
 
-h = Application.hWndAccessApp
-'If maximised, restore
-If (IsZoomed(h)) Then ShowWindow h, SW_RESTORE
+h = application.hwndaccessapp
+'if maximised, restore
+if (iszoomed(h)) then showwindow h, sw_restore
 '
-'Get available Desktop size
-GetWindowRect GetDesktopWindow(), r
-If ((r.x2 - r.x1) - dx) < 0 Or ((r.y2 - r.y1) - dy) < 0 Then
-'Desktop smaller than requested size
-'so size to Desktop
-moveWindow h, r.x1, r.y1, r.x2, r.y2, True
-Else
-'Adjust to requested size and center
-moveWindow h, _
+'get available desktop size
+getwindowrect getdesktopwindow(), r
+if ((r.x2 - r.x1) - dx) < 0 or ((r.y2 - r.y1) - dy) < 0 then
+'desktop smaller than requested size
+'so size to desktop
+movewindow h, r.x1, r.y1, r.x2, r.y2, true
+else
+'adjust to requested size and center
+movewindow h, _
 r.x1 + ((r.x2 - r.x1) - dx) \ 2, _
 r.y1 + ((r.y2 - r.y1) - dy) \ 2, _
-dx, dy, True
-End If
+dx, dy, true
+end if
 
-Exit Sub
-Err_Handler:
-    Call handleError("modAdminFunctions", "SizeAccess", err.Description, err.Number)
-End Sub
+exit sub
+err_handler:
+    call handleerror("modAdminFunctions", "SizeAccess", err.description, err.number)
+end sub
 
-Function grabVersion() As String
-On Error GoTo Err_Handler
+function grabversion() as string
+on error goto err_handler
 
-Dim db As Database
-Set db = CurrentDb()
-Dim rs1 As Recordset
-Set rs1 = db.OpenRecordset("SELECT releaseVal FROM tblDBinfo WHERE recordId = 1", dbOpenSnapshot)
-grabVersion = rs1!releaseVal
-rs1.Close: Set rs1 = Nothing
-Set db = Nothing
+dim db as database
+set db = currentdb()
+dim rs1 as recordset
+set rs1 = db.openrecordset("SELECT releaseVal FROM tblDBinfo WHERE recordId = 1", dbopensnapshot)
+grabversion = rs1!releaseval
+rs1.close: set rs1 = nothing
+set db = nothing
 
-Exit Function
-Err_Handler:
-    Call handleError("modAdminFunctions", "grabVersion", err.Description, err.Number)
-End Function
+exit function
+err_handler:
+    call handleerror("modAdminFunctions", "grabVersion", err.description, err.number)
+end function
