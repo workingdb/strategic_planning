@@ -133,14 +133,13 @@ sendnotification = true
 
 on error goto err_handler
 
-dim db as database
-set db = currentdb()
+dim conn as adodb.connection
+set conn = currentproject.connection
 
 'has this person been notified about this thing today already?
-dim rsnotifications as recordset
-set rsnotifications = db.openrecordset("SELECT * from tblNotificationsSP WHERE recipientUser = '" & sendto & "' AND notificationDescription = '" & strquotereplace(desc) & "' AND sentDate > #" & date - 1 & "#")
-'needs converted to adodb
-if rsnotifications.recordcount > 0 then
+dim rsnotifications as adodb.recordset
+set rsnotifications = openrecordsetreadonly(conn, "SELECT * from tblNotificationsSP WHERE recipientUser = '" & replace(sendto, "'", "''") & "' AND notificationDescription = '" & strquotereplace(desc) & "' AND sentDate > #" & date - 1 & "#")
+if not rsnotifications.eof then
     if rsnotifications!notificationtype = 1 then
         dim msgtxt as string
         if rsnotifications!senderuser = environ("username") then
@@ -150,9 +149,14 @@ if rsnotifications.recordcount > 0 then
         end if
         msgbox msgtxt, vbinformation, "Hold on a minute..."
         sendnotification = false
+        rsnotifications.close
+        set rsnotifications = nothing
+        set conn = nothing
         exit function
     end if
 end if
+rsnotifications.close
+set rsnotifications = nothing
 
 dim stremail
 if customemail = false then
@@ -175,28 +179,22 @@ else
     sendto = split(sendto, "@")(0)
 end if
 
-set rsnotifications = db.openrecordset("SELECT * FROM tblNotificationsSP WHERE 1 = 0")
+dim strsql as string
+strsql = "INSERT INTO tblNotificationsSP (recipientUser, recipientEmail, senderUser, senderEmail, sentDate, " & _
+         "notificationType, notificationPriority, notificationDescription, appName, appId, emailContent) VALUES (" & _
+         "'" & replace(sendto, "'", "''") & "', " & _
+         "'" & replace(cstr(nz(stremail, "")), "'", "''") & "', " & _
+         "'" & replace(environ("username"), "'", "''") & "', " & _
+         "'" & replace(getemail(environ("username")), "'", "''") & "', " & _
+         "#" & format$(now(), "yyyy-mm-dd hh:nn:ss") & "#, " & _
+         nottype & ", " & notpriority & ", " & _
+         "'" & strquotereplace(desc) & "', " & _
+         "'" & replace(nz(appname, ""), "'", "''") & "', " & _
+         "'" & replace(cstr(nz(appid, "")), "'", "''") & "', " & _
+         "'" & strquotereplace(emailcontent) & "')"
+conn.execute strsql
 
-with rsnotifications
-    .addnew
-    !recipientuser = sendto
-    !recipientemail = stremail
-    !senderuser = environ("username")
-    !senderemail = getemail(environ("username"))
-    !sentdate = now()
-    !notificationtype = nottype
-    !notificationpriority = notpriority
-    !notificationdescription = desc
-    !appname = appname
-    !appid = appid
-    !emailcontent = emailcontent
-    .update
-end with
-
-on error resume next
-rsnotifications.close
-set rsnotifications = nothing
-set db = nothing
+set conn = nothing
 
 exit function
 err_handler:
@@ -461,21 +459,21 @@ function logclick(modname as string, formname as string, optional datatag0 = "")
     ' 1. check if analytics are enabled
     if nz(dlookup("paramVal", "tblDBinfoBE", "parameter = 'recordAnalytics'"), "False") = "False" then exit function
 
-    dim conn as adodb.connection
-    set conn = currentproject.connection
+    dim conn as new adodb.connection
+    conn.connectionstring = replace(relinksqltables(true), "ODBC;", "")
+    conn.open
     
     dim strsql as string
     
-    ' 2. build the sql string for access
-    ' important: access ado requires # for dates and '' for escaped quotes
+    ' 2. build the sql string
     strsql = "INSERT INTO tblAnalytics ([module], [form], [username], [dateused], [datatag0], [datatag1]) " & _
              "VALUES (" & _
              "'" & replace(modname, "'", "''") & "', " & _
              "'" & replace(formname, "'", "''") & "', " & _
              "'" & environ("username") & "', " & _
-             "#" & format(now(), "yyyy-mm-dd hh:nn:ss") & "#, " & _
+             "'" & format(now(), "yyyy-mm-dd hh:nn:ss") & "', " & _
              "'" & replace(nz(datatag0, ""), "'", "''") & "', " & _
-             "'SP" & nz(tempvars!dbversion, "") & "')"
+             "'" & nz(tempvars!wdbversion, "") & "')"
 
 
     ' 3. execute

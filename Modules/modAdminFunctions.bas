@@ -57,7 +57,6 @@ select case errnum
         msgbox "Looks like I'm having issues connecting to SharePoint. Please reopen when you can", vbinformation, "Error Code: " & errnum
     case 490, 52, 75
         msgbox "I cannot open this file or location - check if it has been moved or deleted. Or - you do not have proper access to this location", vbinformation, "Error Code: " & errnum
-        exit sub
     case 3022
         msgbox "A record with this key already exists. I cannot create another!", vbinformation, "Error Code: " & errnum
     case 3167
@@ -89,7 +88,7 @@ errnum = replace(nz(errnum, ""), "'", "''")
 datatag = replace(nz(datatag, ""), "'", "''")
 
 strsql = "INSERT INTO tblErrorLog([User],Form,Active_Control,Error_Date,Error_Description,Error_Number,databaseVersion,dataTag0) VALUES ('" & _
- environ("username") & "','" & modname & "','" & nz(activecon, "") & "',#" & now & "#,'" & errdesc & "'," & errnum & ",'SP:" & nz(tempvars!dbversion, "") & "','" & datatag & "')"
+ environ("username") & "','" & modname & "','" & nz(activecon, "") & "','" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & errdesc & "'," & errnum & ",'" & nz(tempvars!wdbversion, "") & "','" & datatag & "')"
 
 dim conn as adodb.connection
 set conn = currentproject.connection
