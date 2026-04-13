@@ -119,6 +119,7 @@ on error goto err_handler
 
     dim db as dao.database
     dim tdf as dao.tabledef
+    dim qdf as dao.querydef
     dim strdriver as string
     dim strconn as string
     
@@ -126,8 +127,12 @@ on error goto err_handler
     if strdriver = "" then exit function
     
     set db = currentdb
-    ' construct your base connection string (dsn-less)
-    strconn = "ODBC;DRIVER=" & strdriver & ";SERVER=ITI-SQL\ITISQL;Trusted_Connection=Yes;APP=Microsoft Office;DATABASE=workingdb;"
+    ' base odbc connection string
+    strconn = "ODBC;DRIVER=" & strdriver & _
+              ";SERVER=ITI-SQL\ITISQL" & _
+              ";Trusted_Connection=Yes" & _
+              ";APP=Microsoft Office" & _
+              ";DATABASE=workingdb;"
     
     if returnstringonly then
         relinksqltables = strconn
@@ -142,6 +147,17 @@ on error goto err_handler
             tdf.refreshlink
         end if
     next tdf
+    
+    ' relink pass-through queries
+    for each qdf in db.querydefs
+        if qdf.type = dbqsqlpassthrough then
+            if instr(1, qdf.connect, "SERVER=ITI-SQL") > 0 then
+                qdf.connect = strconn
+            end if
+        end if
+    next qdf
+    
+relinksqltables = strconn
     
 exit function
 err_handler:
