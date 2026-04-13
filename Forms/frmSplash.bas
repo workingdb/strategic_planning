@@ -11,6 +11,10 @@ private sub form_load()
     ' --- initial setup ---
     tempvars.add "loadAmount", 0
     tempvars.add "loadWd", 8160
+    
+    'make sure driver reference for sql server is ok
+    call relinksqltables
+    
     tempvars.add "dbVersion", grabversion()
     me.lblfrozen.visible = false
     call setsplashloading("Setting up app stuff...")
@@ -19,9 +23,6 @@ private sub form_load()
 
     sizeaccess 280, 280
     me.move -2600, -1000
-    
-        'make sure driver reference for sql server is ok
-    call relinksqltables
 
     ' use the adodb version of logclick we created earlier
     call logclick("Form_Load", me.name)
