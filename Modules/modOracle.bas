@@ -22,6 +22,88 @@ reconnect:
     set getoracleconnection = g_cnoracle
 end function
 
+public function getinventoryownerunit(byval partnumber) as string
+on error goto err_handler
+
+getinventoryownerunit = ""
+
+if nz(partnumber, "") = "" then exit function
+
+    dim cn as adodb.connection
+    dim rs as adodb.recordset
+    dim sql as string
+    
+    sql = "SELECT msi.SEGMENT1 AS PN, mcv.SEGMENT1 AS UnitName, mcv.SEGMENT2 AS PartType " & _
+                "From inV.MTL_ITEM_CATEGORIES mic " & _
+                    "JOIN INV.MTL_SYSTEM_ITEMS_B msi ON mic.INVENTORY_ITEM_ID = msi.INVENTORY_ITEM_ID " & _
+                    "LEFT JOIN APPS.MTL_CATEGORIES_VL mcv ON mic.CATEGORY_ID = mcv.CATEGORY_ID " & _
+                "where STRUCTURE_ID = 101 AND msi.SEGMENT1 = '" & replace(cstr(partnumber), "'", "''") & "' " & _
+                "Group By msi.SEGMENT1, mcv.SEGMENT1, mcv.SEGMENT2;"
+
+    set cn = getoracleconnection()
+
+    set rs = new adodb.recordset
+    rs.open sql, cn, adopenforwardonly, adlockreadonly
+
+    if not rs.eof then
+        getinventoryownerunit = nz(rs.fields("UnitName").value, "")
+    end if
+
+clean_exit:
+    on error resume next
+    if not rs is nothing then
+        if rs.state = adstateopen then rs.close
+    end if
+    set rs = nothing
+    set cn = nothing
+    exit function
+
+err_handler:
+    call handleerror("modOracle", "getInventoryOwnerUnit", err.description, err.number)
+    resume clean_exit
+end function
+
+public function getinventoryownertype(byval partnumber) as string
+on error goto err_handler
+
+getinventoryownertype = ""
+
+if nz(partnumber, "") = "" then exit function
+
+    dim cn as adodb.connection
+    dim rs as adodb.recordset
+    dim sql as string
+    
+    sql = "SELECT msi.SEGMENT1 AS PN, mcv.SEGMENT1 AS UnitName, mcv.SEGMENT2 AS PartType " & _
+                "From inV.MTL_ITEM_CATEGORIES mic " & _
+                    "JOIN INV.MTL_SYSTEM_ITEMS_B msi ON mic.INVENTORY_ITEM_ID = msi.INVENTORY_ITEM_ID " & _
+                    "LEFT JOIN APPS.MTL_CATEGORIES_VL mcv ON mic.CATEGORY_ID = mcv.CATEGORY_ID " & _
+                "where STRUCTURE_ID = 101 AND msi.SEGMENT1 = '" & replace(cstr(partnumber), "'", "''") & "' " & _
+                "Group By msi.SEGMENT1, mcv.SEGMENT1, mcv.SEGMENT2;"
+
+    set cn = getoracleconnection()
+
+    set rs = new adodb.recordset
+    rs.open sql, cn, adopenforwardonly, adlockreadonly
+
+    if not rs.eof then
+        getinventoryownertype = nz(rs.fields("PartType").value, "")
+    end if
+
+clean_exit:
+    on error resume next
+    if not rs is nothing then
+        if rs.state = adstateopen then rs.close
+    end if
+    set rs = nothing
+    set cn = nothing
+    exit function
+
+err_handler:
+    call handleerror("modOracle", "getInventoryOwnerType", err.description, err.number)
+    resume clean_exit
+end function
+
 public function getstandardcostowner(byval partnumber) as string
 on error goto err_handler
 

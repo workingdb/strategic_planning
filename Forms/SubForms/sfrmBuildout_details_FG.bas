@@ -5,34 +5,6 @@ attribute vb_exposed = false
 option compare database
 option explicit
 
-private sub explode_click()
-on error goto err_handler
-
-dim conn as adodb.connection
-dim rs as adodb.recordset
-
-set conn = currentproject.connection
-set rs = openrecordsetreadonly(conn, "SELECT * FROM tblBuildout_register_FG WHERE registerId = " & me.registerid)
-
-do while not rs.eof
-    call explodebom(rs!partnumber)
-    rs.movenext
-loop
-
-clean_exit:
-    on error resume next
-    if not rs is nothing then
-        if rs.state = adstateopen then rs.close
-    end if
-    
-    set rs = nothing
-    set conn = nothing
-
-exit sub
-err_handler:
-    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
-end sub
-
 public function explodebom(partnumber as string)
 on error goto err_handler
 
@@ -152,13 +124,17 @@ cmd.parameters.append cmd.createparameter(, adinteger, adparaminput, , porgid)
 
 set rs = cmd.execute
 
+dim parttype as long
 do until rs.eof
-    debug.print rs.fields("top_assembly").value, _
-                rs.fields("lowest_level_component").value, _
-                rs.fields("bom_level").value, _
-                rs.fields("qty_per_assembly").value, _
-                rs.fields("extended_qty").value, _
-                rs.fields("component_path").value
+    parttype = dlookup("recordId", "tblDropDowns_StrategicPlanning", "bo_partType = '" & getinventoryownertype(rs.fields("lowest_level_component")) & "'")
+
+    dbexecute ("INSERT INTO tblBuildout_register_comp (fgId, partNumber, itemType) VALUES(" & me.recordid & ",'" & rs.fields("lowest_level_component") & "'," & parttype & ");")
+'    debug.print rs.fields("top_assembly").value, _
+'                rs.fields("lowest_level_component").value, _
+'                rs.fields("bom_level").value, _
+'                rs.fields("qty_per_assembly").value, _
+'                rs.fields("extended_qty").value, _
+'                rs.fields("component_path").value
     rs.movenext
 loop
 
@@ -179,3 +155,24 @@ clean_exit:
 err_handler:
     call handleerror(me.name, "explodeBOM", err.description, err.number)
 end function
+
+private sub partnumber_afterupdate()
+
+me.unitid = dlookup("recordId", "tblUnits", "unitName = '" & getinventoryownerunit(me.partnumber) & "'")
+explodebom (me.partnumber)
+
+end sub
+
+private sub remove_click()
+on error goto err_handler
+
+if msgbox("Are you sure you want to delete this?", vbyesno, "Please confirm") = vbyes then
+    'if nz(me.recordid, 0) <> 0 then call registerstratplanupdates("tblCapacityRequestDetail_partnumbers", me.recordid, "Part Number", nz(me.partnumber, ""), "Deleted", me.recordid, me.name)
+    dbexecute ("DELETE FROM tblBuildout_register_FG WHERE [recordId] = " & me.recordid)
+    me.requery
+end if
+
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub

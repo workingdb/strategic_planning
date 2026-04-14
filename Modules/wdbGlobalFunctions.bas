@@ -1,6 +1,27 @@
 option compare database
 option explicit
 
+function gettempfold() as string
+on error goto err_handler
+
+gettempfold = environ("temp") & "\workingdb\"
+if folderexists(gettempfold) = false then mkdir (gettempfold)
+    
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "getTempFold", err.description, err.number)
+end function
+
+public function nowstring() as string
+on error goto err_handler
+
+nowstring = format(now(), "yyyymmddTHHmmss")
+
+exit function
+err_handler:
+    call handleerror("wdbGlobalFunctions", "nowString", err.description, err.number)
+end function
+
 public function addworkdays(dateinput as date, daystoadd as long) as date
 on error goto err_handler
 
