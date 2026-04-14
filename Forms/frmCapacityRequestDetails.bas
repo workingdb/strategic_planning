@@ -16,6 +16,38 @@ err_handler:
     call handleerror(me.name, "trackUpdate", err.description, err.number)
 end function
 
+private sub addfile_click()
+on error goto err_handler
+
+if isnull(me.recordid) then
+    msgbox "Please put more info in so there's a RecordID on the top, then try again.", vbinformation, "Woops"
+    exit sub
+end if
+
+docmd.openform "frmDropFile"
+'custom title stuff
+form_frmdropfile.customname.visible = true
+form_frmdropfile.customname.locked = false
+form_frmdropfile.tdocumentlibary = "WDB_Capacity_Requests"
+form_frmdropfile.label62.visible = true
+form_frmdropfile.command63.visible = true
+
+form_frmdropfile.lbldoccategory.caption = "Strategic Planning Document"
+form_frmdropfile.tprojectid = me.recordid
+form_frmdropfile.tpartnumber = "tblCapacityRequests"
+form_frmdropfile.documenttype = 30
+form_frmdropfile.documenttype.locked = true
+form_frmdropfile.documenttype.visible = false
+form_frmdropfile.doctypecard.visible = false
+form_frmdropfile.label51.visible = false
+form_frmdropfile.box57.visible = false
+form_frmdropfile.command58.visible = false
+
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
+
 private sub form_load()
 on error goto err_handler
 
