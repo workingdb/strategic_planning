@@ -128,11 +128,26 @@ on error goto err_handler
     
     set db = currentdb
     ' base odbc connection string
-    strconn = "ODBC;DRIVER=" & strdriver & _
-              ";SERVER=ITI-SQL\ITISQL" & _
-              ";Trusted_Connection=Yes" & _
-              ";APP=Microsoft Office" & _
-              ";DATABASE=workingdb;"
+    
+    dim strextra as string
+    select case lcase$(strdriver)
+        case lcase$("ODBC Driver 18 for SQL Server")
+            strextra = ";Encrypt=Yes;TrustServerCertificate=Yes"
+            
+        case lcase$("ODBC Driver 17 for SQL Server")
+            strextra = ";Encrypt=Yes;TrustServerCertificate=Yes"
+            
+        case else
+            strextra = ""
+    end select
+    
+    strconn = "ODBC;" & _
+              "DRIVER=" & strdriver & ";" & _
+              "SERVER=ITI-SQL\ITISQL;" & _
+              "DATABASE=workingdb;" & _
+              "Trusted_Connection=Yes;" & _
+              "APP=Microsoft Office" & _
+              strextra & ";"
     
     if returnstringonly then
         relinksqltables = strconn
