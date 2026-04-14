@@ -35,8 +35,8 @@ public function createbuildoutproject(registerid as long, n0date as date, templa
         
         do while not rstasktemplate.eof
             strinsert = "INSERT INTO tblBuildout_tasks (gateId, taskStatus, templateTaskId, createdBy, createdDate, lastUpdatedDate, lastUpdatedBy, indexOrder) " & _
-                        "VALUES (" & gateid & ",1," & rstasktemplate!recordid & ",'" & environ("username") & "','" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & environ("username") & _
-                        "'," & rstasktemplate!indexorder & ")"
+                        "VALUES (" & gateid & ",1," & rstasktemplate!recordid & "," & userdata("ID") & ",'" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "','" & format$(now(), "yyyy-mm-dd\Thh:nn:ss") & "'," & userdata("ID") & _
+                        "," & rstasktemplate!indexorder & ")"
             
             connwrite.execute strinsert
             

@@ -6,9 +6,5 @@ option compare database
 option explicit
 
 private sub cmddetails_click()
-    docmd.openform "frmBuildout_details", , , "[registerId]=" & me.[recordid]
-end sub
-
-private sub cmdexposureinput_click()
-    docmd.openform "frmBuildout_exposure", , , "[registerId]=" & me.recordid
+    docmd.openform "frmBuildout_details", , , "recordId=" & me.[recordid]
 end sub
