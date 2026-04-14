@@ -15,6 +15,16 @@ err_handler:
     call handleerror(me.name, me.activecontrol.name, err.description, err.number)
 end sub
 
+private sub btnbuildout_click()
+on error goto err_handler
+
+docmd.openform "frmBuildout_tracker"
+
+exit sub
+err_handler:
+    call handleerror(me.name, me.activecontrol.name, err.description, err.number)
+end sub
+
 private sub btnmaintenance_click()
 on error goto err_handler
 

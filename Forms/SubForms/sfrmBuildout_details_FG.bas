@@ -5,11 +5,29 @@ attribute vb_exposed = false
 option compare database
 option explicit
 
-private sub form_afterinsert()
+private sub explode_click()
 on error goto err_handler
 
-call explodebom(me.partnumber)
+dim conn as adodb.connection
+dim rs as adodb.recordset
+
+set conn = currentproject.connection
+set rs = openrecordsetreadonly(conn, "SELECT * FROM tblBuildout_register_FG WHERE registerId = " & me.registerid)
+
+do while not rs.eof
+    call explodebom(rs!partnumber)
+    rs.movenext
+loop
+
+clean_exit:
+    on error resume next
+    if not rs is nothing then
+        if rs.state = adstateopen then rs.close
+    end if
     
+    set rs = nothing
+    set conn = nothing
+
 exit sub
 err_handler:
     call handleerror(me.name, me.activecontrol.name, err.description, err.number)

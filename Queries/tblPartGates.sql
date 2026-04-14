@@ -1,0 +1,4 @@
+SELECT tblBuildout_gates.recordId, tblBuildout_gates.registerId, tblBuildout_gates.dueDate, tblBuildout_gates.indexOrder, tblBuildout_gates_template.gateDuration, tblBuildout_gates_template.gateTitle
+FROM tblBuildout_gates LEFT JOIN tblBuildout_gates_template ON tblBuildout_gates.gateTemplateId = tblBuildout_gates_template.recordId
+ORDER BY tblBuildout_gates.indexOrder;
+
