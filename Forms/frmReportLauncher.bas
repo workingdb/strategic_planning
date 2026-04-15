@@ -23,28 +23,35 @@ on error goto err_handler
  
     select case rt
  
-        case "Capacity by Date Range"
-            rptname = "rpt_Capacity_DateRange"
+case "Capacity by Date Range"
+    rptname = "rpt_Capacity_DateRange"
  
-            if isnull(me.txtstartdate) or isnull(me.txtenddate) then
-                msgbox "Please enter both Start Date and End Date.", vbexclamation
-                exit sub
-            end if
-            if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
-                msgbox "Start Date and End Date must be valid dates.", vbexclamation
-                exit sub
-            end if
+    if isnull(me.txtstartdate) or isnull(me.txtenddate) then
+        msgbox "Please enter both Start Date and End Date.", vbexclamation
+        exit sub
+    end if
  
-            d1 = datevalue(me.txtstartdate)
-            d2 = datevalue(me.txtenddate)
+    if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
+        msgbox "Start Date and End Date must be valid dates.", vbexclamation
+        exit sub
+    end if
  
-            if d2 < d1 then
-                msgbox "End Date must be on or after Start Date.", vbexclamation
-                exit sub
-            end if
+    d1 = datevalue(me.txtstartdate)
+    d2 = datevalue(me.txtenddate)
  
-            whereclause = "[RequestDate] Between #" & format(d1, "yyyy-mm-dd") & _
-                          "# And #" & format(d2, "yyyy-mm-dd") & "#"
+    if d2 < d1 then
+        msgbox "End Date must be on or after Start Date.", vbexclamation
+        exit sub
+    end if
+ 
+    whereclause = "[RequestDateReal] >= #" & format(d1, "yyyy-mm-dd") & _
+                  "# AND [RequestDateReal] < #" & format(dateadd("d", 1, d2), "yyyy-mm-dd") & "#"
+ 
+    if currentproject.allreports(rptname).isloaded then
+        docmd.close acreport, rptname
+    end if
+ 
+    docmd.openreport rptname, acviewpreview, , whereclause
  
         case "KPI Report"
             rptname = "rpt_KPI_Dashboard"
@@ -113,16 +120,16 @@ on error goto err_handler
         case "Past Due Report"
             rptname = "rpt_PastDue"
             
-             if isnull(me.cbounit) then
-                msgbox "Please select a Unit.", vbexclamation
-                exit sub
-            end if
+             'if isnull(me.cbounit) then
+                'msgbox "Please select a Unit.", vbexclamation
+                'exit sub
+            'end if
  
-            whereclause = "[Unit] = " & clng(me.cbounit)
+            'whereclause = "[Unit] = " & clng(me.cbounit)
  
-        case else
-            msgbox "Report type not coded yet: " & rt, vbexclamation
-            exit sub
+        'case else
+            'msgbox "Report type not coded yet: " & rt, vbexclamation
+            'exit sub
     end select
  
     if len(whereclause) > 0 then
@@ -146,7 +153,7 @@ on error goto err_handler
     me.txtnam.visible = false
     me.cbosalesmanager.visible = false
     me.cboprogramcode.visible = false
-    me.cbounit.visible = false
+    'me.cbounit.visible = false
  
     '--- default: disable + no tabbing ---
     me.txtstartdate.enabled = false: me.txtstartdate.tabstop = false
@@ -154,7 +161,7 @@ on error goto err_handler
     me.txtnam.enabled = false: me.txtnam.tabstop = false
     me.cbosalesmanager.enabled = false: me.cbosalesmanager.tabstop = false
     me.cboprogramcode.enabled = false: me.cboprogramcode.tabstop = false
-    me.cbounit.enabled = false: me.cbounit.tabstop = false
+    'me.cbounit.enabled = false: me.cbounit.tabstop = false
  
     '--- show only what the selected report needs ---
     select case me.cboreporttype.value
@@ -178,8 +185,8 @@ on error goto err_handler
             me.cboprogramcode.enabled = true: me.cboprogramcode.tabstop = true
  
         case "Past Due Report"
-            me.cbounit.visible = true
-            me.cbounit.enabled = true: me.cbounit.tabstop = true
+            'me.cbounit.visible = true
+            'me.cbounit.enabled = true: me.cbounit.tabstop = true
  
     end select
  
@@ -200,7 +207,7 @@ on error goto err_handler
     me.cboreporttype = null
     me.cbosalesmanager = null
     me.cboprogramcode = null
-    me.cbounit = null
+    'me.cbounit = null
  
     'text boxes
     me.txtstartdate = null
