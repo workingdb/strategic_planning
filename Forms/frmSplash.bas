@@ -45,8 +45,8 @@ private sub form_load()
     on error resume next
     dim fso as object: set fso = createobject("Scripting.FileSystemObject")
     fso.copyfile "\\data\mdbdata\WorkingDB\Batch\Working DB.lnk", "\\homes\data\" & environ("username") & "\Desktop\Working DB.lnk"
-    fso.copyfile "\\data\mdbdata\WorkingDB\build\workingdb_ghost\WorkingDB_ghost.accde", "C:\workingdb\WorkingDB_ghost.accde"
-    openpath "\\data\mdbdata\WorkingDB\build\workingdb_commands\openGhost.vbs"
+    'fso.copyfile "\\data\mdbdata\WorkingDB\build\workingdb_ghost\WorkingDB_ghost.accde", "C:\workingdb\WorkingDB_ghost.accde"
+    'openpath "\\data\mdbdata\WorkingDB\build\workingdb_commands\openGhost.vbs"
     on error goto err_handler
 
     ' --- database logic (adodb conversion) ---
