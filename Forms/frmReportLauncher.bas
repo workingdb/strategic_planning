@@ -4,14 +4,16 @@ attribute vb_predeclaredid = true
 attribute vb_exposed = false
 option compare database
 option explicit
-
+ 
 private sub btngenerate_click()
-on error goto err_handler
+    on error goto err_handler
  
     dim rt as string
     dim rptname as string
     dim whereclause as string
     dim d1 as date, d2 as date
+ 
+    whereclause = ""
  
     'use displayed text if cboreporttype is multi-column; fallback to value if not
     rt = trim(nz(me.cboreporttype.column(1), nz(me.cboreporttype.value, "")))
@@ -23,69 +25,68 @@ on error goto err_handler
  
     select case rt
  
-case "Capacity by Date Range"
-    rptname = "rpt_Capacity_DateRange"
+        case "Capacity by Date Range"
+            rptname = "rpt_Capacity_DateRange"
  
-    if isnull(me.txtstartdate) or isnull(me.txtenddate) then
-        msgbox "Please enter both Start Date and End Date.", vbexclamation
-        exit sub
-    end if
+            if isnull(me.txtstartdate) or isnull(me.txtenddate) then
+                msgbox "Please enter both Start Date and End Date.", vbexclamation
+                exit sub
+            end if
  
-    if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
-        msgbox "Start Date and End Date must be valid dates.", vbexclamation
-        exit sub
-    end if
+            if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
+                msgbox "Start Date and End Date must be valid dates.", vbexclamation
+                exit sub
+            end if
  
-    d1 = datevalue(me.txtstartdate)
-    d2 = datevalue(me.txtenddate)
+            d1 = datevalue(me.txtstartdate)
+            d2 = datevalue(me.txtenddate)
  
-    if d2 < d1 then
-        msgbox "End Date must be on or after Start Date.", vbexclamation
-        exit sub
-    end if
+            if d2 < d1 then
+                msgbox "End Date must be on or after Start Date.", vbexclamation
+                exit sub
+            end if
  
-    whereclause = "[RequestDateReal] >= #" & format(d1, "yyyy-mm-dd") & _
-                  "# AND [RequestDateReal] < #" & format(dateadd("d", 1, d2), "yyyy-mm-dd") & "#"
+            whereclause = "[RequestDateReal] >= #" & format(d1, "yyyy-mm-dd") & _
+                          "# AND [RequestDateReal] < #" & format(dateadd("d", 1, d2), "yyyy-mm-dd") & "#"
  
-    if currentproject.allreports(rptname).isloaded then
-        docmd.close acreport, rptname
-    end if
+            if currentproject.allreports(rptname).isloaded then
+                docmd.close acreport, rptname
+            end if
  
-    docmd.openreport rptname, acviewpreview, , whereclause
+            docmd.openreport rptname, acviewpreview, , whereclause
+            exit sub
  
         case "KPI Report"
             rptname = "rpt_KPI_Dashboard"
  
-             if isnull(me.txtstartdate) or isnull(me.txtenddate) then
-                 msgbox "Please enter both Start Date and End Date.", vbexclamation
-                 exit sub
-             end if
-             if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
-                 msgbox "Start Date and End Date must be valid dates.", vbexclamation
-                 exit sub
-             end if
+            if isnull(me.txtstartdate) or isnull(me.txtenddate) then
+                msgbox "Please enter both Start Date and End Date.", vbexclamation
+                exit sub
+            end if
  
-             d1 = datevalue(me.txtstartdate)
-             d2 = datevalue(me.txtenddate)
+            if not isdate(me.txtstartdate) or not isdate(me.txtenddate) then
+                msgbox "Start Date and End Date must be valid dates.", vbexclamation
+                exit sub
+            end if
  
-             if d2 < d1 then
+            d1 = datevalue(me.txtstartdate)
+            d2 = datevalue(me.txtenddate)
+ 
+            if d2 < d1 then
                 msgbox "End Date must be on or after Start Date.", vbexclamation
                 exit sub
-             end if
+            end if
  
-    'set tempvars for kpi queries
-    on error resume next
-    tempvars.remove "StartDate"
-    tempvars.remove "EndDate"
-    on error goto 0
+            on error resume next
+            tempvars.remove "StartDate"
+            tempvars.remove "EndDate"
+            on error goto 0
  
-    tempvars.add "StartDate", d1
-    tempvars.add "EndDate", d2
+            tempvars.add "StartDate", d1
+            tempvars.add "EndDate", d2
  
-    'open without filter
-    docmd.openreport rptname, acviewpreview
-    exit sub
-            
+            docmd.openreport rptname, acviewpreview
+            exit sub
  
         case "Capacity by NAM"
             rptname = "rpt_Capacity_ByNAM"
@@ -117,19 +118,38 @@ case "Capacity by Date Range"
  
             whereclause = "[Program] = """ & replace(trim(me.cboprogramcode), """", """""") & """"
  
+        case "Quote Status", "Requests by Award Status", "Awarded Business"
+            rptname = "rpt_ByAward"
+            whereclause = "[QuoteStatusName] = 'Awarded'"
+            docmd.openreport rptname, acviewreport, , whereclause
+            exit sub
+ 
+        case "Requests by Customer", "Capacity by Customer"
+    rptname = "rpt_ByCustomer"
+ 
+    if isnull(me.cbocustomer) or trim(nz(me.cbocustomer, "")) = "" then
+        msgbox "Please select a Customer.", vbexclamation
+        exit sub
+    end if
+ 
+    whereclause = "[CustomerName] = """ & replace(trim(me.cbocustomer), """", """""") & """"
+    docmd.openreport rptname, acviewreport, , whereclause
+    exit sub
+ 
         case "Past Due Report"
             rptname = "rpt_PastDue"
-            
-             'if isnull(me.cbounit) then
-                'msgbox "Please select a Unit.", vbexclamation
-                'exit sub
+ 
+            'if isnull(me.cbounit) then
+            '    msgbox "Please select a Unit.", vbexclamation
+            '    exit sub
             'end if
  
             'whereclause = "[Unit] = " & clng(me.cbounit)
  
-        'case else
-            'msgbox "Report type not coded yet: " & rt, vbexclamation
-            'exit sub
+        case else
+            msgbox "Report type not coded yet: " & rt, vbexclamation
+            exit sub
+ 
     end select
  
     if len(whereclause) > 0 then
@@ -138,14 +158,17 @@ case "Capacity by Date Range"
         docmd.openreport rptname, acviewpreview
     end if
  
-exit sub
+    exit sub
+ 
 err_handler:
     call handleerror(me.name, me.activecontrol.name, err.description, err.number)
 end sub
  
-
 private sub cboreporttype_afterupdate()
-on error goto err_handler
+    on error goto err_handler
+ 
+    dim rt as string
+    rt = trim(nz(me.cboreporttype.column(1), nz(me.cboreporttype.value, "")))
  
     '--- hide everything first ---
     me.txtstartdate.visible = false
@@ -153,6 +176,7 @@ on error goto err_handler
     me.txtnam.visible = false
     me.cbosalesmanager.visible = false
     me.cboprogramcode.visible = false
+    me.cbocustomer.visible = false
     'me.cbounit.visible = false
  
     '--- default: disable + no tabbing ---
@@ -161,10 +185,11 @@ on error goto err_handler
     me.txtnam.enabled = false: me.txtnam.tabstop = false
     me.cbosalesmanager.enabled = false: me.cbosalesmanager.tabstop = false
     me.cboprogramcode.enabled = false: me.cboprogramcode.tabstop = false
+    me.cbocustomer.enabled = false: me.cbocustomer.tabstop = false
     'me.cbounit.enabled = false: me.cbounit.tabstop = false
  
     '--- show only what the selected report needs ---
-    select case me.cboreporttype.value
+    select case rt
  
         case "Capacity by Date Range", "KPI Report"
             me.txtstartdate.visible = true
@@ -184,22 +209,30 @@ on error goto err_handler
             me.cboprogramcode.visible = true
             me.cboprogramcode.enabled = true: me.cboprogramcode.tabstop = true
  
+        case "Requests by Customer", "Capacity by Customer"
+    me.cbocustomer.visible = true
+    me.cbocustomer.enabled = true: me.cbocustomer.tabstop = true
+ 
+        case "Quote Status", "Requests by Award Status", "Awarded Business"
+            'no extra selection needed for awarded filter
+ 
         case "Past Due Report"
             'me.cbounit.visible = true
             'me.cbounit.enabled = true: me.cbounit.tabstop = true
  
     end select
  
-exit sub
+    exit sub
+ 
 err_handler:
     call handleerror(me.name, me.activecontrol.name, err.description, err.number)
 end sub
  
 private sub form_load()
-on error goto err_handler
-    'clear all user selections/inputs when the launcher opens
+    on error goto err_handler
  
- call settheme(me)
+    'clear all user selections/inputs when the launcher opens
+    call settheme(me)
  
     on error resume next
  
@@ -207,6 +240,7 @@ on error goto err_handler
     me.cboreporttype = null
     me.cbosalesmanager = null
     me.cboprogramcode = null
+    me.cbocustomer = null
     'me.cbounit = null
  
     'text boxes
@@ -214,17 +248,16 @@ on error goto err_handler
     me.txtenddate = null
     me.txtnam = null
  
-    'if you have any other inputs, add them here:
-    'me.txtsomething = null
-    'me.cbosomething = null
- 
     'optional: clear tempvars so nothing carries over
     tempvars.remove "StartDate"
     tempvars.remove "EndDate"
-    
+ 
+    on error goto err_handler
+ 
     me.cboreporttype.setfocus
-    
-exit sub
+ 
+    exit sub
+ 
 err_handler:
     call handleerror(me.name, "Form_Load", err.description, err.number)
 end sub
