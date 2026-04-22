@@ -101,7 +101,7 @@ end sub
  
 private sub request_date_label_click()
     on error goto err_handler
-    me.request_date.setfocus
+    me.requestdate.setfocus
     docmd.runcommand accmdfiltermenu
     exit sub
 err_handler:

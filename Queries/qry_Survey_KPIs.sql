@@ -1,5 +1,13 @@
-SELECT Count([ID]) AS TotalSurveys, Avg(IIf([DateCompleted] Is Null, Null, DateDiff("d",[DateRequested],[DateCompleted]))) AS AvgDaysToComplete, Sum(IIf([DateCompleted] Is Null,1,0)) AS OpenSurveys, Sum(IIf([DateCompleted] Is Not Null,1,0)) AS CompletedSurveys
-FROM tblSurveys
-WHERE [DateRequested] >= TempVars!StartDate
-  AND [DateRequested] < DateAdd("d", 1, TempVars!EndDate);
+SELECT Count(*) AS TotalSurveys, Avg(
+        IIf(
+            Not IsNull([RequestDateReal])
+            And Not IsNull([ResponseDateReal])
+            And [ResponseDateReal] >= [RequestDateReal],
+            countWorkdays([RequestDateReal],[ResponseDateReal]),
+            Null
+        )
+    ) AS AvgDaysToComplete, Sum(IIf(IsNull([ResponseDateReal]),1,0)) AS OpenSurveys, Sum(IIf(Not IsNull([ResponseDateReal]),1,0)) AS CompletedSurveys
+FROM qry_Reports
+WHERE [requestType]<>1
+    And [RequestDateReal] Between Forms!frmReportLauncher!txtStartDate And Forms!frmReportLauncher!txtEndDate;
 

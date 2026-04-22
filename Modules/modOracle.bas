@@ -64,7 +64,7 @@ err_handler:
 end function
 
 public function getinventoryownertype(byval partnumber) as string
-on error goto err_handler
+'on error goto err_handler
 
 getinventoryownertype = ""
 

@@ -1,6 +1,31 @@
 option compare database
 option explicit
 
+public function sqlexecute(exstring as string) as boolean
+on error goto err_handler
+
+sqlexecute = false
+
+dim conn as new adodb.connection
+conn.open replace(relinksqltables(true), "ODBC;", "")
+
+conn.execute exstring
+
+sqlexecute = true
+    
+cleanup:
+    conn.close
+    set conn = nothing
+    exit function
+
+err_handler:
+    if not conn is nothing then
+        if conn.state = adstateopen then conn.rollbacktrans
+    end if
+    call handleerror("modBuildout", "createBuildoutProject", err.description, err.number)
+    resume cleanup
+end function
+
 public function openrecordsetreadonly(conn as adodb.connection, sql as string) as adodb.recordset
     dim rs as adodb.recordset
     set rs = new adodb.recordset
@@ -54,6 +79,9 @@ end function
 
 public function sqllookup(conn as adodb.connection, fieldname as string, tablename as string, _
     optional whereclause as string = "", optional defaultvalue as variant = null) as variant
+    
+    sqllookup = defaultvalue
+    on error resume next
 
     dim rs as adodb.recordset
     dim sql as string
@@ -177,4 +205,25 @@ relinksqltables = strconn
 exit function
 err_handler:
     call handleerror("wdbLinkage", "RelinkSQLTables", err.description, err.number)
+end function
+
+function renamedbo()
+
+    dim db as dao.database
+    dim tdf as dao.tabledef
+    dim strdriver as string
+    dim strconn as string
+    
+    strdriver = getbestsqldriver()
+    if strdriver = "" then exit function
+    
+    set db = currentdb
+    
+    ' loop through all tables and update odbc links
+    for each tdf in db.tabledefs
+        if instr(tdf.name, "dbo_") then
+            tdf.name = replace(tdf.name, "dbo_", "")
+        end if
+    next tdf
+    
 end function
