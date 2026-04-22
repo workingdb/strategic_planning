@@ -6,7 +6,7 @@ option compare database
 option explicit
 
 public function explodebom(partnumber as string)
-on error goto err_handler
+'on error goto err_handler
 
 explodebom = ""
 
@@ -124,11 +124,16 @@ cmd.parameters.append cmd.createparameter(, adinteger, adparaminput, , porgid)
 
 set rs = cmd.execute
 
+dim conn as new adodb.connection
+conn.open replace(relinksqltables(true), "ODBC;", "")
+
+if not rs.eof then conn.begintrans
+
 dim parttype as long
 do until rs.eof
     parttype = dlookup("recordId", "tblDropDowns_StrategicPlanning", "bo_partType = '" & getinventoryownertype(rs.fields("lowest_level_component")) & "'")
 
-    dbexecute ("INSERT INTO tblBuildout_register_comp (fgId, partNumber, itemType) VALUES(" & me.recordid & ",'" & rs.fields("lowest_level_component") & "'," & parttype & ");")
+    conn.execute "INSERT INTO dbo.tblBuildout_register_comp(fgId,partNumber,itemType) VALUES(" & me.recordid & ",'" & rs.fields("lowest_level_component") & "'," & parttype & ");"
 '    debug.print rs.fields("top_assembly").value, _
 '                rs.fields("lowest_level_component").value, _
 '                rs.fields("bom_level").value, _
@@ -138,7 +143,7 @@ do until rs.eof
     rs.movenext
 loop
 
-
+conn.committrans
     
 clean_exit:
     on error resume next
@@ -150,16 +155,25 @@ clean_exit:
     set cmd = nothing
     cn.close
     set cn = nothing
+    conn.close
+    set conn = nothing
     exit function
 
 err_handler:
+    if not conn is nothing then
+        if conn.state = adstateopen then conn.rollbacktrans
+    end if
     call handleerror(me.name, "explodeBOM", err.description, err.number)
+    resume clean_exit
 end function
 
 private sub partnumber_afterupdate()
 
+if me.dirty then me.dirty = false
+
 me.unitid = dlookup("recordId", "tblUnits", "unitName = '" & getinventoryownerunit(me.partnumber) & "'")
 explodebom (me.partnumber)
+me.sfrmbuildout_details_comp.requery
 
 end sub
 

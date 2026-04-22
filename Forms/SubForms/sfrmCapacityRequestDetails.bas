@@ -16,6 +16,25 @@ err_handler:
     call handleerror(me.name, "trackUpdate", err.description, err.number)
 end function
 
+private sub capacityresults_afterupdate()
+on error goto err_handler
+
+trackupdate
+
+if me.dirty then me.dirty = false
+
+if nz(me.capacityresults, 0) <> 0 then
+    sqlexecute "UPDATE dbo.tblCapacityRequest_partnumbers SET responseDate = GETDATE() WHERE recordId = " & me.recordid
+    
+    me.requery
+    call registerstratplanupdates("tblCapacityRequest_partnumbers", me.recordid, "responseDate", "", now(), me.recordid, me.name)
+end if
+
+exit sub
+err_handler:
+    call handleerror(me.name, "trackUpdate", err.description, err.number)
+end sub
+
 private sub form_load()
 on error goto err_handler
 

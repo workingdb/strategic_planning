@@ -7,15 +7,15 @@ option explicit
 
 private sub closetask_click()
 on error goto err_handler
-'
+
 'if me.dirty then me.dirty = false
-'if closeprojectstep(me.recordid, "frmPartDashboard") then
+'if closebostep(me.recordid, "frmBuildout_details") then
 '    call snackbox("success", "Success!", "Step Closed", "frmPartDashboard")
 '    me.requery
 '    me.refresh
 '    call updatelastupdate
 'end if
-'
+
 exit sub
 err_handler:
     call handleerror(me.name, me.activecontrol.name, err.description, err.number)

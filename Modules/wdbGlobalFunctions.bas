@@ -445,6 +445,61 @@ err_handler:
     resume cleanup
 end function
 
+function restrict(username as string, dept as string, optional reqlevel as string = "", optional orabove as boolean = false) as boolean
+on error goto err_handler
+
+if (currentproject.path <> "C:\workingdb") then
+    if cbool(userdata("Developer")) then
+        restrict = false
+        exit function
+    end if
+end if
+
+dim db as database
+set db = currentdb()
+dim d as boolean, l as boolean, rsperm as recordset
+d = true
+l = true
+
+set rsperm = db.openrecordset("SELECT * FROM tblPermissions WHERE user = '" & username & "'", dbopensnapshot)
+'restrict = true means you cannot access
+'set no access first, then allow as it is ok
+
+if nz(rsperm!dept) = "" or nz(rsperm("level")) = "" then goto setrestrict 'if person isnt fully set up, do not allow access
+
+if (rsperm!dept = dept) then
+    d = false 'if correct department, set d to false
+elseif rsperm!dept = "Project" and dept = "CPC" and rsperm("level") = "Manager" then ' project has same permissions as cpc for managers only
+    d = false 'if correct department, set d to false
+end if
+
+select case true 'figure out level
+    case reqlevel = "" 'if level isn't specified, this doesn't matter! - allow
+        l = false
+    case rsperm("level") = reqlevel 'if the level matches perfectly, allow
+        l = false
+    case orabove and reqlevel = "Supervisor" 'if supervisor and above check level and both supervisors and managers
+        if rsperm("level") = "Supervisor" or rsperm("level") = "Manager" then l = false
+    case orabove and reqlevel = "Engineer" 'if engineer and above, check level
+        if rsperm("level") = "Engineer" or rsperm("level") = "Supervisor" or rsperm("level") = "Manager" then l = false
+end select
+
+setrestrict:
+restrict = d or l
+
+rsperm.close
+set rsperm = nothing
+set db = nothing
+
+exitfunction:
+
+exit function
+err_handler:
+    restrict = true 'if an error happens, restrict this!
+    call handleerror("wdbGlobalFunctions", "restrict", err.description, err.number)
+    resume exitfunction
+end function
+
 function dbexecute(sql as string)
 on error goto err_handler
 
